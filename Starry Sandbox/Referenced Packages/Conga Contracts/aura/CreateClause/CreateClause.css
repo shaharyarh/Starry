@@ -1,0 +1,25 @@
+.THIS .slds-rich-text-area__content {
+  min-height: 150px;
+}
+.THIS.hide {
+  display: none;
+}
+
+.THIS .indicator {
+  position:absolute;
+}
+
+.THIS .recordIconSpinner {
+  background-color: transparent;
+  height: 32px;
+  width: 32px;
+}
+
+.THIS .recordIconSpinner .slds-spinner {
+  position: relative;
+  top:15px;
+}
+
+.THIS .successIcon svg {
+  fill: rgb(75, 202, 129);
+}

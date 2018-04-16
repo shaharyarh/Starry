@@ -1,0 +1,30 @@
+<apex:page controller="PaginationDemoController">
+	<apex:form >
+		<apex:outputPanel id="mainPanel">
+			<apex:outputPanel rendered="{!AND(IF(paginater.isAll, false, true), IF(paginater.totalPage == 1, false, true))}">
+				<apex:outputText rendered="{!paginater.showPrevious}">
+					<apex:commandLink action="{!previousPage}" value="Prev" rerender="mainPanel" />
+				</apex:outputText>
+				<apex:repeat value="{!paginater.pageList}" var="pl">
+					<apex:outputText rendered="{!!pl.isActive}">
+						<apex:commandLink action="{!updatePage}" rerender="mainPanel">
+	                        {!pl.pageNum}                               
+	                    	<apex:param name="selectedPage" value="{!pl.pageNum}" assignTo="{!paginater.pageNum}" />
+						</apex:commandLink>
+					</apex:outputText>
+					<apex:outputText rendered="{!pl.isActive}" value="{!pl.pageNum}" />
+					 
+				</apex:repeat>
+				<apex:outputText rendered="{!paginater.showNext}">
+					<apex:commandLink action="{!nextPage}" value="Next" rerender="mainPanel" />
+				</apex:outputText>
+			</apex:outputPanel>
+			<br/>
+			<apex:outputPanel id="dataPanel">	
+				<apex:repeat value="{!genericList}" var="gl">
+					{!gl.num}   <strong>{!gl.name}</strong><br/>				
+				</apex:repeat>                        
+			</apex:outputPanel>
+		</apex:outputPanel>
+	</apex:form>
+</apex:page>

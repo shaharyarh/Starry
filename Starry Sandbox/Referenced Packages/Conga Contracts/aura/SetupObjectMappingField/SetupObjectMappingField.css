@@ -1,0 +1,43 @@
+.THIS {
+    
+}
+
+.THIS .m-l-10 {
+    margin-left: 10px;
+}
+
+.THIS .m-t-1 {
+    margin-top: 1px;
+}
+
+.THIS .cell-field {
+    margin-bottom: 10px;
+}
+
+.THIS .cell-field-value {
+    margin-bottom: 5px;
+}
+
+.THIS .cell-field-value-last {
+    margin-bottom: 2em;
+}
+
+.THIS .mapped-values {
+    margin-bottom: 5px;
+}
+
+.THIS .field-detail-hidden {
+    display: none;
+}
+
+.THIS .w-100 .slds-form-element__control {
+    width: 100%;
+}
+
+.THIS .text-center {
+    text-align: center;
+}
+
+.THIS .inline-block {
+    display: inline-block;
+}

@@ -1,0 +1,147 @@
+<aura:component controller="APXT_Redlining.SetupObjectMappingController" extends="APXT_Redlining:Base">
+
+    <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+    <aura:handler event="APXT_Redlining:BaseEvent" name="setSaveState" action="{!c.setSaveState}" />
+
+    <aura:attribute name="connectionId" type="String" />
+    <aura:attribute name="connectionName" type="String" />
+    <aura:attribute name="salesforceObjects" type="List" />
+    <aura:attribute name="externalObjects" type="List" />
+    <aura:attribute name="items" type="APXT_Redlining.PlatformView_ObjectMapping[]" />
+    <aura:attribute name="objectMappingToBuild" type="APXT_Redlining.PlatformView_ObjectMapping" />
+    <aura:attribute access="private" name="confirmDeleteIndex" type="String" />
+    <aura:attribute name="showSpinner" type="Boolean" default="true" />
+    
+    <div>
+        <aura:if isTrue="{!v.showSpinner}">
+            <lightning:spinner variant="brand" size="large" alternativeText="Loading object mappings"/>
+        </aura:if>
+
+        <div aura:id="header" class="slds-page-header slds-col slds-grow-none" role="banner">
+            <!-- Page header and icon -->
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <div class="slds-media slds-media_center slds-no-space slds-grow">
+                        <div class="slds-media__figure">
+                            <lightning:icon iconName="utility:settings" />
+                        </div>
+                        <div class="slds-media__body">
+                            <ol class="slds-breadcrumb slds-list_horizontal">
+                                <li class="slds-breadcrumb__item slds-truncate">
+                                    {!$Label.apxt_redlining.apxt_setup_settingsSubHeader} > {!v.connectionName}
+                                </li>
+                            </ol>
+                            <h1 class="slds-page-header__title slds-m-right_small slds-truncate slds-align-middle">{!$Label.apxt_redlining.apxt_setup_objectMapping}</h1>
+                        </div>
+                        <aura:if isTrue="{!v.objectMappingToBuild != undefined}">
+                            <lightning:input type="checkbox" label="Enable Mapping" checked="{!v.objectMappingToBuild.IsActive}" />
+                            <button class="slds-button slds-button_neutral slds-col_bump-left" onclick="{!c.cancel}">{!$Label.apxt_redlining.apxt_viewRedLines_cancel}</button>
+                            <button class="slds-button slds-button_brand slds-col_bump-left" aura:id="btnSave" onclick="{!c.save}" disabled="true">{!$Label.apxt_redlining.apxt_viewRedLines_save}</button>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <aura:if isTrue="{!and(and(v.salesforceObjects != undefined, v.salesforceObjects.length gt 0), and(v.externalObjects != undefined, v.externalObjects.length gt 0))}">
+            <aura:if isTrue="{!v.objectMappingToBuild == undefined}">
+                <div class="slds-p-around_medium">
+                    <h1 class="slds-text-heading_medium">{!$Label.apxt_redlining.apxt_setup_objectMappingOverviewTitle}</h1>
+                    <p class="slds-m-vertical_small">{!$Label.apxt_redlining.apxt_setup_objectMappingOverviewDescription}</p>
+        
+                    <button class="slds-button slds-button_brand slds-col_bump-left" onclick="{!c.addMapping}">{!$Label.apxt_redlining.apxt_setup_objectMappingAddButton}</button>
+        
+                    <aura:if isTrue="{!and(v.items != undefined, v.items.length gt 0)}">
+                        <hr />
+        
+                        <h1 class="slds-text-heading_medium">{!$Label.apxt_redlining.apxt_setup_objectMappingCurrentMappingsTitle}</h1>
+                        
+                        <!-- Table of existing mappings -->
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout" role="grid">
+                            <thead>
+                                <tr class="slds-text-title_caps">
+                                    <th scope="col"><div class="slds-truncate" title="{!$Label.apxt_redlining.apxt_setup_objectMappingColumnStatus}">{!$Label.apxt_redlining.apxt_setup_objectMappingColumnStatus}</div></th>
+                                    <th scope="col"><div class="slds-truncate" title="{!$Label.apxt_redlining.apxt_setup_objectMappingColumnSalesforceObject}">{!$Label.apxt_redlining.apxt_setup_objectMappingColumnSalesforceObject}</div></th>
+                                    <th scope="col"><div class="slds-truncate text-center" title="{!$Label.apxt_redlining.apxt_setup_objectMappingColumnDirection}">{!$Label.apxt_redlining.apxt_setup_objectMappingColumnDirection}</div></th>
+                                    <th scope="col"><div class="slds-truncate" title="{!$Label.apxt_redlining.apxt_setup_objectMappingColumnNovatusObject}">{!$Label.apxt_redlining.apxt_setup_objectMappingColumnNovatusObject}</div></th>
+                                    <th scope="col"><div class="slds-truncate" title="{!$Label.apxt_redlining.apxt_setup_objectMappingColumnExclusions}">{!$Label.apxt_redlining.apxt_setup_objectMappingColumnExclusions}</div></th>
+                                    <th scope="col"><div class="slds-truncate" title="{!$Label.apxt_redlining.apxt_setup_objectMappingColumnBypassApproval}">{!$Label.apxt_redlining.apxt_setup_objectMappingColumnBypassApproval}</div></th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <aura:iteration items="{!v.items}" var="item" indexVar="index">
+                                    <tr class="slds-hint-parent">
+                                        <td>{!item.IsActive ? 'Enabled' : 'Disabled'}</td>
+                                        <td>{!item.SalesforceObjectLabel}</td>
+                                        <td class="text-center">
+                                            <aura:if isTrue="{!item.OverallDirection == 'both'}">
+                                                <lightning:icon iconName="utility:sort" class="rotate-90" size="x-small" />
+
+                                                <aura:set attribute="else">
+                                                    <aura:if isTrue="{!item.OverallDirection == 'left'}">
+                                                        <lightning:icon iconName="utility:back" size="x-small" />
+
+                                                        <aura:set attribute="else">
+                                                            <lightning:icon iconName="utility:forward" size="x-small" />
+                                                        </aura:set>
+                                                    </aura:if>
+                                                </aura:set>
+                                            </aura:if>
+                                        </td>
+                                        <td>{!item.ExternalObjectLabel}</td>
+                                        <td class="cell-wrap">
+                                            <aura:if isTrue="{!item.SalesforceOptoutFieldIsEnabled}">
+                                                <div>{!$Label.apxt_redlining.apxt_setup_objectMappingSalesforceToExternalCheckboxLabel}: {!item.SalesforceOptoutField}</div>
+                                            </aura:if>
+
+                                            <aura:if isTrue="{!item.ExternalOptoutFieldIsEnabled}">
+                                                    <div>{!$Label.apxt_redlining.apxt_setup_objectMappingExternalToSalesforceCheckboxLabel}: {!item.ExternalOptoutField}</div>
+                                            </aura:if>
+                                        </td>
+                                        <td class="cell-wrap">
+                                            <aura:if isTrue="{!item.SalesforceApprovalFieldIsEnabled}">
+                                                <div>{!$Label.apxt_redlining.apxt_setup_objectMappingSalesforceToExternalCheckboxLabel}: {!item.SalesforceFieldForRequiringExternalApproval}</div>
+                                            </aura:if>
+                                        </td>
+                                        <td>
+                                            <lightning:buttonMenu iconName="utility:down" onselect="{!c.handleItemMenuSelect}">
+                                                <lightning:menuItem label="{!$Label.apxt_redlining.apxt_setup_objectMappingMenuItemEdit}" value="{!index + ';edit'}" />
+                                                <lightning:menuItem label="{!$Label.apxt_redlining.apxt_setup_objectMappingMenuItemDelete}" value="{!index + ';delete'}" />
+                                            </lightning:buttonMenu>
+                                        </td>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                    </aura:if>
+                </div>
+
+                <aura:set attribute="else">
+                    <APXT_Redlining:SetupObjectMappingBuilder aura:id="setupObjectMappingBuilder" connectionId="{!v.connectionId}" objectMapping="{!v.objectMappingToBuild}" salesforceObjects="{#v.salesforceObjects}" externalObjects="{#v.externalObjects}" />
+                </aura:set>
+            </aura:if>
+        </aura:if>
+
+        <aura:if isTrue="{!v.confirmDeleteIndex != undefined}">
+            <div role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aura:id="confirmDeleteModal">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <button onclick="{!c.cancelDelete}" class="slds-button slds-button_icon-inverse slds-modal__close">
+                            <APXT_Redlining:apxt_svg ariaHidden="true" class="slds-button__icon slds-button__icon_large" xlinkHref="{!'/resource/' + v.namespaceApi + 'apxt_lightningCss/icons/action-sprite/svg/symbols.svg#close'}"></APXT_Redlining:apxt_svg>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="header43" class="slds-text-heading_medium">{!$Label.apxt_redlining.apxt_setup_deleteObjectMappingTitle}</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <p>{!$Label.apxt_redlining.apxt_setup_deleteObjectMappingConfirm}</p>
+                    </div>
+                    <div class="slds-modal__footer">
+                        <button onclick="{!c.cancelDelete}" class="slds-button slds-button_neutral">{!$Label.apxt_redlining.apxt_setup_deleteObjectMappingCancel}</button>
+                        <button onclick="{!c.confirmDelete}" class="slds-button slds-button_neutral">{!$Label.apxt_redlining.apxt_setup_deleteObjectMappingOk}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open" aura:id="backdrop"></div>
+        </aura:if>
+    </div>
+</aura:component>

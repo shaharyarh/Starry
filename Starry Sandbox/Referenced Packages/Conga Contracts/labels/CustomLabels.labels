@@ -1,0 +1,3606 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>apxt_capture_cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_capture_cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>apxt_capture_captureDocumentTypeTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_capture_captureDocumentTypeTitle</shortDescription>
+        <value>Capture Document Type</value>
+    </labels>
+    <labels>
+        <fullName>apxt_capture_emptyTree</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_capture_emptyTree</shortDescription>
+        <value>Select document text to Capture.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_capture_saveDocumentType</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_capture_saveDocumentType</shortDescription>
+        <value>Save Document Type</value>
+    </labels>
+    <labels>
+        <fullName>apxt_capture_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_capture_title</shortDescription>
+        <value>Capture</value>
+    </labels>
+    <labels>
+        <fullName>apxt_clausePlaybook_cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_clausePlaybook_cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>apxt_clausePlaybook_filterPlaceholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_clausePlaybook_filterPlaceholder</shortDescription>
+        <value>Filter by Clause Type</value>
+    </labels>
+    <labels>
+        <fullName>apxt_clausePlaybook_replace</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_clausePlaybook_replace</shortDescription>
+        <value>Replace</value>
+    </labels>
+    <labels>
+        <fullName>apxt_clausePlaybook_revert</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_clausePlaybook_revert</shortDescription>
+        <value>Revert</value>
+    </labels>
+    <labels>
+        <fullName>apxt_clausePlaybook_searchPlaceholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_clausePlaybook_searchPlaceholder</shortDescription>
+        <value>Search Clauses</value>
+    </labels>
+    <labels>
+        <fullName>apxt_clausePlaybook_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_clausePlaybook_title</shortDescription>
+        <value>Clause Playbook</value>
+    </labels>
+    <labels>
+        <fullName>apxt_clausePlaybook_title_atlClauses</fullName>
+        <categories>dataservice</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_clausePlaybook_title_atlClauses</shortDescription>
+        <value>Alternate clauses were set by the administrator</value>
+    </labels>
+    <labels>
+        <fullName>apxt_clausePlaybook_title_noAtlClauses</fullName>
+        <categories>dataservice</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_clausePlaybook_title_noAtlClauses</shortDescription>
+        <value>Your Administrator has not set any alternate clauses.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_clausePlaybook_title_noAtlClausesForced</fullName>
+        <categories>dataservice</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_clausePlaybook_title_noAtlClausesForced</shortDescription>
+        <value>Alternate clauses appear at the top of the list.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_clausePlaybook_title_noClausesFound</fullName>
+        <categories>dataservice</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_clausePlaybook_title_noClausesFound</shortDescription>
+        <value>No Clauses Found</value>
+    </labels>
+    <labels>
+        <fullName>apxt_clauseUpdateRevisions_revision</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_clauseUpdateRevisions_revision</shortDescription>
+        <value>rev</value>
+    </labels>
+    <labels>
+        <fullName>apxt_clauseValidation_duplicateSortOrdinal</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_clauseValidation_duplicateSortOrdinal</shortDescription>
+        <value>Unable to save record with a duplicate ordinal:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_clauseValidation_maxLength</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_clauseValidation_maxLength</shortDescription>
+        <value>Please limit the clause to {0} characters.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_clauseValidation_protectLatestRevision</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_clauseValidation_protectLatestRevision</shortDescription>
+        <value>The latest revision cannot be deleted.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityContentVersion_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityContentVersion_title</shortDescription>
+        <value>New version uploaded</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityContentVersion_uploadFirst</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityContentVersion_uploadFirst</shortDescription>
+        <value>{0} uploaded {1}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityContentVersion_uploadValid</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityContentVersion_uploadValid</shortDescription>
+        <value>{0} uploaded a {1} of {2}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityContentVersion_uploadValid_newVersion</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityContentVersion_uploadValid_newVersion</shortDescription>
+        <value>new version</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityContractHistory_activatedTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityContractHistory_activatedTitle</shortDescription>
+        <value>Contract Activated</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityContractHistory_changedContract</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityContractHistory_changedContract</shortDescription>
+        <value>{0} changed &lt;strong&gt;Status&lt;/strong&gt; from {1} to &lt;strong&gt;{2}&lt;/strong&gt;</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityContractHistory_changedTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityContractHistory_changedTitle</shortDescription>
+        <value>Status changed</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityContractHistory_newPrimaryDocument</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityContractHistory_newPrimaryDocument</shortDescription>
+        <value>{0} selected {1} as the primary document</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityContractHistory_noPrimaryDocument</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityContractHistory_noPrimaryDocument</shortDescription>
+        <value>{0} deleted the primary document</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityContractHistory_primaryDocumentSelected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityContractHistory_primaryDocumentSelected</shortDescription>
+        <value>Primary Document selected</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityDocuSign_CreateAction</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityDocuSign_CreateAction</shortDescription>
+        <value>created DocuSign Envelope</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityDocuSign_SendOut</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityDocuSign_SendOut</shortDescription>
+        <value>out for signature</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityDocuSign_SentAction</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityDocuSign_SentAction</shortDescription>
+        <value>sent DocuSign Envelope</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityDocuSign_envelopeCreated</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityDocuSign_envelopeCreated</shortDescription>
+        <value>DocuSign Envelope Created</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityDocuSign_lastViewed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityDocuSign_lastViewed</shortDescription>
+        <value>Last Viewed</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityDocuSign_status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityDocuSign_status</shortDescription>
+        <value>Status</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityDocuSign_subjectEmpty</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityDocuSign_subjectEmpty</shortDescription>
+        <value>(No Subject)</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityDocuSign_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityDocuSign_title</shortDescription>
+        <value>DocuSign Envelope Sent</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityEmailMessage_attachmentsTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityEmailMessage_attachmentsTitle</shortDescription>
+        <value>Attachments</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityEmailMessage_bccAddress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityEmailMessage_bccAddress</shortDescription>
+        <value>Bcc Address</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityEmailMessage_ccAddress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityEmailMessage_ccAddress</shortDescription>
+        <value>Cc Address</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityEmailMessage_fromAddress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityEmailMessage_fromAddress</shortDescription>
+        <value>From Address</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityEmailMessage_replyTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityEmailMessage_replyTitle</shortDescription>
+        <value>Reply received</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityEmailMessage_sentTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityEmailMessage_sentTitle</shortDescription>
+        <value>Email sent</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityEmailMessage_subject_empty</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityEmailMessage_subject_empty</shortDescription>
+        <value>(No subject)</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivityEmailMessage_toAddress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivityEmailMessage_toAddress</shortDescription>
+        <value>To Address</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivity_activatedContract</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivity_activatedContract</shortDescription>
+        <value>{0} activated this contract, changing &lt;strong&gt;Status&lt;/strong&gt; from {1} to &lt;strong&gt;{2}&lt;/strong&gt;</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivity_dateAtTime</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivity_dateAtTime</shortDescription>
+        <value>{0} at {1}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivity_emptyState</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivity_emptyState</shortDescription>
+        <value>No contract activity.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivity_fieldsNotAccessible</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivity_fieldsNotAccessible</shortDescription>
+        <value>{0} fields are not accessible</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivity_header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivity_header</shortDescription>
+        <value>Contract Activity for {0}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivity_invalidRecordId</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivity_invalidRecordId</shortDescription>
+        <value>Invalid record id</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractActivity_noContract</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractActivity_noContract</shortDescription>
+        <value>A Contract has not been linked to the record.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractFamilyViewer_contractNotFound</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractFamilyViewer_contractNotFound</shortDescription>
+        <value>Unexpected Error occurred. Contract data was not found.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractFamilyViewer_contractNotFoundForId</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractFamilyViewer_contractNotFoundForId</shortDescription>
+        <value>Unexpected Error occurred. Contract data was not found for the given ID.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractFamilyViewer_heading</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractFamilyViewer_heading</shortDescription>
+        <value>Contract Family</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractStatus_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractStatus_error</shortDescription>
+        <value>Error</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractStatus_fieldNotAccessible</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractStatus_fieldNotAccessible</shortDescription>
+        <value>{0} field not accessible</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractStatus_noId</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractStatus_noId</shortDescription>
+        <value>No record id found</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractStatus_noStatus</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractStatus_noStatus</shortDescription>
+        <value>The current object does not have a Status picklist field</value>
+    </labels>
+    <labels>
+        <fullName>apxt_contractStatus_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_contractStatus_title</shortDescription>
+        <value>Contract Status</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataType_boolean</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataType_boolean</shortDescription>
+        <value>Checkbox</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataType_currency</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataType_currency</shortDescription>
+        <value>Currency</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataType_date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataType_date</shortDescription>
+        <value>Date</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataType_dateTime</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataType_dateTime</shortDescription>
+        <value>DateTime</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataType_double</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataType_double</shortDescription>
+        <value>Double</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataType_email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataType_email</shortDescription>
+        <value>Email</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataType_integer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataType_integer</shortDescription>
+        <value>Integer</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataType_multiPicklist</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataType_multiPicklist</shortDescription>
+        <value>Multipicklist</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataType_percent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataType_percent</shortDescription>
+        <value>Percent</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataType_phone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataType_phone</shortDescription>
+        <value>Phone</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataType_picklist</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataType_picklist</shortDescription>
+        <value>Picklist</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataType_reference</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataType_reference</shortDescription>
+        <value>Lookup</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataType_string</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataType_string</shortDescription>
+        <value>String</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataType_textarea</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataType_textarea</shortDescription>
+        <value>TextArea</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataType_time</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataType_time</shortDescription>
+        <value>Time</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataType_url</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataType_url</shortDescription>
+        <value>URL</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataservice_noToken</fullName>
+        <categories>dataservice</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataservice_noToken</shortDescription>
+        <value>No Heroku access token found</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataservice_notConnected</fullName>
+        <categories>dataservice</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataservice_notConnected</shortDescription>
+        <value>Conga Contracts is not connected.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_dataservice_serviceError</fullName>
+        <categories>dataservice</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_dataservice_serviceError</shortDescription>
+        <value>There was an error retrieving results.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_emailMessageComplete_fieldsNotAccessible</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_emailMessageComplete_fieldsNotAccessible</shortDescription>
+        <value>inaccessible field(s) on {0}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_emailMessageComplete_fieldsNotUpdateable</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_emailMessageComplete_fieldsNotUpdateable</shortDescription>
+        <value>non-updateable field(s) on {0}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_emailMessageComplete_invalidId</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_emailMessageComplete_invalidId</shortDescription>
+        <value>error: {0} is not a valid Id</value>
+    </labels>
+    <labels>
+        <fullName>apxt_emailMessageComplete_invalidMessageId</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_emailMessageComplete_invalidMessageId</shortDescription>
+        <value>error: {0} is not a valid EmailMessage Id.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_emailMessageComplete_messageNotFound</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_emailMessageComplete_messageNotFound</shortDescription>
+        <value>EmailMessage cannot be found.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_emptyTree</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_emptyTree</shortDescription>
+        <value>Nothing to see here</value>
+    </labels>
+    <labels>
+        <fullName>apxt_fieldList_searchPlaceholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_fieldList_searchPlaceholder</shortDescription>
+        <value>Search {0} Fields</value>
+    </labels>
+    <labels>
+        <fullName>apxt_general_errorFieldMissing</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_general_errorFieldMissing</shortDescription>
+        <value>Required field(s) of {0} could not be found:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_general_errorFieldPermission</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_general_errorFieldPermission</shortDescription>
+        <value>You do not have permissions for required field(s) of {0}:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_general_unableToAccessFields</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_general_unableToAccessFields</shortDescription>
+        <value>Unable to access fields</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_ConnectTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_ConnectTitle</shortDescription>
+        <value>Connect Conga Contracts</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_ConnectUserPermissionsDesc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_ConnectUserPermissionsDesc</shortDescription>
+        <value>Before connecting, your user profile must have certain permissions.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_ConnectUserPermissionsHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_ConnectUserPermissionsHeader</shortDescription>
+        <value>User Permissions</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_ConnectUserPermissionsUrl</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_ConnectUserPermissionsUrl</shortDescription>
+        <value>https://support.getconga.com/Conga_Contracts/Contracts_Contextual_Help/User_Permissions</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_DescriptionTop</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_DescriptionTop</shortDescription>
+        <value>Review the following settings before connecting Conga Contracts.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_EmailDisplayNameError</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_EmailDisplayNameError</shortDescription>
+        <value>Email Display Name could not be saved.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_EmailDisplayNameSave</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_EmailDisplayNameSave</shortDescription>
+        <value>Email Display Name saved.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_EmailTemplatesFolderDefault</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_EmailTemplatesFolderDefault</shortDescription>
+        <value>All Folders</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_EmailTemplatesFolderDesc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_EmailTemplatesFolderDesc</shortDescription>
+        <value>Select the folder containing E-Mail Templates.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_EmailTemplatesFolderError</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_EmailTemplatesFolderError</shortDescription>
+        <value>Email template folder could not be saved.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_EmailTemplatesFolderHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_EmailTemplatesFolderHeader</shortDescription>
+        <value>Email Templates</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_EmailTemplatesFolderManageSettings</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_EmailTemplatesFolderManageSettings</shortDescription>
+        <value>Select</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_EmailTemplatesFolderSave</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_EmailTemplatesFolderSave</shortDescription>
+        <value>Email template folder saved.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_EmailTemplatesFolderSelectTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_EmailTemplatesFolderSelectTitle</shortDescription>
+        <value>Email Template Folder</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_EmailTemplatesFolderUrl</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_EmailTemplatesFolderUrl</shortDescription>
+        <value>https://support.getconga.com/Conga_Contracts/Contracts_Contextual_Help/Negotiation_Templates</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_EmailTemplatesTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_EmailTemplatesTitle</shortDescription>
+        <value>Select available negotiation email templates</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_HistoryTrackingContractsDesc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_HistoryTrackingContractsDesc</shortDescription>
+        <value>Some contract fields require history tracking for full functionality.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_HistoryTrackingContractsHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_HistoryTrackingContractsHeader</shortDescription>
+        <value>History Tracking</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_HistoryTrackingContractsSetupLink</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_HistoryTrackingContractsSetupLink</shortDescription>
+        <value>Add History Tracking</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_HistoryTrackingContractsUrl</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_HistoryTrackingContractsUrl</shortDescription>
+        <value>https://support.getconga.com/Conga_Contracts/Contracts_Contextual_Help/History_Tracking</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_HistoryTrackingTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_HistoryTrackingTitle</shortDescription>
+        <value>Add fields to history tracking</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_InsufficientPrivileges</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_InsufficientPrivileges</shortDescription>
+        <value>Insufficient Privileges</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_OAuth_Desc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_OAuth_Desc</shortDescription>
+        <value>After connection this application will use your credentials to connect to Salesforce.com.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_OAuth_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_OAuth_Header</shortDescription>
+        <value>Connect with OAuth</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_OAuth_Url</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_OAuth_Url</shortDescription>
+        <value>https://support.getconga.com/Conga_Contracts/Contracts_Contextual_Help/Connect_with_OAuth</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_PageLayoutsContractsDesc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_PageLayoutsContractsDesc</shortDescription>
+        <value>Assign the Conga Contracts Layout to users or add these components to your own layouts.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_PageLayoutsContractsHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_PageLayoutsContractsHeader</shortDescription>
+        <value>Contracts Page Layout</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_PageLayoutsContractsSetup</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_PageLayoutsContractsSetup</shortDescription>
+        <value>Configure Layouts</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_PageLayoutsContractsUrl</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_PageLayoutsContractsUrl</shortDescription>
+        <value>https://support.getconga.com/Conga_Contracts/Contracts_Contextual_Help/Contract_Page_Layout</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_PageLayoutsEmailDesc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_PageLayoutsEmailDesc</shortDescription>
+        <value>Attached contract documents field is required on the user&apos;s page layout.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_PageLayoutsEmailHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_PageLayoutsEmailHeader</shortDescription>
+        <value>Email Message Layout</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_PageLayoutsEmailSetupLink</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_PageLayoutsEmailSetupLink</shortDescription>
+        <value>Add Managed Field</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_PageLayoutsEmailUrl</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_PageLayoutsEmailUrl</shortDescription>
+        <value>https://support.getconga.com/Conga_Contracts/Contracts_Contextual_Help/Email_Message_Layout</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_PageLayoutsTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_PageLayoutsTitle</shortDescription>
+        <value>Assign custom page layouts</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_PermSetAssgnLink</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_PermSetAssgnLink</shortDescription>
+        <value>Set Permissions</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_ProfileSetupLink</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_ProfileSetupLink</shortDescription>
+        <value>Profile Setup</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_SalesforceFilesDescription</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_SalesforceFilesDescription</shortDescription>
+        <value>Upload your Salesforce Files from the existing Attachment related list.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_SalesforceFilesDescriptionUrl</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_SalesforceFilesDescriptionUrl</shortDescription>
+        <value>https://support.getconga.com/Conga_Contracts/Contracts_Contextual_Help/Salesforce_Files_Configuration</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_SalesforceFilesHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_SalesforceFilesHeader</shortDescription>
+        <value>Attachments as files</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_SalesforceFilesLinkLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_SalesforceFilesLinkLabel</shortDescription>
+        <value>Configure Files Settings</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_SetupWkrModalSelectObjectsTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_SetupWkrModalSelectObjectsTitle</shortDescription>
+        <value>Select the Objects to utilize with Managed Clauses:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_Tagline</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>apxt_herokuConnect_Tagline</shortDescription>
+        <value>Application Setup</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_TellMeMore</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_TellMeMore</shortDescription>
+        <value>Tell Me More</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_TitleSalesforceFiles</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_TitleSalesforceFiles</shortDescription>
+        <value>Salesforce File Configuration</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_addManagedObject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_addManagedObject</shortDescription>
+        <value>Add</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_addProfile</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_addProfile</shortDescription>
+        <value>Add</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_autoConfigHeading</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_autoConfigHeading</shortDescription>
+        <value>Automatic Configuration</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_closeDialog</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_closeDialog</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_connect</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_connect</shortDescription>
+        <value>Connect</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_connected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_connected</shortDescription>
+        <value>Connected</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_connectedStatus</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_connectedStatus</shortDescription>
+        <value>Successfully Connected</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_connecting</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_connecting</shortDescription>
+        <value>Connecting</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_createBaseReportsCreateReports</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_createBaseReportsCreateReports</shortDescription>
+        <value>Create Reports</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_createBaseReportsHeading</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_createBaseReportsHeading</shortDescription>
+        <value>Reports</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_createBaseReportsInfo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_createBaseReportsInfo</shortDescription>
+        <value>Create three basic reports and a dashboard to start reporting by clicking on</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_createBaseReportsLoading</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_createBaseReportsLoading</shortDescription>
+        <value>Loading</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_emailDisplayNameDefault</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_emailDisplayNameDefault</shortDescription>
+        <value>Conga on behalf of {{User.Name}}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_emailDisplayNameDesc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_emailDisplayNameDesc</shortDescription>
+        <value>The user or company name that is displayed in outgoing email messages.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_emailDisplayNameLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_emailDisplayNameLabel</shortDescription>
+        <value>Email Display Text Template</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_emailDisplayNameTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_emailDisplayNameTitle</shortDescription>
+        <value>Email From Display Name</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_enhancedEmailDesc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_enhancedEmailDesc</shortDescription>
+        <value>The Enhanced E-Mail preference must be enabled to ensure proper functionality.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_enhancedEmailSetupLink</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_enhancedEmailSetupLink</shortDescription>
+        <value>Enable Enhanced E-Mail</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_enhancedEmailTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_enhancedEmailTitle</shortDescription>
+        <value>Enable Enhanced E-Mail</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_enhancedEmailUrl</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_enhancedEmailUrl</shortDescription>
+        <value>https://support.getconga.com/Conga_Contracts/Contracts_Contextual_Help/Enhanced_Email_Configuration</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_error</shortDescription>
+        <value>Error</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_errorStatus</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_errorStatus</shortDescription>
+        <value>Unable to Reach Server</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_leftTitle1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_leftTitle1</shortDescription>
+        <value>SETUP</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_leftTitle2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_leftTitle2</shortDescription>
+        <value>Conga Contracts</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_logoAltText</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_logoAltText</shortDescription>
+        <value>Conga Contracts Logo</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_manualConfigHeading</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_manualConfigHeading</shortDescription>
+        <value>Manual Configuration</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_notificationDebug</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_notificationDebug</shortDescription>
+        <value>Notification Debug</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_notificationLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_notificationLabel</shortDescription>
+        <value>Notification Label</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_notificationObjectId</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_notificationObjectId</shortDescription>
+        <value>Notification Object Id</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_offline</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_offline</shortDescription>
+        <value>Offline</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_offlineStatus</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_offlineStatus</shortDescription>
+        <value>Currently Offline</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_orgConfigHeading</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_orgConfigHeading</shortDescription>
+        <value>Object Configuration</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_orgConfigInfo1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_orgConfigInfo1</shortDescription>
+        <value>Many Required Organization settings can be set automatically by clicking</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_orgConfigInfo2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_orgConfigInfo2</shortDescription>
+        <value>Though not recommended, if you would like to perform these changes manually, click</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_orgConfigStartAutoConfig</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_orgConfigStartAutoConfig</shortDescription>
+        <value>Start Automatic Configuration</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_orgConfigStartManualConfig</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_orgConfigStartManualConfig</shortDescription>
+        <value>Start Manual Setup</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_reconnect</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_reconnect</shortDescription>
+        <value>Reconnect</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_removeManagedObject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_removeManagedObject</shortDescription>
+        <value>Remove</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_removeProfile</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_removeProfile</shortDescription>
+        <value>Remove</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_runSetup</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_runSetup</shortDescription>
+        <value>Run Setup</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_selectObjects</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_selectObjects</shortDescription>
+        <value>Select Objects</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_selectProfileMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_selectProfileMessage</shortDescription>
+        <value>Select the profiles permitted to use Conga Contracts:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_statusLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_statusLabel</shortDescription>
+        <value>Status:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_successfullyConfigured</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_successfullyConfigured</shortDescription>
+        <value>Successfully Configured</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_successfullyCreatedReports</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_successfullyCreatedReports</shortDescription>
+        <value>Successfully Configured</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_title</shortDescription>
+        <value>Conga Contracts Setup</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_tooManyClauseAlert</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_tooManyClauseAlert</shortDescription>
+        <value>You can only select up to 50 objects.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_unableToConnect</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_unableToConnect</shortDescription>
+        <value>Unable to connect to the Conga Contracts service.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_userPermNotSet</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_userPermNotSet</shortDescription>
+        <value>not set</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_userPermSet</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_userPermSet</shortDescription>
+        <value>set</value>
+    </labels>
+    <labels>
+        <fullName>apxt_herokuConnect_verifyingStatus</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_herokuConnect_verifyingStatus</shortDescription>
+        <value>Verifying</value>
+    </labels>
+    <labels>
+        <fullName>apxt_lookupField_removeTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_lookupField_removeTitle</shortDescription>
+        <value>Remove</value>
+    </labels>
+    <labels>
+        <fullName>apxt_lookupField_searchPlaceholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_lookupField_searchPlaceholder</shortDescription>
+        <value>Search {0}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_mergeFieldPopover_insert</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_mergeFieldPopover_insert</shortDescription>
+        <value>Insert</value>
+    </labels>
+    <labels>
+        <fullName>apxt_mergeFieldPopover_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_mergeFieldPopover_title</shortDescription>
+        <value>Insert Merge Field</value>
+    </labels>
+    <labels>
+        <fullName>apxt_noViewableComments</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_noViewableComments</shortDescription>
+        <value>No viewable comments</value>
+    </labels>
+    <labels>
+        <fullName>apxt_prompt_closeDiaglogTitle</fullName>
+        <categories>dataservice</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_prompt_closeDiaglogTitle</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>apxt_region_AP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_region_AP</shortDescription>
+        <value>Asia-Pacific</value>
+    </labels>
+    <labels>
+        <fullName>apxt_region_EU</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_region_EU</shortDescription>
+        <value>European Union</value>
+    </labels>
+    <labels>
+        <fullName>apxt_region_US</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_region_US</shortDescription>
+        <value>United States</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_clause</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_clause</shortDescription>
+        <value>Clause</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_clause_plural</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_clause_plural</shortDescription>
+        <value>Clauses</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_close</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_close</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_emptyState</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_emptyState</shortDescription>
+        <value>No Clause Bundles exist</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_error</shortDescription>
+        <value>An Error has occurred</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_errorFieldMissing</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_errorFieldMissing</shortDescription>
+        <value>Required field(s) of {0} could not be found:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_errorFieldPermission</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_errorFieldPermission</shortDescription>
+        <value>You do not have permissions for required field(s) of {0}:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_errorMerge</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_errorMerge</shortDescription>
+        <value>The merge operation has failed</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_errorTmplUpdate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_errorTmplUpdate</shortDescription>
+        <value>The Clause Bundle could not be updated</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_info</shortDescription>
+        <value>Info</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_lastMod</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_lastMod</shortDescription>
+        <value>Last modified by</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_lastModidfer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_lastModidfer</shortDescription>
+        <value>{0} {1}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_mergeComplete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_mergeComplete</shortDescription>
+        <value>Merge complete</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_mergeStart</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_mergeStart</shortDescription>
+        <value>Merge initiated</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_mergeStartDetail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_mergeStartDetail</shortDescription>
+        <value>You may leave this page or wait for confirmation it is complete.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_nonDeleteableObject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_nonDeleteableObject</shortDescription>
+        <value>Non-deleteable object - {0}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_noneSelected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_noneSelected</shortDescription>
+        <value>Please select a template.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_notificationDebug</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_notificationDebug</shortDescription>
+        <value>Notification Debug</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_notificationDetail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_notificationDetail</shortDescription>
+        <value>Notification Detail</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_notificationLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_notificationLabel</shortDescription>
+        <value>Notification Label</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_notificationObjectId</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_notificationObjectId</shortDescription>
+        <value>Notification Object Id</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_notificationTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_notificationTitle</shortDescription>
+        <value>Notification</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_numClauses</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_numClauses</shortDescription>
+        <value>{0} {1}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_objNotSupported</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_objNotSupported</shortDescription>
+        <value>Clause Bundle selection is not configured for this object.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_prompt</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_prompt</shortDescription>
+        <value>Which clause bundle would you like to import?</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_selectSuccess</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_selectSuccess</shortDescription>
+        <value>Template selection successful</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_title</shortDescription>
+        <value>Select Clause Bundle</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseBundle_unsupportedObject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseBundle_unsupportedObject</shortDescription>
+        <value>Unsupported object - {0}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_allTypes</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_allTypes</shortDescription>
+        <value>All Types</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_close</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_close</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_confirm</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_confirm</shortDescription>
+        <value>OK</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_error</shortDescription>
+        <value>An Error has occurred</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_errorFieldMissing</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_errorFieldMissing</shortDescription>
+        <value>Required field(s) of {0} could not be found:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_errorFieldPermission</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_errorFieldPermission</shortDescription>
+        <value>You do not have permissions for required field(s) of {0}:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_labelAvailable</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_labelAvailable</shortDescription>
+        <value>Available Clauses</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_labelSelected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_labelSelected</shortDescription>
+        <value>Selected Clauses</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_noClausesExisting</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_noClausesExisting</shortDescription>
+        <value>No clauses selected.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_noClausesSearch</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_noClausesSearch</shortDescription>
+        <value>No results.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_notificationTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_notificationTitle</shortDescription>
+        <value>Notification</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_prompt</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_prompt</shortDescription>
+        <value>#Unused</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_promptBundle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_promptBundle</shortDescription>
+        <value>Create your clause bundle. Drag and drop required clauses from Available Clauses to Selected Clauses below.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_promptManaged</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_promptManaged</shortDescription>
+        <value>Modify your managed clauses. Drag and drop required clauses from the Available Clauses to Selected Clauses below.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_promptModal</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_promptModal</shortDescription>
+        <value>Are you sure?</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_promptSearchToggle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_promptSearchToggle</shortDescription>
+        <value>Clause Search</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_promptText</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_promptText</shortDescription>
+        <value>#Unused</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_promptTextPlaceholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_promptTextPlaceholder</shortDescription>
+        <value>Find a clause</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_promptType</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_promptType</shortDescription>
+        <value>#Unused</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_promptTypePlaceholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_promptTypePlaceholder</shortDescription>
+        <value>Filter by Clause Type</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_saveSuccess</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_saveSuccess</shortDescription>
+        <value>Clause update successful.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_title</shortDescription>
+        <value>Select and Order</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_warningDirty</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_warningDirty</shortDescription>
+        <value>This clause has been modified from the standard language. Removing it will delete any negotiated language you have created. If you return this clause later it will only have the standard language. Are you sure you wish to proceed?</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectClauseOrder_warningOutdated</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectClauseOrder_warningOutdated</shortDescription>
+        <value>This clause uses an older revision of the standard language. If you remove it you will not be able to go back to this revision. Are you sure you wish to proceed?</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_clause</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_clause</shortDescription>
+        <value>Clause</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_clause_plural</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_clause_plural</shortDescription>
+        <value>Clauses</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_close</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_close</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_emptyState</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_emptyState</shortDescription>
+        <value>No contract templates exist</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_error</shortDescription>
+        <value>An Error has occurred</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_info</shortDescription>
+        <value>Info</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_lastMod</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_lastMod</shortDescription>
+        <value>Last modified by</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_lastModidfer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_lastModidfer</shortDescription>
+        <value>{0} {1}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_mergeComplete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_mergeComplete</shortDescription>
+        <value>Merge complete</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_mergeStart</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_mergeStart</shortDescription>
+        <value>Merge initiated</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_mergeStartDetail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_mergeStartDetail</shortDescription>
+        <value>You may leave this page or wait for confirmation it is complete.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_noneSelected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_noneSelected</shortDescription>
+        <value>Please select a template.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_numClauses</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_numClauses</shortDescription>
+        <value>{0} {1}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_objNotSupported</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_objNotSupported</shortDescription>
+        <value>Contract template selection is not supported on this object.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_prompt</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_prompt</shortDescription>
+        <value>Which template would you like to use?</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_selectSuccess</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_selectSuccess</shortDescription>
+        <value>Template selection successful</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectContractTemplate_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectContractTemplate_title</shortDescription>
+        <value>Select Contract Template</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectPrimaryDoc_cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectPrimaryDoc_cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectPrimaryDoc_contractBreadCrumb</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectPrimaryDoc_contractBreadCrumb</shortDescription>
+        <value>Contracts</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectPrimaryDoc_emptyState</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectPrimaryDoc_emptyState</shortDescription>
+        <value>A file has not been uploaded to this record</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectPrimaryDoc_error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectPrimaryDoc_error</shortDescription>
+        <value>An error has occurred.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectPrimaryDoc_errorFieldMissing</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectPrimaryDoc_errorFieldMissing</shortDescription>
+        <value>Required field(s) of {0} could not be found:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectPrimaryDoc_errorFieldPermission</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectPrimaryDoc_errorFieldPermission</shortDescription>
+        <value>You do not have permissions for required field(s) of {0}:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectPrimaryDoc_info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectPrimaryDoc_info</shortDescription>
+        <value>Info</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectPrimaryDoc_lastMod</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectPrimaryDoc_lastMod</shortDescription>
+        <value>Last modified by</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectPrimaryDoc_lastModidfer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectPrimaryDoc_lastModidfer</shortDescription>
+        <value>{0} {1}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectPrimaryDoc_numVersions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectPrimaryDoc_numVersions</shortDescription>
+        <value>{0} {1}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectPrimaryDoc_objNotSupported</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectPrimaryDoc_objNotSupported</shortDescription>
+        <value>Primary document selection is not configured for this object.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectPrimaryDoc_primaryPrompt</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectPrimaryDoc_primaryPrompt</shortDescription>
+        <value>Which of these is the primary document?</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectPrimaryDoc_save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectPrimaryDoc_save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectPrimaryDoc_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectPrimaryDoc_title</shortDescription>
+        <value>Select Primary Document</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectPrimaryDoc_version</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectPrimaryDoc_version</shortDescription>
+        <value>Version</value>
+    </labels>
+    <labels>
+        <fullName>apxt_selectPrimaryDoc_version_plural</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_selectPrimaryDoc_version_plural</shortDescription>
+        <value>Versions</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_additionalMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_additionalMessage</shortDescription>
+        <value>Additional Message</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_attachments</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_attachments</shortDescription>
+        <value>Attachments</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_attachmentsEmptyState</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_attachmentsEmptyState</shortDescription>
+        <value>A file has not been uploaded to the Contract record</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_bcc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_bcc</shortDescription>
+        <value>Bcc</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_breadcrumbs_contract</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_breadcrumbs_contract</shortDescription>
+        <value>Contracts</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_button_back</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_button_back</shortDescription>
+        <value>Back</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_button_cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_button_cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_button_edit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_button_edit</shortDescription>
+        <value>Edit</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_button_preview</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_button_preview</shortDescription>
+        <value>Preview</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_button_send</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_button_send</shortDescription>
+        <value>Send</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_cc</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_cc</shortDescription>
+        <value>Cc</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_contact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_contact</shortDescription>
+        <value>Contact</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_defaultBody</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_defaultBody</shortDescription>
+        <value>Hello,
+{0} has sent you a document. Please reply-all to this email with your attached revisions.
+
+IMPORTANT: Ensure {1} or {2} is included in the recipient list of this email.
+
+{3}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_defaultSubject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_defaultSubject</shortDescription>
+        <value>Attached is an agreement from {0}.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_doctypePlaceholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_doctypePlaceholder</shortDescription>
+        <value>Set Document Type</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_emailPlaceholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_emailPlaceholder</shortDescription>
+        <value>Add a Recipient</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_errorBody</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_errorBody</shortDescription>
+        <value>The Contract you are attempting to send is not available or additional configuration is required. Please contact your System Administrator for assistance.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_errorTItle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_errorTitle</shortDescription>
+        <value>We are unable to process your request.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_error_addressError</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_error_addressError</shortDescription>
+        <value>Recipients must be valid records or email addresses</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_error_attachmentError</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_error_attachmentError</shortDescription>
+        <value>The email must have at least one attachment</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_error_fieldError</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_error_fieldError</shortDescription>
+        <value>All required fields must be completed</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_error_sentMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_error_sentMessage</shortDescription>
+        <value>An error occurred when trying to send your email. Please try again later.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_error_sentSubtitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_error_sentSubtitle</shortDescription>
+        <value>Your email message was not sent</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_error_sentTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_error_sentTitle</shortDescription>
+        <value>Error</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_error_subtitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_error_subtitle</shortDescription>
+        <value>Review the errors on this page:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_error_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_error_title</shortDescription>
+        <value>Error</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_fileType_original</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_fileType_original</shortDescription>
+        <value>Original Format</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_fileType_pdf</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_fileType_pdf</shortDescription>
+        <value>PDF</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_lead</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_lead</shortDescription>
+        <value>Lead</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_messageHelpText</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_messageHelpText</shortDescription>
+        <value>Added to the content provided by the template</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_previewSubtitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_previewSubtitle</shortDescription>
+        <value>Email Information</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_preview_errorBody</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_preview_errorBody</shortDescription>
+        <value>The selected email template is empty or requires additional configuration.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_preview_errorTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_preview_errorTitle</shortDescription>
+        <value>An email preview could not be created.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_preview_html</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_preview_html</shortDescription>
+        <value>Preview HTML Email</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_preview_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_preview_text</shortDescription>
+        <value>Preview Plain Text Email</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_primary</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_primary</shortDescription>
+        <value>Primary</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_remove</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_remove</shortDescription>
+        <value>Remove</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_removeTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_removeTitle</shortDescription>
+        <value>Remove selected option</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_sendAs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_sendAs</shortDescription>
+        <value>Send as</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_subject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_subject</shortDescription>
+        <value>Subject</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_subtitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_subtitle</shortDescription>
+        <value>Compose Email</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_success_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_success_message</shortDescription>
+        <value>Email sent. Activity updates pending.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_success_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_success_title</shortDescription>
+        <value>Success</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_template</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_template</shortDescription>
+        <value>Template</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_templatePlaceholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_templatePlaceholder</shortDescription>
+        <value>--Select--</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_title</shortDescription>
+        <value>Send for Negotiation</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_to</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_to</shortDescription>
+        <value>To</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_user</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_user</shortDescription>
+        <value>User</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_version</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_version</shortDescription>
+        <value>Version</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_version_plural</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_version_plural</shortDescription>
+        <value>Versions</value>
+    </labels>
+    <labels>
+        <fullName>apxt_sendForNegotiation_warning_sentSubtitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_sendForNegotiation_warning_sentSubtitle</shortDescription>
+        <value>Your email message was sent but encountered an error saving to the activity log</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_FriendlyNameLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_FriendlyNameLabel</shortDescription>
+        <value>Friendly Name</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_addedByLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_addedByLabel</shortDescription>
+        <value>Added By</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_additional</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_additional</shortDescription>
+        <value>Additional Setup</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_authApprovalMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_authApprovalMessage</shortDescription>
+        <value>Your access code has been redeemed by {0} in {1}. To approve the connection, click Connect.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_connectExternalBody</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_connectExternalBody</shortDescription>
+        <value>Conga Contracts must establish a secure external connection with another system.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_connectExternalBodyPending</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_connectExternalBodyPending</shortDescription>
+        <value>You can establish a secure external connection from another system to Conga Contracts. Enter the friendly name and select the system you created in the other system. Paste the generated code created from the other system and click Connect. The generated code is valid for 48 hours only.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_connectExternalHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_connectExternalHeader</shortDescription>
+        <value>External Connections</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_connectPlatformBody</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_connectPlatformBody</shortDescription>
+        <value>To allow documents to be stored from Conga Contracts to the Conga Platform, you must connect the two systems. Click Connect to establish a connection between Contracts and the platform and establish an OAuth connection.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_connectPlatformHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_connectPlatformHeader</shortDescription>
+        <value>Connection to Conga Platform</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_connections</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_connections</shortDescription>
+        <value>Connections</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_delete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_delete</shortDescription>
+        <value>Delete</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_deleteConnectionConfirm</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_deleteConnectionConfirm</shortDescription>
+        <value>Are you sure you want to delete this external connection?</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_deleteConnectionTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_deleteConnectionTitle</shortDescription>
+        <value>Delete External Connection</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_deleteObjectMappingCancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_deleteObjectMappingCancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_deleteObjectMappingConfirm</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_deleteObjectMappingConfirm</shortDescription>
+        <value>Are you sure you want to delete this object mapping?</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_deleteObjectMappingOk</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_deleteObjectMappingOk</shortDescription>
+        <value>OK</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_deleteObjectMappingTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_deleteObjectMappingTitle</shortDescription>
+        <value>Delete Object Mapping</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_enableFilesToast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_enableFilesToast</shortDescription>
+        <value>External File Storage must be enabled to create connections.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_enableFilesToastLink</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_enableFilesToastLink</shortDescription>
+        <value>Enable File Storage</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_externalFileDescription</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_externalFileDescription</shortDescription>
+        <value>You can store Conga Contracts documents currently saved in Salesforce to the Conga Platform by enabling external file storage. To allow files to be saved from Conga Contracts to the platform, you must ensure the storage custom field is enabled. For example, if you created the IsCongaFile custom field, you must set it to true to enable the integration between Conga Contracts and the platform. If the custom field is set to false, the document remains stored in Salesforce only. The document can be stored in either Salesforce or the Conga Platform but not both locations at the same time.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_externalFileHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_externalFileHeader</shortDescription>
+        <value>External File Storage</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_fileStorageDisableWarn</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_fileStorageDisableWarn</shortDescription>
+        <value>You must remove all established connections to external systems to disable the external file storage feature. If connections are removed, documents cannot be stored on other systems.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_filesToggleLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_filesToggleLabel</shortDescription>
+        <value>Use External File Storage</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_generateCodeBtn</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_generateCodeBtn</shortDescription>
+        <value>Generate New Code</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_newConnectionBody</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_newConnectionBody</shortDescription>
+        <value>Enter a friendly name and select the system you want associated with the external connection you are attempting to create. Click Generate Code and save it. The code is valid for 48 hours only. You must login to the other system and enter credentials and generated code. For example, if you are connecting Conga Contracts to the Conga Platform, navigate to the Conga Platform Approve a Connection page and enter the name, select the system, paste the code and click Connect. After the connection is successfully established, a notification appears on the New Connection page and click Connect.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_newConnectionBtn</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_newConnectionBtn</shortDescription>
+        <value>New External Connection</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_noConnections</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_noConnections</shortDescription>
+        <value>There are currently no External Connections</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMapping</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMapping</shortDescription>
+        <value>Object Mapping</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingAddButton</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingAddButton</shortDescription>
+        <value>Add New Mapping</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingAddFieldButton</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingAddFieldButton</shortDescription>
+        <value>Add Field</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingBypassApprovalDescription</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingBypassApprovalDescription</shortDescription>
+        <value>Choose the field that determines if a record requires approval.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingBypassApprovalTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingBypassApprovalTitle</shortDescription>
+        <value>Bypass Approval</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingChooseField</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingChooseField</shortDescription>
+        <value>Choose Field</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingChooseFieldValue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingChooseFieldValue</shortDescription>
+        <value>Choose Field Value</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingChooseObject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingChooseObject</shortDescription>
+        <value>Choose Object</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingChooseObjectDescription</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingChooseObjectDescription</shortDescription>
+        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut eros diam. Proin non nulla ante. Nulla mi ante, vulputate eu ex in, laoreet porta mi. Duis ut porta odio. Donec lacinia mauris vel arcu gravida, in vestibulum lectus convallis.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingChooseObjectTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingChooseObjectTitle</shortDescription>
+        <value>Choose Object Mapping</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingChoosePrimary</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingChoosePrimary</shortDescription>
+        <value>Choose Primary</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingColumnBypassApproval</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingColumnBypassApproval</shortDescription>
+        <value>Approval</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingColumnDirection</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingColumnDirection</shortDescription>
+        <value>Direction</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingColumnExclusions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingColumnExclusions</shortDescription>
+        <value>Exclusions</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingColumnNovatusObject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingColumnNovatusObject</shortDescription>
+        <value>Novatus Object</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingColumnSalesforceObject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingColumnSalesforceObject</shortDescription>
+        <value>Salesforce Object</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingColumnStatus</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingColumnStatus</shortDescription>
+        <value>Status</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingCurrentMappingsTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingCurrentMappingsTitle</shortDescription>
+        <value>Current Mappings</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingExclusionsDescription</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingExclusionsDescription</shortDescription>
+        <value>Choose the field that determines if a record should be synced.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingExclusionsTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingExclusionsTitle</shortDescription>
+        <value>Exclusions</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingExternalToSalesforceCheckboxLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingExternalToSalesforceCheckboxLabel</shortDescription>
+        <value>Novatus to Salesforce</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingFieldHeaderNovatus</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingFieldHeaderNovatus</shortDescription>
+        <value>Novatus</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingFieldHeaderPrimary</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingFieldHeaderPrimary</shortDescription>
+        <value>Primary</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingFieldHeaderSalesforce</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingFieldHeaderSalesforce</shortDescription>
+        <value>Salesforce</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingGlobalDirectionTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingGlobalDirectionTitle</shortDescription>
+        <value>Global Direction</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingMenuItemDelete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingMenuItemDelete</shortDescription>
+        <value>Delete</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingMenuItemEdit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingMenuItemEdit</shortDescription>
+        <value>Edit</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingObjectDescriptionLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingObjectDescriptionLabel</shortDescription>
+        <value>Description Field</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingObjectLookupInstructions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingObjectLookupInstructions</shortDescription>
+        <value>Pick a human readable field to describe the {0}.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingOverviewDescription</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingOverviewDescription</shortDescription>
+        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut eros diam. Proin non nulla ante. Nulla mi ante, vulputate eu ex in, laoreet porta mi. Duis ut porta odio. Donec lacinia mauris vel arcu gravida, in vestibulum lectus convallis.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingOverviewTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingOverviewTitle</shortDescription>
+        <value>Object Mapping Overview</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingSalesforceToExternalCheckboxLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingSalesforceToExternalCheckboxLabel</shortDescription>
+        <value>Salesforce to Novatus</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingSelectFieldsAndDirectionDescription</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingSelectFieldsAndDirectionDescription</shortDescription>
+        <value>Select the fields you would like to map. There will be more instructions here to help the user with how to use this feature.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingSelectFieldsAndDirectionTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingSelectFieldsAndDirectionTitle</shortDescription>
+        <value>Select Fields &amp; Direction</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_objectMappingSetFieldValuesTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_objectMappingSetFieldValuesTitle</shortDescription>
+        <value>Set Field Values</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_platformGeneral</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_platformGeneral</shortDescription>
+        <value>General</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_platforms</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_platforms</shortDescription>
+        <value>Platforms</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_quickFind</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_quickFind</shortDescription>
+        <value>Quick Find</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_recordMapping</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_recordMapping</shortDescription>
+        <value>Record Mapping</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_settingsSubHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_settingsSubHeader</shortDescription>
+        <value>Settings</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_statusLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_statusLabel</shortDescription>
+        <value>Status</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_systemLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_systemLabel</shortDescription>
+        <value>System</value>
+    </labels>
+    <labels>
+        <fullName>apxt_setup_systemNovatus</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_setup_systemNovatus</shortDescription>
+        <value>Novatus</value>
+    </labels>
+    <labels>
+        <fullName>apxt_syncStatus_ConnectionHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_syncStatus_ConnectionHeader</shortDescription>
+        <value>Connection</value>
+    </labels>
+    <labels>
+        <fullName>apxt_syncStatus_IdHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_syncStatus_IdHeader</shortDescription>
+        <value>Id</value>
+    </labels>
+    <labels>
+        <fullName>apxt_syncStatus_StatusHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_syncStatus_StatusHeader</shortDescription>
+        <value>Status</value>
+    </labels>
+    <labels>
+        <fullName>apxt_syncStatus_TimeHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_syncStatus_TimeHeader</shortDescription>
+        <value>Time</value>
+    </labels>
+    <labels>
+        <fullName>apxt_syncStatus_communicationError</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_syncStatus_communicationError</shortDescription>
+        <value>Communication Error as of {0}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_syncStatus_disapprovedDetail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_syncStatus_errorDetail</shortDescription>
+        <value>Syncing was not approved to &quot;{0}&quot;.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_syncStatus_disapprovedHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_syncStatus_disapprovedHeader</shortDescription>
+        <value>Sync Not Approved as of {0}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_syncStatus_errorDetail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_syncStatus_errorDetail</shortDescription>
+        <value>Sync Error to &quot;{0}&quot;</value>
+    </labels>
+    <labels>
+        <fullName>apxt_syncStatus_errorFLSHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_syncStatus_errorFLSHeader</shortDescription>
+        <value>Sync Error/FLS as of {0}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_syncStatus_errorHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_syncStatus_errorHeader</shortDescription>
+        <value>Sync Error as of {0}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_syncStatus_errorPartialHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_syncStatus_errorPartialHeader</shortDescription>
+        <value>Sync Error/Partial as of {0}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_syncStatus_inactiveHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_syncStatus_inactiveHeader</shortDescription>
+        <value>Nothing to Sync</value>
+    </labels>
+    <labels>
+        <fullName>apxt_syncStatus_progressHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_syncStatus_progressHeader</shortDescription>
+        <value>Sync In Progress as of {0}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_syncStatus_queuedHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_syncStatus_queuedHeader</shortDescription>
+        <value>Sync Queued as of {0}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_syncStatus_syncedHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_syncStatus_syncedHeader</shortDescription>
+        <value>Synced as of {0}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_treeItem_toggleTitle</fullName>
+        <categories>dataservice</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_treeItem_toggleTitle</shortDescription>
+        <value>Toggle</value>
+    </labels>
+    <labels>
+        <fullName>apxt_treeList_clausesLabel</fullName>
+        <categories>dataservice</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_treeList_clausesLabel</shortDescription>
+        <value>Clauses</value>
+    </labels>
+    <labels>
+        <fullName>apxt_treeList_loading</fullName>
+        <categories>dataservice</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_treeList_loading</shortDescription>
+        <value>Loading...</value>
+    </labels>
+    <labels>
+        <fullName>apxt_treeList_quoteTermsLabel</fullName>
+        <categories>dataservice</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_treeList_quoteTermsLabel</shortDescription>
+        <value>Quote Terms</value>
+    </labels>
+    <labels>
+        <fullName>apxt_treeList_toggleTitle</fullName>
+        <categories>dataservice</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_treeList_toggleTitle</shortDescription>
+        <value>Toggle</value>
+    </labels>
+    <labels>
+        <fullName>apxt_treeList_unknownChangesLabel</fullName>
+        <categories>dataservice</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_treeList_unknownChangesLabel</shortDescription>
+        <value>Unknown Changes</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_acceptAllPrompt</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_acceptAllPrompt</shortDescription>
+        <value>No changes have been accepted, would you like to accept all changes?</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_backToRecord</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_backToRecord</shortDescription>
+        <value>Back to {0}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_documentNotFound</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_documentNotFound</shortDescription>
+        <value>ContentDocument not found for recordId:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_emptyTree</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_emptyTree</shortDescription>
+        <value>No changes to display.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_extracting</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_extracting</shortDescription>
+        <value>Capturing selection...</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_extractionError</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_extractionError</shortDescription>
+        <value>Failed to Capture selection. Deleted text might be included.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_lessThanTwoVersions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_lessThanTwoVersions</shortDescription>
+        <value>At least two ContentVersions not found for DocumentId:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_lookupFoundResults</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_lookupFoundResults</shortDescription>
+        <value>Found {0} results with name &apos;{1}&apos;</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_lookupNewRecord</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_lookupNewRecord</shortDescription>
+        <value>New {0}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_modifiedHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_modifiedHeader</shortDescription>
+        <value>Document Value</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_noCreatePermission</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_noCreatePermission</shortDescription>
+        <value>User does not have access to create {0} on object {1}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_noDataInDocument</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_noDataInDocument</shortDescription>
+        <value>No data identified in document</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_noObjectPermission</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_noObjectPermission</shortDescription>
+        <value>User does not have permission to object {0}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_noReadPermission</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_noReadPermission</shortDescription>
+        <value>User does not have access to read {0} on object {1}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_noUpdatePermission</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_noUpdatePermission</shortDescription>
+        <value>User does not have access to update {0} on object {1}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_nothingFound</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_nothingFound</shortDescription>
+        <value>didn&apos;t find anything to True-Up.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_nothingLeft</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_nothingLeft</shortDescription>
+        <value>there is nothing left to True-Up.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_ohNo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_ohNo</shortDescription>
+        <value>Oh no!</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_originalHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_originalHeader</shortDescription>
+        <value>Salesforce Value</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_somethingBadHappened</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_somethingBadHappened</shortDescription>
+        <value>Something bad happened</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_suggestionNotFound</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_suggestionNotFound</shortDescription>
+        <value>No suggestions found</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_suggestionSearch</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_suggestionSearch</shortDescription>
+        <value>Finding suggestions</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_unableParseBool</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_unableParseBool</shortDescription>
+        <value>Unable to parse boolean:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_unableParseDate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_unableParseDate</shortDescription>
+        <value>Unable to parse date:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_unableParseNumber</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_unableParseNumber</shortDescription>
+        <value>Unable to parse number:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_unableParsePicklist</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_unableParsePicklist</shortDescription>
+        <value>Invalid picklist option:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_unableToFindField</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_unableToFindField</shortDescription>
+        <value>Unable to find field {0} on object {1}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_unableToFindObject</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_unableToFindObject</shortDescription>
+        <value>No object with api name {0}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_unsupportedChangesText</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_unsupportedChangesText</shortDescription>
+        <value>Some changes will not True-Up. Please double check the document if this is unexpected.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_unsupportedChangesTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_unsupportedChangesTitle</shortDescription>
+        <value>Unsupported Changes</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_versionNotFound</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_versionNotFound</shortDescription>
+        <value>ContentVersion not found</value>
+    </labels>
+    <labels>
+        <fullName>apxt_trueUp_youDidIt</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_trueUp_youDidIt</shortDescription>
+        <value>You did it!</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewComments</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewComments</shortDescription>
+        <value>View Comments</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_additionalUpdate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_additionalUpdate</shortDescription>
+        <value>Additional Update</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_and</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_and</shortDescription>
+        <value>and</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_captureHeading</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_captureHeading</shortDescription>
+        <value>Capture:</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_closeDialogTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_closeDialogTitle</shortDescription>
+        <value>Close dialog</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_closeRedlines</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_closeRedlines</shortDescription>
+        <value>Close Redlines</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_compare</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_compare</shortDescription>
+        <value>Compare</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_contractBreadCrumb</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_contractBreadCrumb</shortDescription>
+        <value>Contracts</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_document</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_document</shortDescription>
+        <value>Document</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_done</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_done</shortDescription>
+        <value>(done)</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_edit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_edit</shortDescription>
+        <value>Edit</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_editComparison</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_editComparison</shortDescription>
+        <value>Edit Comparison</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_editLatest</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_editLatest</shortDescription>
+        <value>Open in Word</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_editLatest_closeDialogTitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_editLatest_closeDialogTitle</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_editLatest_continue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_editLatest_continue</shortDescription>
+        <value>Continue</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_editLatest_heading</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_editLatest_heading</shortDescription>
+        <value>Editing Latest...</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_editLatest_info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_editLatest_info</shortDescription>
+        <value>The latest version of this Document is opening in Microsoft Word. Please allow any browser security warnings if prompted. Make your changes in Microsoft Word and return here and Continue to refresh to show the latest revision.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_emptyState</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_emptyState</shortDescription>
+        <value>A file has not been uploaded to the record</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_fieldLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_fieldLabel</shortDescription>
+        <value>Fields</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_go</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_go</shortDescription>
+        <value>Go</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_goBack</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_goBack</shortDescription>
+        <value>Go Back</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_negotiate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_negotiate</shortDescription>
+        <value>Negotiate</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_noToken</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_noToken</shortDescription>
+        <value>No Heroku access token found</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_notConnected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_notConnected</shortDescription>
+        <value>Conga Contracts is not connected.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_options</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_options</shortDescription>
+        <value>Options</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_redlineHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_redlineHeader</shortDescription>
+        <value>View Redlines</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_return</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_return</shortDescription>
+        <value>Return</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_saveAndContinue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_saveAndContinue</shortDescription>
+        <value>Save and Continue</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_saveAndDownload</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_saveAndDownload</shortDescription>
+        <value>Save and Download</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_selectSuggestion</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_selectSuggestion</shortDescription>
+        <value>Select from suggestion below or search alternate.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_skip</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_skip</shortDescription>
+        <value>Skip</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_title</shortDescription>
+        <value>View Redlines</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_trueUp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>True Up button label</shortDescription>
+        <value>True-Up</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_unableToCompare</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_unableToCompare</shortDescription>
+        <value>Unable to compare selected document.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_versionHeader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_versionHeader</shortDescription>
+        <value>View changes between versions</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_versions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_versions</shortDescription>
+        <value>Versions</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_webDavError</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_webDavError</shortDescription>
+        <value>Unable to reach the server at this time. Please try again later.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_webDavLocked</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_webDavLocked</shortDescription>
+        <value>The file seems to have been locked. This can occur when multiple users attempt to edit this file simultaneously. Please try again later.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedLines_webDavUnableToConnect</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedLines_webDavUnableToConnect</shortDescription>
+        <value>Unable to contact WebDAV Service.</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedlines_add</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedlines_add</shortDescription>
+        <value>Add</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedlines_cancelClause</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedlines_cancelClause</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedlines_close</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedlines_close</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedlines_fieldsNotAccessible</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedlines_fieldsNotAccessible</shortDescription>
+        <value>{0} fields not accessible on {1}</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedlines_negotiate_invalidReplacementValues</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedlines_negotiate_invalidReplacementValues</shortDescription>
+        <value>Invalid replacement values for</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedlines_newClause</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedlines_newClause</shortDescription>
+        <value>Add New Clause</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedlines_newClause_clauseLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedlines_newClause_clauseLabel</shortDescription>
+        <value>Clause Name</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedlines_newClause_printOrderLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedlines_newClause_printOrderLabel</shortDescription>
+        <value>Print Order</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedlines_newClause_standardTermLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedlines_newClause_standardTermLabel</shortDescription>
+        <value>Standard Term</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedlines_newQuoteTerm</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedlines_newQuoteTerm</shortDescription>
+        <value>Add New Quote Term</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedlines_parentQueryInvalid</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedlines_parentQueryInvalid</shortDescription>
+        <value>parent query, {0} {1}, is invalid</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedlines_quoteTerm</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedlines_quoteTerm</shortDescription>
+        <value>Quote Term</value>
+    </labels>
+    <labels>
+        <fullName>apxt_viewRedlines_searchQuoteTerms</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>apxt_viewRedlines_searchQuoteTerms</shortDescription>
+        <value>Quote Term Search</value>
+    </labels>
+</CustomLabels>

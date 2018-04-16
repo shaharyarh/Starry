@@ -1,0 +1,84 @@
+<aura:component access="global" extends="APXT_Redlining:Base" extensible="true">
+
+  <!-- Facets -->
+  <aura:attribute name="header" type="Aura.Component[]" />
+  <aura:attribute name="footer" type="Aura.Component[]" />
+  <aura:attribute name="back" type="Aura.Component[]" />
+  <aura:attribute name="headerBack" type="Aura.Component[]" />
+  <aura:attribute name="footerBack" type="Aura.Component[]" />
+  <aura:attribute name="noPaddingSquareCorners" type="boolean" />
+
+  <aura:attribute name="popoverX" type="Integer" />
+  <aura:attribute name="popoverY" type="Integer" />
+  <aura:attribute name="popoverHeight" type="Integer" description="height of element popover is pointing at" />
+
+  <aura:attribute name="isVisible" type="boolean" />
+  <aura:attribute name="hasBack" type="boolean" />
+  <aura:attribute name="width" type="Integer" />
+  <aura:attribute name="height" type="Integer" />
+  <aura:attribute name="calloutDirection" type="String" default="bottom" />
+  <aura:attribute name="offsetX" type="Integer" />
+  <aura:attribute name="offsetY" type="Integer"/>
+
+  <aura:attribute name="showBack" type="boolean" default="false" />
+  <!-- Event Handlers -->
+  <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+  <aura:handler name="change" value="{!v.popoverX}" action="{!c.reposition}"/>
+  <aura:handler name="change" value="{!v.popoverY}" action="{!c.reposition}"/>
+  <aura:method name="reposition" action="{!c.reposition}"/>
+  
+  <div class="slds-grid slds-grid_frame" style="overflow:hidden;">
+    <div class="{!'flipper' + (v.showBack ? ' flip' : '')}" style="{!'position:absolute; width:' + v.width + 'px; height:' + v.height + 'px; z-index:1000001; top:' + v.offsetY + 'px; left:' + v.offsetX + 'px;'}">
+      <div class="{!'front' + (v.isVisible ? ' visible' : '')}">
+        <section aura:id="front" class="{!'slds-popover slds-popover_walkthrough slds-popover_walkthrough-alt slds-popover_large slds-nubbin_' + v.calloutDirection + ' slds-p-bottom_none'}" role="dialog">
+          <button onclick="{!c.close}" class="slds-button slds-button_icon slds-button_icon-small slds-float_right slds-popover__close slds-button_icon-inverse" title="{!$Label.apxt_redlining.apxt_viewRedLines_closeDialogTitle}">
+            <lightning:icon iconName="utility:close" variant="inverse" size="x-small" />
+            <span class="slds-assistive-text">{!$Label.apxt_redlining.apxt_viewRedLines_closeDialogTitle}</span>
+          </button>
+          <aura:if isTrue="{!v.hasBack}">
+            <button onclick="{!c.toggleBack}" class="slds-button slds-button_icon slds-button_icon-small slds-float_right slds-popover__close slds-button_icon-inverse" title="{!$Label.apxt_redlining.apxt_viewRedLines_edit}">
+              <lightning:icon iconName="utility:info_alt" variant="inverse" size="x-small" />
+              <span class="slds-assistive-text">{!$Label.apxt_redlining.apxt_viewRedLines_edit}</span>
+            </button>
+          </aura:if>
+          <header class="slds-popover__header slds-p-around_medium">
+            {!v.header}
+          </header>
+          <div class="{!v.noPaddingSquareCorners== true ? 'slds-popover__body slds-p-around_xx-small slds-p-top_none square-corners' : 'slds-popover__body slds-p-around_xx-small'}">
+            <article class="{!v.noPaddingSquareCorners == true ? 'slds-card slds-card_narrow square-corners' : 'slds-card slds-card_narrow'}">
+              {!v.body}
+            </article>
+          </div>
+          <footer class="slds-popover__footer">
+            <div class="slds-grid slds-grid_vertical-align-center">
+              {!v.footer}
+            </div>
+          </footer>
+        </section> 
+      </div>
+      <div class="{!'back' + (v.isVisible ? ' visible' : '')}">
+        <section aura:id="back" class="{!'slds-popover slds-popover_walkthrough-alt slds-popover_large slds-nubbin_' + v.calloutDirection + ' slds-p-bottom_none'}" role="dialog">
+          <aura:if isTrue="{!v.hasBack}">
+            <button onclick="{!c.toggleBack}" class="slds-button slds-button_icon slds-button_icon-small slds-float_right slds-popover__close slds-button_icon-inverse" title="{!$Label.apxt_redlining.apxt_viewRedLines_return}">
+              <lightning:icon iconName="utility:redo" variant="inverse" size="x-small" />
+              <span class="slds-assistive-text">{!$Label.apxt_redlining.apxt_viewRedLines_return}</span>
+            </button>
+          </aura:if>
+          <header class="slds-popover__header slds-m-bottom_none">
+            {!v.headerBack}
+          </header>
+          <div class="slds-popover__body slds-p-around_xx-small slds-p-top_none">
+              <article>
+              {!v.back}
+            </article>
+          </div>
+          <footer class="slds-popover__footer">
+              <div class="slds-grid slds-grid_vertical-align-center">
+              {!v.footerBack}
+            </div>
+          </footer>
+        </section> 
+        </div>
+    </div>
+  </div>
+</aura:component>

@@ -1,0 +1,94 @@
+<aura:component extends="APXT_Redlining:Base" implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="APXT_Redlining.SyncStatusController" access="global">
+  <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+  <aura:handler event="force:refreshView" action="{!c.init}"/>
+
+  <aura:attribute name="headerText" type="String" />
+  <aura:attribute name="detailText" type="String" />
+  <aura:attribute name="connections" type="Object[]" />
+  <aura:attribute name="state" type="String" default="progress" description="synced,queued,progress,disapproved,error,inactive" />
+  <aura:attribute name="isExpanded" type="Boolean" default="false" />
+  
+  <div class="slds-box slds-box_xx-small">
+    <div class="slds-grid slds-p-around_x-small">
+      <!-- Show stateful icon -->
+      <aura:if isTrue="{!v.state eq 'synced'}">
+        <lightning:icon class="conga-sync-icon conga-success-icon" iconName="standard:task2" size="small" />
+      </aura:if>
+      <aura:if isTrue="{!or(v.state eq 'error', v.state eq 'disapproved', v.state eq 'errorpartial', v.state eq 'errorfls')}">
+        <lightning:icon class="conga-sync-icon conga-error-icon slds-icon_small" iconName="utility:close" size="x-small" />
+      </aura:if>
+      <!-- <aura:if isTrue="{!v.state eq 'queued'}">
+        <lightning:icon class="conga-sync-icon slds-icon-standard-avatar-loading slds-icon_small" iconName="utility:justify_text" size="x-small" />
+      </aura:if> -->
+      <aura:if isTrue="{!v.state eq 'inactive'}">
+        <lightning:icon class="conga-sync-icon slds-icon-standard-avatar-loading slds-icon_small" iconName="utility:check" size="x-small" />
+      </aura:if>
+
+      <aura:if isTrue="{!or(v.state eq 'progress', v.state eq 'queued')}">
+        <!-- Animated spinner -->
+        <div class="slds-icon slds-icon_small slds-icon-standard-avatar-loading slds-is-relative">
+          <div role="status" class="slds-spinner slds-spinner_inverse slds-spinner_xx-small">
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+          </div>
+        </div>
+      </aura:if>
+
+      <!-- Header text is red if in error state -->
+      <h3 class="{!'slds-text-heading_small slds-p-left_x-small' + (or(v.state eq 'error', v.state eq 'disapproved', v.state eq 'errorpartial', v.state eq 'errorfls', v.state eq 'communicationError') ? ' slds-text-color_error' : '')}">{!v.headerText}</h3>
+
+      <!-- Expand/Collapse button -->
+      <button class="slds-col_bump-left slds-button slds-button_icon" onclick="{!c.expand}">
+        <aura:if isTrue="{!v.isExpanded}">
+          <lightning:icon iconName="utility:chevronup" size="x-small" />
+          <aura:set attribute="else">
+            <lightning:icon iconName="utility:chevrondown" size="x-small" />
+          </aura:set>
+        </aura:if>
+      </button>
+    </div>
+    
+    <aura:if isTrue="{!v.isExpanded}">
+      <!-- Collapsible detail area -->
+      <div class="slds-p-around_x-small">
+        <!-- Detail text is red if in error state -->
+        <h3 class="{!'slds-text-heading_small' + (or(v.state eq 'error', v.state eq 'disapproved', v.state eq 'errorpartial', v.state eq 'errorfls', v.state eq 'communicationError') ? ' slds-text-color_error' : '')}">{!v.detailText}</h3>
+      </div>
+      <!-- Connection table -->
+      <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout" role="grid">
+          <thead>
+            <tr class="slds-text-title_caps">
+              <th scope="col">
+                <div class="slds-truncate" title="{!$Label.apxt_redlining.apxt_setup_FriendlyNameLabel}">{!$Label.apxt_redlining.apxt_syncStatus_IdHeader}</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="{!$Label.apxt_redlining.apxt_setup_statusLabel}">{!$Label.apxt_redlining.apxt_syncStatus_StatusHeader}</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="{!$Label.apxt_redlining.apxt_setup_systemLabel}">{!$Label.apxt_redlining.apxt_syncStatus_TimeHeader}</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="{!$Label.apxt_redlining.apxt_setup_addedByLabel}">{!$Label.apxt_redlining.apxt_syncStatus_ConnectionHeader}</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <aura:iteration items="{!v.connections}" var="item">
+              <tr class="slds-hint-parent">
+                <td class="slds-truncate" title="{!item.id}">{!item.id}</td>
+                <td class="slds-truncate" title="{!item.status}">{!item.status}</td>
+                <td class="slds-truncate" title="{!item.time}">{!item.time}</td>
+                <td class="slds-truncate" title="{!item.connection}">{!item.connection}</td>
+              </tr>
+            </aura:iteration>
+          </tbody>
+      </table>
+      <!-- View Settings button 
+      <div class="slds-grid slds-p-around_x-small">
+        <button class="slds-button slds-button_neutral slds-col_bump-left">View Settings</button>
+      </div>-->
+    </aura:if>
+  </div>
+
+</aura:component>

@@ -1,0 +1,23 @@
+<aura:component controller="APXT_Redlining.SetupObjectMappingController" extends="APXT_Redlining:Base">
+    <aura:handler name="render" value="{!this}" action="{!c.onRender}"/>
+
+    <!-- parent/global direction changing value for all components (top-down) -->
+    <aura:method name="changeSelectedDirection" action="{!c.changeSelectedDirection}">
+        <aura:attribute name="newDirection" type="String"/>
+    </aura:method>
+    <aura:method name="setEnabledDirections" action="{!c.setEnabledDirections}">
+        <aura:attribute name="enabledDirections" type="List" default="['left', 'both', 'right']"/>
+    </aura:method>
+    <!-- this component value changed (bottom-up) -->
+    <aura:registerEvent name="directionChanged" type="APXT_Redlining:BaseEvent"/>
+    <aura:attribute name="selectedDirection" type="String" />
+    <aura:attribute access="private" name="leftDisabled" type="Boolean" default="false" />
+    <aura:attribute access="private" name="bothDisabled" type="Boolean" default="false" />
+    <aura:attribute access="private" name="rightDisabled" type="Boolean" default="false" />
+
+    <lightning:buttonGroup >
+        <lightning:buttonIcon aura:id="btnDirection" onclick="{!c.handleClick}" iconName="utility:back" value="left" disabled="{!v.leftDisabled}" />
+        <lightning:buttonIcon aura:id="btnDirection" onclick="{!c.handleClick}" iconName="utility:sort" class="rotate-90" value="both" disabled="{!v.bothDisabled}" />
+        <lightning:buttonIcon aura:id="btnDirection" onclick="{!c.handleClick}" iconName="utility:forward" value="right" disabled="{!v.rightDisabled}" />
+    </lightning:buttonGroup>
+</aura:component>

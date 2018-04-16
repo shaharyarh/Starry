@@ -1,0 +1,167 @@
+<aura:component controller="APXT_Redlining.SetupObjectMappingController" extends="APXT_Redlining:Base">
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    <aura:handler event="APXT_Redlining:BaseEvent" name="directionChanged" action="{!c.handleDirectionChanged}" />
+    <aura:registerEvent name="fieldDeleted" type="APXT_Redlining:BaseEvent"/>
+    <aura:registerEvent name="fieldValueChanged" type="APXT_Redlining:BaseEvent"/>
+
+    <!-- parent/global direction changing value for all components (top-down) -->
+    <aura:method name="changeSelectedFieldDirection" action="{!c.changeSelectedFieldDirection}">
+        <aura:attribute name="newDirection" type="String"/>
+    </aura:method>
+    <!-- parent/global primary changing value for all components (top-down) -->
+    <aura:method name="changeSelectedFieldPrimary" action="{!c.changeSelectedFieldPrimary}">
+        <aura:attribute name="newPrimary" type="String"/>
+    </aura:method>
+    
+    <aura:attribute name="salesforceObjectName" type="String" />
+    <aura:attribute name="field" type="APXT_Redlining.PlatformView_ObjectMappingField" />
+    <aura:attribute name="fieldIndex" type="String" />
+    <aura:attribute name="connectionId" type="String" />
+    <aura:attribute name="availableSalesforceFields" type="List" default="[]" />
+    <aura:attribute name="availableExternalFields" type="List" default="[]" />
+    <aura:attribute access="private" name="salesforceLookupObjectLabel" type="String" />
+    <aura:attribute access="private" name="salesforceLookupObjectFields" type="List" />
+    
+    <aura:attribute access="private" name="availableSalesforceFieldValues" type="List" default="[]" />
+    <aura:attribute access="private" name="availableExternalFieldValues" type="List" default="[]" />
+    <aura:attribute access="private" name="externalFieldId" type="String" />
+
+    <div class="slds-grid">
+        <div class="slds-col slds-size_3-of-12 slds-align-middle cell-field">
+            <aura:if isTrue="{!and(v.availableSalesforceFields != undefined, v.availableSalesforceFields.length gt 0)}">
+                <aura:if isTrue="{!v.fieldIndex eq 0}">
+                    <div>
+                        <label>{!$Label.apxt_redlining.apxt_setup_objectMappingFieldHeaderSalesforce}</label>
+                    </div>
+                </aura:if>
+
+                <lightning:combobox aura:id="selectSalesforceField" name="salesforceField"
+                    class="w-100"
+                    placeholder="{!$Label.apxt_redlining.apxt_setup_objectMappingChooseField}"
+                    value="{!v.field.SalesforceFieldName}"
+                    onchange="{!c.handleSalesforceFieldChanged}"
+                    options="{!v.availableSalesforceFields}"
+                    variant="label-hidden"
+                    required="true"
+                    messageWhenValueMissing=" " />
+            </aura:if>
+        </div>
+        <div class="slds-col slds-size_2-of-12 slds-align-middle cell-field text-center">
+            <aura:if isTrue="{!v.fieldIndex eq 0}">
+                <div>
+                    <label>&nbsp;</label>
+                </div>
+            </aura:if>
+            <APXT_Redlining:SetupObjectMappingDirection aura:id="fieldDirection" selectedDirection="{!v.field.Direction}" />
+        </div>
+        <div class="slds-col slds-size_3-of-12 slds-align-middle cell-field">
+            <aura:if isTrue="{!and(v.availableExternalFields != undefined, v.availableExternalFields.length gt 0)}">
+                <aura:if isTrue="{!v.fieldIndex eq 0}">
+                    <div>
+                        <label>{!$Label.apxt_redlining.apxt_setup_objectMappingFieldHeaderNovatus}</label>
+                    </div>
+                </aura:if>
+
+                <lightning:combobox aura:id="selectExternalField" name="externalField"
+                    class="w-100"
+                    placeholder="{!$Label.apxt_redlining.apxt_setup_objectMappingChooseField}"
+                    value="{!v.field.ExternalFieldName}"
+                    onchange="{!c.handleExternalFieldChanged}"
+                    options="{!v.availableExternalFields}"
+                    variant="label-hidden"
+                    required="true"
+                    messageWhenValueMissing=" " />
+            </aura:if>
+        </div>
+        <div class="slds-col slds-size_3-of-12 slds-align-middle cell-field text-center">
+            <div class="text-left inline-block">
+                <aura:if isTrue="{!v.fieldIndex eq 0}">
+                    <div>
+                        <label>{!$Label.apxt_redlining.apxt_setup_objectMappingFieldHeaderPrimary}</label>
+                    </div>
+                </aura:if>
+
+                <APXT_Redlining:SetupObjectMappingPrimaryChooser aura:id="fieldPrimary" selectedPrimary="{!v.field.Primary}" />
+            </div>
+        </div>
+        <div class="slds-col slds-size_1-of-12 slds-align-middle cell-field">
+            <aura:if isTrue="{!v.fieldIndex eq 0}">
+                <div>
+                    <label>&nbsp;</label>
+                </div>
+            </aura:if>
+            <lightning:buttonIcon iconName="utility:close" class="m-l-10 m-t-1" onclick="{!c.handleDeleteField}" alternativeText="Delete field mapping" />
+        </div>
+    </div>
+    
+    <!--
+        The conditional below is just saying if it's a lookup mapping or a picklist mapping..
+        needed to create a placeholder div, otherwise when you add a field there will be a 
+        race condition while rendering grid rows and the new row will be out of order.
+    -->
+    <div class="{!
+        and(
+            and(
+                and(v.field.SalesforceFieldType == 'reference', v.field.ExternalFieldType == 'reference'), 
+                and(v.salesforceLookupObjectFields != undefined, v.salesforceLookupObjectFields.length gt 0)
+            ),
+            and(v.availableSalesforceFieldValues.length gt 0, v.availableExternalFieldValues.length gt 0)
+        ) ? 'field-detail-hidden' : ''}">
+        <aura:if isTrue="{!and(v.availableSalesforceFieldValues.length gt 0, v.availableExternalFieldValues.length gt 0)}">
+            <aura:iteration items="{!v.field.ValueMappings}" var="valueMapping" indexVar="index">
+                <aura:if isTrue="{!index eq 0}">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-size_3-of-12 slds-align-middle">{!$Label.apxt_redlining.apxt_setup_objectMappingSetFieldValuesTitle}</div>
+                    </div>
+                </aura:if>
+                
+                <div class="slds-grid">
+                    <div class="{!index lt v.field.ValueMappings.length - 1 ? 'slds-col slds-size_3-of-12 slds-align-middle cell-field-value' : 'slds-col slds-size_3-of-12 slds-align-middle cell-field-value-last'}">
+                        <lightning:combobox aura:id="selectSalesforceFieldValue" name="salesforceFieldValue"
+                            placeholder="{!$Label.apxt_redlining.apxt_setup_objectMappingChooseFieldValue}"
+                            value="{!valueMapping.SalesforceValue}"
+                            onchange="{!c.handleFieldValueChanged}"
+                            options="{!v.availableSalesforceFieldValues}"
+                            variant="label-hidden"
+                            required="true" />
+                    </div>
+
+                    <div class="{!index lt v.field.ValueMappings.length - 1 ? 'slds-col slds-size_2-of-12 slds-align-middle cell-field-value' : 'slds-col slds-size_2-of-12 slds-align-middle cell-field-value-last'}"></div>
+
+                    <div class="{!index lt v.field.ValueMappings.length - 1 ? 'slds-col slds-size_3-of-12 slds-align-middle cell-field-value' : 'slds-col slds-size_3-of-12 slds-align-middle cell-field-value-last'}">
+                        <lightning:combobox aura:id="selectExternalFieldValue" name="externalFieldValue"
+                            placeholder="{!$Label.apxt_redlining.apxt_setup_objectMappingChooseFieldValue}"
+                            value="{!valueMapping.ExternalValue}"
+                            onchange="{!c.handleFieldValueChanged}"
+                            options="{!v.availableExternalFieldValues}"
+                            variant="label-hidden"
+                            required="true" />
+                    </div>
+                </div>
+            </aura:iteration>
+            
+        </aura:if>
+
+        <aura:if isTrue="{!
+            and(
+                and(v.field.SalesforceFieldType == 'id', v.field.ExternalFieldType == 'id'), 
+                and(v.salesforceLookupObjectFields != undefined, v.salesforceLookupObjectFields.length gt 0)
+            )}">
+            <div class="slds-grid">
+                <div class="slds-col slds-size_12-of-12 slds-align-middle">
+                        {!format($Label.apxt_redlining.apxt_setup_objectMappingObjectLookupInstructions, v.salesforceLookupObjectLabel)}
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-col slds-size_3-of-12 slds-align-middle cell-field-value-last">
+                    <lightning:combobox aura:id="selectSalesforceLookupObjectField" name="salesforceLookupObjectField"
+                        placeholder="{!$Label.apxt_redlining.apxt_setup_objectMappingChooseField}"
+                        value="{!v.field.SalesforceExternalIdFieldName}"
+                        options="{!v.salesforceLookupObjectFields}"
+                        label="{!v.salesforceLookupObjectLabel + ' ' + $Label.apxt_redlining.apxt_setup_objectMappingObjectDescriptionLabel}"
+                        required="true" />
+                </div>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

@@ -1,0 +1,10 @@
+<aura:component access="global" isTemplate="true" extends="aura:template">
+    <aura:set attribute="auraPreInitBlock">
+    <!-- Init cache service for caching server side data. -->
+    <auraStorage:init name="actions"
+      persistent="true"
+      defaultExpiration="60"
+      clearStorageOnInit="false"
+      maxSize="10024" />
+  </aura:set>
+</aura:component>

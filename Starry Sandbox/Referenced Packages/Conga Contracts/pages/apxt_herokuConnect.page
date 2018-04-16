@@ -1,0 +1,1086 @@
+<apex:page controller="APXT_Redlining.apxt_herokuConnect" showHeader="true" sidebar="false" tabStyle="Setup__tab" extensions="APXT_Redlining.BaseController" applyBodyTag="false" docType="html-5.0">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <head>
+            <title>{!$Label.apxt_herokuConnect_title}</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1"/>
+            <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.apxt_mainCss, './main.min.css')}"/>
+            <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.apxt_mainCss, './conga-setup.min.css')}"/>
+            <script src="{!URLFOR($Resource.apxt_jQuery)}"></script>
+            <script src="{!URLFOR($Resource.Mixpanel)}"></script>
+            <script src="{!URLFOR($Resource.apxt_svg4everybody)}"></script>
+            <style> 
+                /*TODO - replace this with slds markup */
+                a.congaSetupLink{clear:right}
+                a.congaInfoLink{float:right}
+                .slds-theme_default:first{margin-left:0px !important;}
+                .setupCongaContracts .outline {width:100%;}
+                .slds-col {float:left}
+                section > ul {padding-top:15px!important;}
+                .ManualPanel { display:none }
+                .success-status{background-color:#43C979 !important;}
+                .failed-status{background-color:#A80C08 !important;} 
+                .success-status > center > h4 {
+                    color:#fff !important;
+                }
+                .failed-status > center > h4 {
+                    color:#fff !important;
+                }
+                .slds-icon_success {
+                    background-color:#00c6b7;
+                }
+                .slds-icon_failed {
+                    background-color:#ef6e64;
+                }
+                .full-width {
+                    width:100%;
+                }
+                .centered { margin: 0 auto; }
+                #selectManagedObjectsTitle{padding-bottom:5px;}
+                .button-buffered {margin:10px;}
+                .slds-modal__container {
+                    width:100%;
+                }
+                
+                #statusSpan:not(.slds-text-color_error) { color: #27ae60;}
+                .slds-text-color_error { color: #c0392b; }
+                #errorMsg, #pgNotifMsg, #setupStepTwo, #errorContainer, #footerStepTwo { display:none }
+            </style>
+            <apex:outputPanel layout="none" rendered="{! not(isblank($CurrentPage.parameters.oAuthCompleted)) }">
+                <script>
+                    // Before onready JS behavior.
+                    (function(){
+                        // Self close if returning from oauth in separate tab.
+                        if (window.opener != null){
+                            var thisWin = window;
+                            var opnrWin = window.opener;
+                            if (opnrWin.location.origin == thisWin.location.origin && opnrWin.location.pathname == thisWin.location.pathname){
+                                opnrWin.location.reload();
+                                thisWin.close();
+                            }
+                        }
+                    })();
+                    </script>
+            </apex:outputPanel>
+        </head>
+        <body>
+            <apex:includeLightning />
+            <apex:slds />
+            <div id="lightning" style="position:fixed; z-index:10000; top:0px; left:0px;"/>
+            
+                <div id="connect" class="slds slds-scope slds-grow slds-grid slds-grid_vertical">
+                    
+                    <div aura:id="header" class="slds-page-header" role="banner">
+                        <div class="slds-grid">
+                            <div class="slds-col slds-has-flexi-truncate">
+                            <div class="slds-media slds-media_center slds-no-space slds-grow">
+                                <div class="slds-media__figure">
+                                <svg aria-hidden="true" class="slds-icon_medium slds-icon slds-icon-text-default">
+                                    <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#settings')}"></use>
+                                </svg>
+                                </div>
+                                <div class="slds-media__body">
+                                <ol class="slds-breadcrumb slds-list_horizontal">
+                                    <li class="slds-breadcrumb__item slds-truncate">
+                                    {!$Label.apxt_setup_settingsSubHeader}
+                                    </li>
+                                </ol>
+                                <h1 class="slds-page-header__title slds-m-right_small slds-truncate slds-align-middle">{!$Label.apxt_setup_platformGeneral}</h1>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                <apex:outputPanel layout="none" rendered="{! isblank($CurrentPage.parameters.oAuthCompleted) }">
+                <!-- <div class="slds slds-scope"> -->
+                        
+                    <!-- TODO - replace ripped conga-setup css with slds -->
+                    <div class="setupCongaContracts">
+
+                        <section>
+                            <ul>
+                                <li class="outline">
+                                    <div>
+                                        <h4>{! $Label.apxt_herokuConnect_ConnectUserPermissionsHeader }</h4>
+                                        <p>
+                                            {! $Label.apxt_herokuConnect_ConnectUserPermissionsDesc } <a target="docs" href="{! $Label.apxt_herokuConnect_ConnectUserPermissionsUrl}" class="contractsTP">{! $Label.apxt_herokuConnect_TellMeMore }</a>
+                                        </p>
+                                        <!-- TODO - Clean up all this markup and make it dynamic -->
+                                        <div class="">
+                                            <apex:variable var="first" value="{! 'true' }"/>
+                                            <apex:repeat value="{!userPermList}" var="usrPerm">
+                                                <apex:variable var="marginleft" value="margin-left:0px;" rendered="{! first == 'true' }"/>
+                                                <apex:variable var="marginleft" value="margin-left:30px;" rendered="{! first != 'true' }"/>
+                                                <div class="slds-theme_default" style="float:left;{! marginleft }">
+                                                    <svg aria-hidden="true" class="slds-icon_x-small slds-icon slds-icon-text-{!IF(usrPerm.enabled,'default','error')}">
+                                                        <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg')}#{!IF(usrPerm.enabled,'success','error')}"></use>
+                                                    </svg>
+                                                    {!usrPerm.label}
+                                                    <span class="slds-assistive-text">{!usrPerm.label} {!IF(usrPerm.enabled, $Label.apxt_herokuConnect_userPermSet, $Label.apxt_herokuConnect_userPermNotSet)}</span>
+                                                </div>
+                                                <apex:variable var="first" value="{! 'false' }"/>
+                                            </apex:repeat>
+                                        </div>
+                                    </div>
+                                    <div class="toggle">
+                                        <span class="enableContainer">
+                                            <apex:outputPanel layout="none" rendered="{!userCanSetup}">
+                                                <a class="congaSetupLink" href="/{!$Profile.Id}" target="_blank">{! $Label.apxt_herokuConnect_ProfileSetupLink }</a>
+                                                <a class="congaInfoLink" href="/005?id={!permSetId}" target="_blank">{! $Label.apxt_herokuConnect_PermSetAssgnLink }</a>
+                                            </apex:outputPanel>
+                                        </span>
+                                    </div>
+                                </li>
+                                
+                                <apex:outputPanel rendered="{!userCanSetup}">
+                                    <li class="outline slds-grid">
+                                        <div class="slds-col slds-size_6-of-12">
+                                            <h4>{! $Label.apxt_herokuConnect_OAuth_Header }</h4>
+                                            <p>
+                                                {! $Label.apxt_herokuConnect_OAuth_Desc } <a target="docs" href="{! $Label.apxt_herokuConnect_OAuth_Url }" class="contractsTP">{! $Label.apxt_herokuConnect_TellMeMore }</a>
+                                            </p>
+                                        </div>
+                                        <div class="slds-col slds-size_3-of-12" style="text-align:center;">
+                                             {!$Label.apxt_herokuConnect_statusLabel}<br /><b><span id="statusSpan" class="slds-text-color_error">{! $Label.apxt_herokuConnect_verifyingStatus }</span></b>
+                                        </div>
+                                        <div class="slds-col slds-size_3-of-12">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label" for="regionSel">Region</label>
+                                                <div class="slds-form-element__control">
+                                                    <div class="slds-select_container">
+                                                        <select id="regionSel" class="slds-select">
+                                                            <apex:repeat value="{!RegionOptions}" var="fKey">
+                                                                <apex:outputPanel layout="none" rendered="{!regionUrl == fKey.value}">
+                                                                    <option value="{!fKey.value}" selected="selected">{!fKey.label}</option>
+                                                                </apex:outputPanel>
+                                                                <apex:outputPanel layout="none" rendered="{!regionUrl != fKey.value}">
+                                                                    <option value="{!fKey.value}">{!fKey.label}</option>
+                                                                </apex:outputPanel>
+                                                            </apex:repeat>
+                                                        </select>
+                                                    </div>
+                                                    <div class="slds-text-align_right slds-m-top_x-small">
+                                                        <a href="#" target="_blank" id="herokuConnectButton">{!IF(isFirstTime, $Label.apxt_herokuConnect_connect, $Label.apxt_herokuConnect_reconnect)}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </apex:outputPanel>
+                             </ul>
+                        </section>
+                        <apex:form >
+
+                        <apex:outputPanel rendered="{!userCanSetup}">
+                        
+                            <!-- Manual Org Configuration Modal Box -->
+                            <div id="manualWorkerModal" role="dialog" tabindex="-1" aria-labelledby="header43" class="slds-modal slds-fade-in-open conga-hide">
+                              <div class="slds-modal__container">
+                                <div class="slds-modal__header">
+                                  <button class="slds-button slds-modal__close slds-button_icon-inverse" title="{!$Label.apxt_herokuConnect_closeDialog}">
+                                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                        <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">{!$Label.apxt_herokuConnect_closeDialog}</span>
+                                  </button>
+                                  <h2 id="header43" class="slds-text-heading_medium">{!$Label.apxt_herokuConnect_manualConfigHeading}</h2>
+                                </div>
+                                <div class="slds-modal__content slds-p-around_medium">
+                                   <ul>
+                                        <li class="outline">
+                                            <div>
+                                                <h4>{! $Label.apxt_herokuConnect_enhancedEmailTitle  }</h4>
+                                                <p>
+                                                    {! $Label.apxt_herokuConnect_enhancedEmailDesc } <a target="docs" href="{!$Label.apxt_herokuConnect_enhancedEmailUrl}" class="contractsTP">{! $Label.apxt_herokuConnect_TellMeMore }</a>
+                                                </p>
+                                            </div>
+                                            <div class="toggle">
+                                                <span class="enableContainer">
+                                                    <a class="congaSetupLink" href="/ui/setup/email/EnhancedEmailSetupPage" target="_blank">{! $Label.apxt_herokuConnect_enhancedEmailSetupLink}</a>
+                                                </span>
+                                            </div>
+                                        </li>
+                                        <li class="outline">
+                                            <div>
+                                                <h4>{! $Label.apxt_herokuConnect_PageLayoutsEmailHeader }</h4>
+                                                <p>
+                                                    {! $Label.apxt_herokuConnect_PageLayoutsEmailDesc } <a target="docs" href="{!$Label.apxt_herokuConnect_PageLayoutsEmailUrl}" class="contractsTP">{! $Label.apxt_herokuConnect_TellMeMore }</a>
+                                                </p>
+                                            </div>
+                                            <div class="toggle">
+                                                <span class="enableContainer">
+                                                    <a class="congaSetupLink" href="/ui/setup/layout/PageLayouts?type=EmailMessage&setupid=EmailMessageLayouts" target="_blank">{! $Label.apxt_herokuConnect_PageLayoutsEmailSetupLink}</a>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="slds-modal__footer">
+                                  <a href="#" onClick="closeManualSetup();" class="slds-button slds-button_neutral">{!$Label.apxt_herokuConnect_closeDialog}</a>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <!-- Automated Setup Worker Modal Box -->
+                            <div id="setupWorkerModal" role="dialog" tabindex="-1" aria-labelledby="header43" class="slds-modal slds-fade-in-open conga-hide">
+                              <div class="slds-modal__container">
+                                <div class="slds-modal__header">
+                                  <button class="slds-button slds-modal__close slds-button_icon-inverse" title="{!$Label.apxt_herokuConnect_closeDialog}">
+                                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                        <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">{!$Label.apxt_herokuConnect_closeDialog}</span>
+                                  </button>
+                                  <h2 id="header43" class="slds-text-heading_medium">{!$Label.apxt_herokuConnect_autoConfigHeading}</h2>
+                                </div>
+                                <div class="slds-modal__content slds-p-around_medium" id="setupStepOne">
+                                        <p id="selectManagedObjectsTitle">
+                                            {! $Label.apxt_herokuConnect_SetupWkrModalSelectObjectsTitle }
+                                        </p>
+                                        <div id="tooManyClauseObjectsAlert" style="display:none;" class="slds-notify_container">
+                                            <div class="slds-notify slds-notify_alert slds-theme_error slds-theme_alert-texture" role="alert">
+                                                <button class="slds-button slds-notify__close slds-button_icon-inverse" title="{!$Label.apxt_herokuConnect_closeDialog}">
+                                                    <svg class="slds-button__icon" aria-hidden="true">
+                                                        <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                                                    </svg>
+                                                    <span class="slds-assistive-text">{!$Label.apxt_herokuConnect_closeDialog}</span>
+                                                </button>
+                                                <span class="slds-assistive-text">{!$Label.apxt_herokuConnect_error}</span>
+                                                <h2>{!$Label.apxt_herokuConnect_tooManyClauseAlert}</h2>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid">
+                                            <div class="slds-size_2-of-5">
+                                                <div class="slds-form-element">
+                                                    <div class="slds-form-element__control">
+                                                        <div>
+                                                            <select id="allManagedObjects" class="slds-select" multiple="true" size="5">
+                                                                <apex:repeat value="{! AllManagedObjects}" var="sObj">
+                                                                    <option id="obj{!sObj}" class="sort" value="{!sObj}">{!sObj }</option>
+                                                                </apex:repeat>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-5">
+                                                <center>
+                                                    <br />
+                                                    <a href="#" id="addManagedObjLink" class="slds-button slds-button_neutral button-buffered">{!$Label.apxt_herokuConnect_addManagedObject}</a>
+                                                    <br /><br />
+                                                    <a href="#" id="removeManagedObjLink" class="slds-button slds-button_neutral button-buffered" style="hyphens: none;">{!$Label.apxt_herokuConnect_removeManagedObject}</a>
+                                                </center>
+                                            </div>
+                                            <div class="slds-size_2-of-5">
+                                                <div class="slds-form-element">
+                                                    <div class="slds-form-element__control">
+                                                        <div>
+                                                            <select id="selectedManagedObjects" multiple="true" size="5" class="slds-select"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="slds-modal__content slds-p-around_medium" id="setupStepTwo">
+                                        <p>
+                                            {!$Label.apxt_herokuConnect_selectProfileMessage}
+                                        </p>
+                                        <div class="slds-grid">
+                                            <div class="slds-size_2-of-5">
+                                                <div class="slds-form-element">
+                                                    <div class="slds-form-element__control">
+                                                        <div>
+                                                            <select id="allProfiles" class="slds-select" multiple="true" size="5">
+                                                                <apex:repeat value="{! AvailableProfiles}" var="aProf" rendered="{! AvailableProfiles != null }">
+                                                                    <option id="prof{!aProf}" class="sort" value="{!aProf}">{!aProf.Name }</option>
+                                                                </apex:repeat>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-size_1-of-5">
+                                                <center>
+                                                    <br />
+                                                    <a href="#" id="addProfile" class="slds-button slds-button_neutral button-buffered">{!$Label.apxt_herokuConnect_addProfile}</a>
+                                                    <br /><br />
+                                                    <a href="#" id="removeProfile" class="slds-button slds-button_neutral button-buffered">{!$Label.apxt_herokuConnect_removeProfile}</a>
+                                                </center>
+                                            </div>
+                                            <div class="slds-size_2-of-5">
+                                                <div class="slds-form-element">
+                                                    <div class="slds-form-element__control">
+                                                        <div>
+                                                            <select id="selectedProfiles" multiple="true" size="5" class="slds-select"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="slds-modal__footer" id="footerStepOne">
+                                        <a href="#" id="runStepOne" class="slds-button slds-button_brand">{!$Label.apxt_herokuConnect_selectObjects}</a>
+                                        <a href="#" onClick="closeAutoSetup();" class="slds-button slds-button_neutral">{!$Label.apxt_herokuConnect_closeDialog}</a>
+                                    </div>
+                                    <div class="slds-modal__footer" id="footerStepTwo">
+                                        <a href="#" id="runStepTwo" class="slds-button slds-button_brand">{!$Label.apxt_herokuConnect_runSetup}</a>
+                                        <a href="#" onClick="closeAutoSetup();" class="slds-button slds-button_neutral">{!$Label.apxt_herokuConnect_closeDialog}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Modal Backdrop / Overlay -->
+                            <div class="slds-backdrop slds-backdrop_open conga-hide overlay"></div>
+                            
+                            <section id="config">
+                                    <ul>
+                                        <li class="outline">
+                                            <div>
+                                                <h4>{!$Label.apxt_herokuConnect_orgConfigHeading}</h4>
+                                                <p style="padding-top:5px;">
+                                                    {!$Label.apxt_herokuConnect_orgConfigInfo1} <i>{!$Label.apxt_herokuConnect_orgConfigStartAutoConfig}</i>.
+                                                </p>
+                                                <p style="padding-top:10px;margin-top:0px;">
+                                                    {!$Label.apxt_herokuConnect_orgConfigInfo2} <i>{!$Label.apxt_herokuConnect_orgConfigStartManualConfig}</i>.
+                                                </p>
+                                            </div>
+                                            <apex:outputPanel id="SetupRefreshPanel">
+                                                <div id="leadContainer" class="conga-hide toggle">
+                                                    <span id="leadContainer" class="enableContainer">
+                                                        <a id="openSetupModalBtn" href="#" style="padding-top:10px;">{!$Label.apxt_herokuConnect_orgConfigStartAutoConfig}</a>
+                                                        <a href="#" onClick="openManualSetup();" style="padding-top:10px;">{!$Label.apxt_herokuConnect_orgConfigStartManualConfig}</a>
+                                                    </span>
+                                                    <span id="setupWorkerContainer" style="display:none;">
+                                                        <div class="slds-spinner_container" style="left:-50px;">
+                                                          <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                                            <span class="slds-assistive-text">Loading</span>
+                                                            <div class="slds-spinner__dot-a"></div>
+                                                            <div class="slds-spinner__dot-b"></div>
+                                                          </div>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                                <div id="finishedContainer" style="display:none;" class="toggle"></div>
+                                                <script>
+                                                    if('{!hasSetupStarted}' == 'true'){
+                                                        var finishedContainer = $('#finishedContainer');
+                                                        if('{!hasSetupCompleted}' == 'true'){
+                                                            finishedContainer.html('<span class="slds-icon_container slds-icon_container_circle slds-icon_success"><svg class="slds-icon" aria-hidden="true"><use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/action-sprite/svg/symbols.svg#approval')}"></use></svg><span class="slds-assistive-text">{!$Label.apxt_herokuConnect_successfullyConfigured}</span></span>').fadeIn('slow');
+                                                        }else{
+                                                            finishedContainer.html('<span class="slds-icon_container slds-icon_container_circle slds-icon_failed"><svg class="slds-icon" aria-hidden="true"><use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/action-sprite/svg/symbols.svg#ban')}"></use></svg><span class="slds-assistive-text">{!$Label.apxt_herokuConnect_successfullyConfigured}</span></span>').fadeIn('slow');
+                                                        }
+                                                    }else{
+                                                        $('#leadContainer').removeClass('conga-hide');
+                                                    }
+                                                </script>
+                                                
+                                                <apex:outputPanel layout="none" rendered="{! hasError }">
+                                                    <script>
+                                                        (function(){
+                                                            <apex:repeat value="{! setupWorkerResponse.errorMsg }" var="errorMsg">
+                                                                $('#errorLabel').text('{! errorMsg.message }');
+                                                                $('#errorMsg').text('{! errorMsg.debugMessage }');
+                                                            </apex:repeat>
+                                                            $('#errorContainer').fadeIn('slow');
+                                                        })();
+                                                    </script>
+                                                </apex:outputPanel>
+                                                
+                                            </apex:outputPanel>
+                                        </li>
+                                    </ul>
+                            </section>
+                        </apex:outputPanel>
+                        <section id="emailDisplayName">
+                            <ul>
+                                <li class="outline">
+                                <div>
+                                    <div style="min-width:300px;" class="slds-float_right">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="text-input-id-1">{!$Label.apxt_herokuConnect_emailDisplayNameLabel}</label>
+                                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                        <apex:inputText styleClass="slds-input txtEmailDisplayName" value="{!emailFromDisplayName}"/>
+                                        <button id="popoverBtn" class="slds-input__icon slds-input__icon_right slds-button slds-button_icon">
+                                            <svg aria-hidden="true" class="slds-button__icon slds-icon-text-light">
+                                                <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#insert_template')}"></use>
+                                            </svg>
+                                        </button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4>{!$Label.apxt_herokuConnect_emailDisplayNameTitle}</h4>
+                                    <p>{!$Label.apxt_herokuConnect_emailDisplayNameDesc}</p>
+                                </div>
+                                </li>
+                            </ul>
+                        </section>
+
+                        <section id="templates">
+                            <ul>
+                                <li class="outline">
+                                    <div>
+                                        <h4>{! $Label.apxt_herokuConnect_EmailTemplatesFolderHeader }</h4>
+                                        <p>
+                                            {! $Label.apxt_herokuConnect_EmailTemplatesFolderDesc } <a target="docs" href="{!$Label.apxt_herokuConnect_EmailTemplatesFolderUrl}" class="contractsTP">{! $Label.apxt_herokuConnect_TellMeMore }</a>
+                                        </p>
+                                    </div>
+                                    <div class="toggle">
+                                        <span class="enableContainer">
+                                            <div style="float:right;min-width:300px;">
+                                                <div style="float:left;min-width:150px;" class="slds-form-element slds-m-bottom_xx-small">
+                                                    <label class="slds-form-element__label" for="templateFldSel"></label>
+                                                    <div class="slds-form-element__control">
+                                                        <div class="slds-select_container">
+                                                            <select id="templateFldSel" class="slds-select" disabled="disabled">
+                                                                <apex:repeat value="{!templateFolders}" var="fKey">
+                                                                    <apex:outputPanel layout="none" rendered="{!fKey==templateFolder}">
+                                                                        <option value="emailFolder_{!fKey}" selected="selected">{!templateFolders[fKey]}</option>
+                                                                    </apex:outputPanel>
+                                                                    <apex:outputPanel layout="none" rendered="{!fKey!=templateFolder}">
+                                                                        <option value="emailFolder_{!fKey}" >{!templateFolders[fKey]}</option>
+                                                                    </apex:outputPanel>
+                                                                </apex:repeat>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <apex:inputText id="js-templateFolder" styleClass="js-templateFolder slds-hide" value="{!templateFolder}"/>
+                                                <apex:outputPanel layout="none" rendered="{!userCanSetup}">
+                                                    <a class="congaSetupLink" style="float:right;padding-left: 50px;vertical-align: bottom;padding-top: 5px;" href="/setup/ui/listCustomSettingsData.apexp?id={!templateFolderPrefix}" target="_blank">{! $Label.apxt_herokuConnect_EmailTemplatesFolderManageSettings }</a>
+                                                </apex:outputPanel>
+                                                <div class="slds-spinner_container" id="templateFldSpinner" style="display:none">
+                                                    <div class="slds-spinner_default slds-spinner slds-spinner_small" role="alert">
+                                                        <span class="slds-assistive-text">Loading</span>
+                                                        <div class="slds-spinner__dot-a"></div>
+                                                        <div class="slds-spinner__dot-b"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </section>
+                        <section id="reports">
+                            <ul>
+                                <li class="outline">
+                                    <div>
+                                        <h4>{!$Label.apxt_herokuConnect_createBaseReportsHeading}</h4>
+                                        <p style="padding-top:5px;">
+                                            {!$Label.apxt_herokuConnect_createBaseReportsInfo} <i>{!$Label.apxt_herokuConnect_createBaseReportsCreateReports}</i>.
+                                        </p>
+                                    </div>
+                                    <apex:outputPanel id="createReportsRefreshPanel">
+                                        <div id="reportContainer" class="conga-hide toggle">
+                                            <span id="reportContainer" class="enableContainer">
+                                                <a id="initCreateReportsWorkerBtn" href="#" style="padding-top:10px;">{!$Label.apxt_herokuConnect_createBaseReportsCreateReports}</a>
+                                            </span>
+                                            <span id="createReportsWorkerContainer" style="display:none;">
+                                                <div class="slds-spinner_container" style="left:-50px;">
+                                                  <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                                                    <span class="slds-assistive-text">{!$Label.apxt_herokuConnect_createBaseReportsLoading}</span>
+                                                    <div class="slds-spinner__dot-a"></div>
+                                                    <div class="slds-spinner__dot-b"></div>
+                                                  </div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                        <div id="finishedReportsContainer" style="display:none;" class="toggle"></div>
+                                        <script>
+                                            if('{!hasReportStarted}' == 'true'){
+                                                var finishedContainer = $('#finishedReportsContainer');
+                                                if('{!hasReportCompleted}' == 'true'){
+                                                    finishedContainer.html('<span class="slds-icon_container slds-icon_container_circle slds-icon_success"><svg class="slds-icon" aria-hidden="true"><use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/action-sprite/svg/symbols.svg#approval')}"></use></svg><span class="slds-assistive-text">{!$Label.apxt_herokuConnect_successfullyCreatedReports}</span></span>').fadeIn('slow');
+                                                }else{
+                                                    finishedContainer.html('<span class="slds-icon_container slds-icon_container_circle slds-icon_failed"><svg class="slds-icon" aria-hidden="true"><use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#ban')}"></use></svg><span class="slds-assistive-text">{!$Label.apxt_herokuConnect_successfullyCreatedReports}</span></span>').fadeIn('slow');
+                                                }
+                                            }else{
+                                                $('#reportContainer').removeClass('conga-hide');
+                                            }
+                                        </script>
+
+                                        <apex:outputPanel layout="none" rendered="{! hasError }">
+                                            <script>
+                                                (function(){
+                                                    <apex:repeat value="{! createReportWorkerResponse.errorMsg }" var="errorMsg">
+                                                        $('#errorMsg').text('{! errorMsg.debugMessage }');
+                                                        $('#errorLabel').text('{! errorMsg.message }');
+                                                    </apex:repeat>
+                                                    $('#errorContainer').fadeIn('slow');
+                                                })();
+                                            </script>
+                                        </apex:outputPanel>
+
+                                    </apex:outputPanel>
+                                </li>
+                            </ul>
+                    </section>
+                    <apex:outputPanel layout="none" rendered="{!userCanSetup}">
+                        <section id="additional">
+                            <ul>
+                                <li class="outline">
+                                        <div>
+                                            <h4>{! $Label.apxt_herokuConnect_PageLayoutsContractsHeader }</h4>
+                                            <p>
+                                                {! $Label.apxt_herokuConnect_PageLayoutsContractsDesc } <a target="docs" href="{!$Label.apxt_herokuConnect_PageLayoutsContractsUrl}" class="contractsTP">{! $Label.apxt_herokuConnect_TellMeMore }</a>
+                                            </p>
+                                        </div>
+                                        <div class="toggle">
+                                            <span class="enableContainer">
+                                                <a class="congaSetupLink" href="/ui/setup/layout/PageLayouts?type=Contract&setupid=ContractLayouts"  target="_blank">{! $Label.apxt_herokuConnect_PageLayoutsContractsSetup }</a>
+                                            </span>
+                                        </div>
+                                    </li>
+                            </ul>
+                        </section>
+                        
+                        <section>
+                            <ul>
+                                <li class="outline">
+                                    <div>
+                                        <h4 style="font-weight:500;">{! $Label.apxt_herokuConnect_TitleSalesforceFiles }</h4>
+                                        <p>
+                                            {! $Label.apxt_herokuConnect_SalesforceFilesDescription } <a target="docs" href="{!$Label.apxt_herokuConnect_SalesforceFilesDescriptionUrl}" class="contractsTP">{! $Label.apxt_herokuConnect_TellMeMore }</a>
+                                        </p>
+                                    </div>
+                                    <div class="toggle">
+                                        <span class="enableContainer">
+                                            <a class="congaSetupLink" href="/setup/content/FilesGeneralSettings.apexp" target="_blank">{! $Label.apxt_herokuConnect_SalesforceFilesLinkLabel}</a>
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </section>
+
+                        <section>
+                            <ul>
+                                <li class="outline">
+                                    <div>
+                                        <h4>{! $Label.apxt_herokuConnect_HistoryTrackingContractsHeader }</h4>
+                                        <p>
+                                            {! $Label.apxt_herokuConnect_HistoryTrackingContractsDesc} <a target="docs" href="{!$Label.apxt_herokuConnect_HistoryTrackingContractsUrl}" class="contractsTP">{! $Label.apxt_herokuConnect_TellMeMore }</a>
+                                        </p>
+                                    </div>
+                                    <div class="toggle">
+                                        <span class="enableContainer">
+                                            <a class="congaSetupLink" href="/ui/setup/layout/FieldHistoryTracking?pEntity=Contract" target="_blank">{! $Label.apxt_herokuConnect_HistoryTrackingContractsSetupLink }</a>
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </section>
+                        <div style="height:55vh;">
+                            <!-- This is here so that very bottom section can be scrolled to very top for UX reasons -->
+                        </div>
+                    </apex:outputPanel>
+                    <apex:actionFunction name="startSetupWorker" action="{!startSetupWorker}" reRender="SetupRefreshPanel">
+                        <apex:param assignTo="{!selectedManagedObjects}" name="objsIn" value="" />
+                        <apex:param assignTo="{!selectedProfiles}" name="profiles" value="" />
+                    </apex:actionFunction>
+                    <apex:actionFunction name="startCreateReportsWorker" action="{!startCreateReportsWorker}" reRender="createReportsRefreshPanel">
+                    </apex:actionFunction>
+                    <apex:actionFunction name="updateTemplateFolder" action="{!updateTemplateFolder}" oncomplete="updateTemplateAfter();" reRender="pageStatus"/> 
+                    <apex:actionFunction name="updateEmailDisplayName" action="{!updateEmailDisplayName}" oncomplete="updateTemplateAfter();" reRender="pageStatus"/> 
+                    <apex:inputText id="pageStatus" styleClass="js-pageStatus slds-hide" value="{!pageStatus}"/>
+                    </apex:form>
+                    </div>
+
+                    <!--Apex Rerender don't rerender svgs properly so we have to premake all of them first and then drag them in as needed. -->
+                    <div class="conga-hide">
+                        <svg id="success" aria-hidden="true" class="slds-icon slds-icon_small slds-m-right_small slds-col slds-no-flex">
+                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#success')}"></use>
+                        </svg>
+                        <svg id="error" aria-hidden="true" class="slds-icon slds-icon_small slds-m-right_small slds-col slds-no-flex">
+                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#error')}"></use>
+                        </svg>
+                        <svg id="offline" aria-hidden="true" class="slds-icon slds-icon_small slds-m-right_small slds-col slds-no-flex">
+                            <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#offline')}"></use>
+                        </svg>
+                    </div>
+
+                    <div class="slds-notify_container" id="notificationContainer">
+
+                        <div class="slds-notify slds-notify_toast slds-theme_default" role="alert" id="pgNotifMsg">
+                            <span class="slds-assistive-text">Info</span>
+                            <button class="slds-button slds-notify__close slds-button_icon-inverse" title="{!$Label.apxt_herokuConnect_closeDialog}">
+                                <svg aria-hidden="true" class="slds-button__icon slds-button__icon_large">
+                                    <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                                </svg>
+                                <span class="slds-assistive-text">{!$Label.apxt_herokuConnect_closeDialog}</span>
+                            </button>
+                            <div class="slds-notify__content">
+                                <h2 class="slds-text-heading_small" id="pgNotifLabel">{!$Label.apxt_herokuConnect_notificationLabel}</h2>
+                                <div class="slds-hide" id="pgNotifObjId">{!$Label.apxt_herokuConnect_notificationObjectId}</div>
+                                <div class="slds-hide" id="pgNotifDebug">{!$Label.apxt_herokuConnect_notificationDebug}</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="slds-notify_container" id="errorContainer">
+                        <div class="slds-notify slds-notify_toast slds-theme_error" role="alert">
+                            <span class="slds-assistive-text">Error</span>
+                            <button class="slds-button slds-notify__close slds-button_icon-inverse" title="{!$Label.apxt_herokuConnect_closeDialog}">
+                                <svg aria-hidden="true" class="slds-button__icon slds-button__icon_large">
+                                    <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                                </svg>
+                                <span class="slds-assistive-text">{!$Label.apxt_herokuConnect_closeDialog}</span>
+                            </button>
+                            <div class="slds-notify__content">
+                                <h2 class="slds-text-heading_small" id="errorLabel">{!$Label.apxt_herokuConnect_notificationLabel}</h2>
+                                <span id="errorMsg"></span>
+                            </div>
+                        </div>
+                    </div>
+                <!-- </div> -->
+
+                <script type="text/javascript">
+                    // Hacky work-around for salesforce bug that auto-focus inputs inside a apex:form
+                    // Taken from https://developer.salesforce.com/forums/?id=906F0000000958cIAA
+                    function setFocusOnLoad() {}
+                    // Load SVG helper for IE, etc.
+                    svg4everybody();
+
+                    window.addEventListener("message", function(e) {
+                        if (e && e.data.scrollElement) {
+                            var el = $("#" + e.data.scrollElement);
+                            if (el && el.length == 1) {
+                                var scrollOffset = el.offset();
+                                // Scroll viewer to location of input in center of viewport
+                                var scrollTop = scrollOffset.top; //parseInt(scrollOffset.top + $(window).scrollTop() - $(window).height() / 1.25);
+                                var scrollDist = Math.sqrt(Math.pow(scrollTop - $(window).scrollTop(),2) + Math.pow(scrollOffset.left - $(window).scrollLeft(),2));
+                                var animationMs = parseInt(Math.abs(scrollDist / $(window).height()) * 300);
+                                $("html,body").animate({
+                                    scrollTop: scrollTop,
+                                    scrollLeft: scrollOffset.left
+                                }, {
+                                    duration:animationMs
+                                });
+                            }
+                        }
+                    });                    
+                   
+                    // Helper function for escaping HTML
+                    function escapeHtml(txt){
+                        if (txt){
+                            return txt.replace(/&/g, '&amp;')
+                                .replace(/</g, '&lt;')
+                                .replace(/>/g, '&gt;')
+                                .replace(/"/g, '&quot;')
+                                .replace(/'/g, '&#39;')
+                                .replace(/\//g, '&#x2F;')
+                                .replace(/`/g, '&#x60;')
+                                .replace(/=/g, '&#x3D;');
+                        } else {
+                            return '';
+                        }
+                    }
+                    
+                    // Function to display error notification
+                    function displayNotification(type, label, detail, id, debug){
+                        var hideClass = 'slds-hide';
+            
+                        $('#notifLabel').text(escapeHtml(label));
+                        if(label)
+                            $('#notifLabel').removeClass(hideClass);
+                        else
+                            $('#notifLabel').addClass(hideClass);
+                        $('#notifDetail').text(escapeHtml(detail));
+                        if(detail)
+                            $('#notifDetail').removeClass(hideClass);
+                        else
+                            $('#notifDetail').addClass(hideClass);
+            
+                        $('#notifObjId').text(escapeHtml(id));
+                        $('#notifDebug').text(escapeHtml(debug));
+            
+                        $('#notifMsg').removeClass('slds-theme_default slds-theme_success slds-theme_error');
+                        $('#notifMsg .slds-icon').addClass(hideClass);
+                        $('#notifCont').removeClass(hideClass);
+            
+                        if (type==='success'){
+                            $('#notifMsg').addClass('slds-theme_success');
+                            $('#notifIcoSuc').removeClass(hideClass);
+                        }
+                        else if (type==='error'){
+                            $('#notifMsg').addClass('slds-theme_error');
+                            $('#notifIcoErr').removeClass(hideClass);
+                        }
+                        else {
+                            $('#notifIcoInf').removeClass(hideClass);
+                        }
+                        $('#notifMsg').removeClass(hideClass)
+                    }
+                    
+                    // Manual Organization Configuration Modal
+                    var manualWorkerModal = $('#manualWorkerModal');
+                    function openManualSetup(){
+                        $('.overlay').removeClass('conga-hide');
+                        manualWorkerModal.fadeOut(100, function(){
+                            $(this).removeClass('conga-hide').fadeIn('slow');
+                        });
+                    }
+                    function closeManualSetup(){
+                        manualWorkerModal.addClass('conga-hide');
+                        $('.overlay').addClass('conga-hide');
+                    }
+                    
+                    // Auto Organization Configuration Modal
+                    var setupWorkerModal = $('#setupWorkerModal');
+                    function openAutoSetup(){
+                        $('.overlay').removeClass('conga-hide');
+                        setupWorkerModal.fadeOut(100, function(){
+                            $(this).removeClass('conga-hide').fadeIn('slow');
+                        });
+                    }
+                    function closeAutoSetup(){
+                        setupWorkerModal.addClass('conga-hide');
+                        $('.overlay').addClass('conga-hide');
+                        $('#setupStepTwo, #footerStepTwo').hide(function(){
+                            $('#setupStepOne, #footerStepOne').show();
+                        });
+                    }
+                    
+                    // Function to alphabetize a given select 
+                    // element's option children.
+                    function alphabetizeSelectElement(selector){
+                        var items = $(selector);
+                        var children = items.children('option.sort').get();
+                        children.sort(function(a, b) {
+                            var compA = $(a).text().toUpperCase();
+                            var compB = $(b).text().toUpperCase();
+                            return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
+                         })
+                         $.each(children, function(idx, itm) { items.append(itm); });
+                    }
+                    
+                    var mixpanelTrack = function(eventName) {
+                        if (window.mixpanel) {
+                            mixpanel.track(eventName, {
+                            });
+                        }
+                    };
+
+                    var callRemoteAction = function(controllerName, methodName, params, callback, options) {
+                        var args = params;
+                        // Prepend namespace and apex controller name to method name
+                        var ns = "{!JSENCODE(NAMESPACE)}";
+                        if (ns && ns.length > 0) ns += ".";
+                        methodName = ns + controllerName + "." + methodName;
+                        // Method name is first argument
+                        params.unshift(methodName);
+                        // Callback comes after arguments
+                        params.push(callback);
+                        // If options are specified they are the last argument
+                        if (options) params.push(options);
+                        Visualforce.remoting.Manager.invokeAction.apply(Visualforce.remoting.Manager, params);
+                    };
+                    
+                    // Onready JS behavior.
+                    $(document).ready(function() {
+                        // Start health check automatically.
+                        // Check connection with Conga Service.
+                        callRemoteAction("apxt_herokuConnect", "healthCheck", [], function (resStr, e) {
+                            // check whether callout returned successfully.
+                            var statusSpan = $('#statusSpan');
+                            var response;
+                            if(e.status && resStr){
+                                response = JSON.parse(resStr);
+                            }
+                            
+                            if(response != undefined){
+                                // valid response was retrieved
+                                if(response.success){
+                                    // remove error red to reveal successful green
+                                    statusSpan.removeClass('slds-text-color_error');
+                                }
+                                statusSpan.text(response.status);
+                            }else{
+                                // unable to retrieve valid response
+                                displayNotification('error', '{! JSENCODE($Label.apxt_herokuConnect_unableToConnect) }', null, null, 'Response from connection was undefined.');
+                                $('#statusSpan').text('{! JSENCODE($Label.apxt_herokuConnect_errorStatus)}');
+                            }
+                            
+                            // run after verification is finished
+                            if('{!userCanConnect}' === 'true'){
+                                 $('#herokuConnectButton').attr('href', '{!JSENCODE(connectUrl)}');
+                            }
+                        }, {escape:false});
+                        
+                        if (window.mixpanel) {
+                            callRemoteAction("BaseController", "getUserMeta", [], function (userInfo, e) {
+                                if (e.status) {
+                                    // Setup mixpanel to capture profile and session info
+                                    var themeName = "{!JSENCODE($User.UIThemeDisplayed)}";
+                                    if (themeName = "Theme4d") themeName = "Lightning";
+                                    else if (themeName = "Theme4t") themeName = "SF1";
+                                    else themeName = "Classic";
+                                    userInfo.SalesforceUIName = themeName;
+                                    // Identify this user as org + userId combo
+                                    window.mixpanel.identify(userInfo.OrgId + userInfo.UserId);
+                                    // Properties that will be tracked with every event
+                                    window.mixpanel.register(userInfo);
+                                    // Info about this user
+                                    window.mixpanel.people.set(userInfo);
+                                    mixpanelTrack("Setup");
+                                }
+                            });
+                            window.mixpanel.track_links("#herokuConnectButton", "Setup: Connect");
+                        }
+
+                        // Enabled templatefolder select if permitted.
+                        if ('{!userCanSetup}' === 'true'){
+                            $('#templateFldSel').removeAttr('disabled');
+                        }
+
+                        // Add onclick to email template select list.
+                        $('#templateFldSel').on('change', function(event) { 
+                            var pkVal = $('#templateFldSel').val();
+                            var tmplFld = pkVal.split('_')[1];
+                            $('.js-templateFolder').val(tmplFld);
+                            $('#templateFldSpinner').show();
+                            updateTemplateFolder();
+                            return false;
+                        });
+
+                        // Region change handler
+                        $("#regionSel").on("change", function(e) {
+                            var regionUrl = $("#regionSel").val();
+                            var connectBtn = $('#herokuConnectButton');
+                            var defaultUrl = '{!JSENCODE(connectUrl)}';
+                            // Maintain url endpoint path for sandbox/production
+                            var urlParser = document.createElement("a");
+                            urlParser.href = defaultUrl;
+                            // IE doesn't return leading / as part of pathname so add it if not there
+                            regionUrl += urlParser.pathname.indexOf("/") == 0 ? urlParser.pathname : "/" + urlParser.pathname;
+                            // Update connect button href and label
+                            if (regionUrl != defaultUrl) {
+                                connectBtn.attr("href", regionUrl);
+                                connectBtn.text("{!JSENCODE($Label.apxt_herokuConnect_connect)}");
+                            }
+                            else {
+                                connectBtn.attr("href", defaultUrl);
+                                connectBtn.text("{!JSENCODE($Label.apxt_herokuConnect_reconnect)}");
+                            }
+                        });
+
+                        // Update Email Display Name setting when changed
+                        $(".txtEmailDisplayName").on("change", function() {
+                            updateEmailDisplayName();
+                        });
+
+                        var ns = "{!JSENCODE(NAMESPACE)}";
+                        if (ns == undefined || ns.length == 0) {
+                            ns = "c";
+                        }
+                        $Lightning.use(ns + ":apxt_lightningOut", function () {
+                            $Lightning.createComponent(ns + ":MergeFieldPopover", {}, "lightning", function (cmp, status) {
+                                if (status == "SUCCESS") {
+                                    // Don't show any error messages 
+                                    // this was success but sometimes lightning out shows errors anyways
+                                    var errorDiv = document.getElementById("auraErrorMessage");
+                                    if (errorDiv) errorDiv.style="display:none;";
+                                    cmp.addEventHandler("insertEvent", function(e) {
+                                        var params = e.getParams();
+                                        var value = params.value;
+                                        var input = $(".txtEmailDisplayName"); 
+                                        if (typeof value === "string" && value.length > 0 && input && input.length > 0) {
+                                            // Insert merge field at cursor position
+                                            var curPos = input.prop("selectionStart") || 0;
+                                            var curEnd = input.prop("selectionEnd") || curPos;
+                                            var val = input.val();
+                                            input.val(val.substring(0, curPos) + value + val.substring(curEnd, val.length));
+                                            // Trigger change event to save because val doesnt trigger it
+                                            input.change();
+                                        }
+                                    });
+                                    // $(".txtEmailDisplayName").on("blur", function(e) {
+                                    //     if (cmp && cmp.get("v.isVisible") && e.relatedTarget === undefined) {
+                                    //         // If popover is visible, dont let anyone steal focus from input unless its another input
+                                    //         // Other wise clicking buttons etc steal focus
+                                    //         debugger;
+                                    //         this.focus();
+                                    //     }
+                                    // });
+                                    // Add event handlers to show popover
+                                    $("#popoverBtn").click(function(e) {
+                                        // MouseDown event so we can cancel button taking focus from input
+                                        // e.preventDefault();
+                                        var btn = e.target;
+                                        var bounds = btn.getBoundingClientRect();
+                                        var x = bounds.left + (bounds.width / 2); 
+                                        var y = bounds.top + (bounds.height / 2); 
+                                        setTimeout(function() {
+                                            cmp.set("v.popoverX", x);
+                                            cmp.set("v.popoverY", y);
+                                            cmp.set("v.isVisible", true);
+                                            $(".txtEmailDisplayName").focus();
+                                        });
+                                        return false;
+                                    });
+                                    // Reposition popover on document scroll
+                                    var debounceTimer;
+                                    $(document).on("scroll", function() {
+                                        clearTimeout(debounceTimer);
+                                        debounceTimer = setTimeout(function() {
+                                            var btn = $("#popoverBtn")[0];
+                                            var bounds = btn.getBoundingClientRect();
+                                            var x = bounds.left + (bounds.width / 2); 
+                                            var y = bounds.top + (bounds.height / 2); 
+                                            cmp.set("v.popoverX", x);
+                                            cmp.set("v.popoverY", y);
+                                        }, 300);
+                                    });
+                                }
+                            });
+                        });
+
+                        // Add close function all toast notifications
+                        $('.slds-notify_toast button').each( function(){
+                            $(this).on('click', function(){$(this).parent().hide(); return false;});
+                        });
+
+                        // Start Automatic Organization Configuration
+                        $('#openSetupModalBtn').click(function(){
+                            try {
+                                mixpanelTrack("Setup: Wizard");
+                            }catch(err){
+                                console.log('Error: ' + err);
+                            }
+                            openAutoSetup();
+                        });
+                        
+                        // Setup Worker - Step One
+                        $('#runStepOne').click(function(){
+                             $('#setupStepOne, #footerStepOne').fadeOut('fast', function(){
+                                $('#setupStepTwo, #footerStepTwo').fadeIn('slow');
+                            });
+                        });
+                        
+                        // Setup Worker - Step Two
+                        $('#runStepTwo').click(function(){
+                            // close auto setup modal then fade
+                            // animation container.
+                            // I promise to promise to promise to ... waiting.
+                            $.when(closeAutoSetup()).then($('#leadContainer').fadeOut('slow', function(){
+                                // fade in the worker container then start worker
+                                $('#setupWorkerContainer').fadeIn('slow', function(){
+                                    // build list of objects
+                                    var objsOut = "";
+                                     $('#selectedManagedObjects').find("option").each(function(){
+                                            objsOut += (objsOut == '') ? $(this).val() : ',' + $(this).val();
+                                    });
+                                    var profsOut = "";
+                                    $('#selectedProfiles').find("option").each(function(){
+                                            profsOut += (profsOut == '') ? $(this).val() : ',' + $(this).val();
+                                    });
+                                    startSetupWorker(objsOut, profsOut);
+                                });
+                            }));       
+                        });
+                        
+                        $('#initCreateReportsWorkerBtn').click(function(){
+                            // close auto setup modal then fade
+                            // animation container.
+                            // I promise to promise to promise to ... waiting.
+                            $.when(closeAutoSetup()).then($('#reportContainer').fadeOut('slow', function(){
+                                // fade in the worker container then start worker
+                                $('#createReportsWorkerContainer').fadeIn('slow', function(){
+                                    startCreateReportsWorker();
+                                });
+                            }));
+                        });
+                        
+                        function swapSelectedOptions(sltFrom, sltTo){
+                            var selectedObjects = sltFrom.find(":selected");
+                            if(selectedObjects != null && selectedObjects.length>0){
+                                selectedObjects.each(function(){
+                                    var selectedObj = this;
+                                    // Do we have to alphabetize?
+                                    if(sltTo != undefined && sltTo.find('option').length > 0){
+                                        var inserted = false;
+                                        // Iterate over all existing options until we reach
+                                        // a point where we should insert alphabetically.
+                                        sltTo.find('option').each(function(){
+                                            if($(selectedObj).text().toLowerCase() < $(this).text().toLowerCase()){
+                                                $(this).before('<option value="'+$(selectedObj).val()+'">'+$(selectedObj).text()+'</option>');
+                                                inserted = true;
+                                                // Exit comparator loop for this
+                                                // particular selected object.
+                                                return false;
+                                            }
+                                        });
+                                        if(!inserted) sltTo.append('<option value="'+$(selectedObj).val()+'">'+$(selectedObj).text()+'</option>');
+                                    }else sltTo.html('<option value="'+$(this).val()+'">'+$(this).text()+'</option>');
+                                    $(this).remove();
+                                });
+                            }
+                        }
+                        
+                        $('#addProfile').click(function(){
+                            swapSelectedOptions($('#allProfiles'), $('#selectedProfiles'));
+                        });
+                        
+                        $('#removeProfile').click(function(){
+                            swapSelectedOptions($('#selectedProfiles'), $('#allProfiles'));
+                        });
+
+                        $('#addManagedObjLink').click(function(){
+                            var sltFrm = $('#allManagedObjects');
+                            var sltTo = $('#selectedManagedObjects');
+                            if(sltFrm != undefined && sltTo != undefined){
+                                // verify that we're not selecting too many objects
+                                // too many objects can cause timeouts.
+                                // 5 Objects is arbitrary and based on testing.
+                                var newCnt = (sltFrm.find("option:selected").length || 0);
+                                var oldCnt = (sltTo.find("option:selected").length || 0);
+                                if(newCnt+oldCnt > 5){
+                                    // Attempt to restrict to a reasonable
+                                    // number for initial protection on org-limits.
+                                    $('#tooManyClauseObjectsAlert').fadeIn('slow', function(){
+                                        var obj = this;
+                                        setTimeout(function(){
+                                            $(obj).fadeOut('slow');
+                                        }, 3000);
+                                    });   
+                                }else swapSelectedOptions(sltFrm, sltTo);
+                            }
+                        });
+                        
+                        $('#removeManagedObjLink').click(function(){
+                            swapSelectedOptions($('#selectedManagedObjects'), $('#allManagedObjects'));
+                        });
+                        
+                        // Sort Managed Object Selectors
+                        (function(){
+                             alphabetizeSelectElement('#allManagedObjects');
+                             alphabetizeSelectElement('#selectedManagedObjects');
+                        })();
+                    });
+
+                    function updateTemplateAfter(){
+                        $('#templateFldSpinner').hide();
+                        var result = JSON.parse($('.js-pageStatus').val());
+                        $('#pgNotifLabel').text(result.label);
+                        $('#pgNotifObjId').text(result.id);
+                        $('#pgNotifDebug').text(result.debug);
+                        $('#pgNotifMsg').removeClass('slds-theme_default slds-theme_success slds-theme_error');
+                        if (result.success){
+                            $('#pgNotifMsg').addClass('slds-theme_success');
+                            $('#pgNotifMsg').show().delay(5000).fadeOut();
+                        } else {
+                            $('#pgNotifMsg').addClass( 'slds-theme_error' );
+                            $('#pgNotifMsg').show();
+                        }
+                        return false;
+                    }
+                </script>
+            </apex:outputPanel>
+            </div>
+        </body>
+    </html>
+</apex:page>

@@ -1,0 +1,79 @@
+<aura:component controller="APXT_Redlining.LookupFieldController" extends="APXT_Redlining:RecordIconBase">
+  <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+  <aura:handler name="change" value="{!v.recordId}" action="{!c.recordIdChanged}"/>
+  <aura:registerEvent name="valueParsed" type="APXT_Redlining:ParsedEvent" />
+  <aura:registerEvent name="createRecord" type="force:createRecord"/>
+  <aura:method name="parse" action="{!c.parseValue}">
+    <aura:attribute name="value" type="String"/>
+  </aura:method>
+  <aura:attribute name="disabled" type="Boolean" default="false"/>
+  <aura:attribute name="value" type="String" />
+  <aura:attribute name="name" type="String" default=""/>
+  <aura:attribute name="nameField" type="String" default="Name"/>
+  <aura:attribute name="searchText" type="String"/>
+  <aura:attribute name="searchResults" type="Array" />
+  <aura:attribute name="label" type="String" default="Account"/>
+  <aura:attribute name="pluralLabel" type="String" />
+  <aura:attribute name="lookupInfo" type="Object" />
+  <aura:attribute name="lblapxt_trueUp_lookupFoundResults" type="String" default="{!$Label.apxt_redlining.apxt_trueUp_lookupFoundResults}"/>
+
+
+  <div class="slds-form-element slds-lookup" data-select="single">
+    <div class="slds-form-element__control">
+      <aura:if isTrue="{!v.recordId != null}">
+        <div class="slds-pill_container">
+          <span class="slds-pill slds-size--1-of-1">
+            <span class="slds-icon_container slds-icon-standard-account slds-pill__icon_container">
+              <lightning:icon iconName="{!v.iconName}" size="small"></lightning:icon>
+              <span class="slds-assistive-text">{!v.sObjectName}</span>
+            </span>
+            <span class="slds-pill__label" title="{!v.name}">{!v.name}</span>
+            <aura:if isTrue="{!v.disabled == false}">
+              <button class="slds-button slds-button--icon slds-pill__remove" title="{!$Label.apxt_redlining.apxt_lookupField_removeTitle}" onclick="{!c.removeClick}">
+                <lightning:icon iconName="utility:close" size="x-small"></lightning:icon>
+                <span class="slds-assistive-text">{!$Label.apxt_redlining.apxt_lookupField_removeTitle}</span>
+              </button>
+            </aura:if>
+          </span>
+        </div>
+        <aura:set attribute="else">
+          <div class="slds-form-element__control">
+            <div class="slds-input-has-icon slds-input-has-icon--right">
+              <lightning:icon class="slds-input__icon" iconName="utility:search" size="x-small"></lightning:icon>
+              <input type="search" disabled="{!v.disabled}" class="slds-lookup__search-input slds-input" placeholder="{! format($Label.apxt_redlining.apxt_lookupField_searchPlaceholder, v.pluralLabel) }" aria-owns="lookup-65" role="combobox" aria-activedescendant="" aria-expanded="false" aria-autocomplete="list" value="{!v.searchText}" onblur="{!c.close}" onfocus="{!c.open}" onkeypress="{!c.search}" />
+            </div>
+          </div>
+        </aura:set>
+      </aura:if>
+    </div>
+    <div class="slds-lookup__menu">
+      <ul class="slds-lookup__list" role="listbox">
+<!--         <li role="presentation">
+          <span class="slds-lookup__item-action slds-lookup__item-action-\-label" role="option">
+            <lightning:icon class="slds-icon-text-default" iconName="utility:search" size="x-small"></lightning:icon>
+            <span class="slds-truncate" title="{ props.text || &#x27;New Account&#x27; }">&quot;salesforce&quot; in accounts</span>
+          </span>
+        </li> -->
+          
+        <aura:iteration items="{!v.searchResults}" var="item">
+          <li role="presentation" onclick="{!c.selectClick}" data-id="{!item.Id}">
+            <span class="slds-lookup__item-action slds-media" role="option">
+              <lightning:icon class="slds-icon slds-icon-standard-account slds-icon--small slds-media__figure" iconName="{!v.iconName}" size="small"></lightning:icon>
+              <div class="slds-media__body">
+                <div class="slds-lookup__result-text slds-p-left--x-small">
+                  {!item.Name}
+                </div>
+              </div>
+            </span>
+          </li>
+        </aura:iteration>
+        <li role="presentation">
+          <span class="slds-lookup__item-action slds-lookup__item-action--label" role="option" onclick="{!c.newClick}">
+            <lightning:icon class="slds-icon-text-default" iconName="utility:add" size="x-small"></lightning:icon>
+            <span class="slds-truncate" title="{!format($Label.apxt_redlining.apxt_trueUp_lookupNewRecord, v.label)}">{!format($Label.apxt_redlining.apxt_trueUp_lookupNewRecord, v.label)}</span>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</aura:component>

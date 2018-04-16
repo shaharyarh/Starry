@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>CongaFileCode__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Computed Code used to validate record consistency</description>
+        <externalId>false</externalId>
+        <label>Conga File Code</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CongaFileID__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>true</externalId>
+        <label>Conga File ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CongaFileVersionID__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Used to track the version information for the external file repository</description>
+        <externalId>true</externalId>
+        <label>Conga File Version ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ContentDocumentIdHistory1__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Used to store a list of previous content document ids</description>
+        <externalId>false</externalId>
+        <label>Conga Content Document Id History 1</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ContentDocumentIdHistory2__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Used to store a list of previous content document ids</description>
+        <externalId>false</externalId>
+        <label>Conga Content Document Id History 2</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ContentDocumentIdHistory3__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Used to store a list of previous content document ids</description>
+        <externalId>false</externalId>
+        <label>Conga Content Document Id History 3</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>IsCongaFileExcludedFromSync__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Conga File is excluded from synchronizing with external system. Used when external system no longer keeps track of this file.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Check to prevent this file to being sent as part of an outbound message.</inlineHelpText>
+        <label>Conga File Excluded From Sync</label>
+        <trackHistory>false</trackHistory>
+        <type>Checkbox</type>
+    </fields>
+</CustomObject>

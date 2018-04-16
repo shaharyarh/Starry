@@ -1,0 +1,23 @@
+<aura:component >
+  <aura:registerEvent name="refreshVersions" type="APXT_Redlining:BaseEvent" />
+  <div>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+      <div class="slds-modal__container">
+        <header class="slds-modal__header">
+          <button onclick="{!c.cancel}" class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="{!$Label.apxt_redlining.apxt_viewRedLines_editLatest_closeDialogTitle}">
+            <lightning:icon class="slds-button__icon slds-button__icon_large" iconName="utility:close" size="small" variant="inverse"/>
+            <span class="slds-assistive-text">{!$Label.apxt_redlining.apxt_viewRedLines_editLatest_closeDialogTitle}</span>
+          </button>
+          <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$Label.apxt_redlining.apxt_viewRedLines_editLatest_heading}</h2>
+        </header>
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+          {!$Label.apxt_redlining.apxt_viewRedLines_editLatest_info}
+        </div>
+        <footer class="slds-modal__footer">
+          <lightning:button label="{!$Label.apxt_redlining.apxt_viewRedLines_editLatest_continue}" onclick="{!c.continue}" variant="brand" class="slds-m-top--medium"/>
+        </footer>
+      </div>
+    </section>
+  <div class="slds-backdrop slds-backdrop_open"></div>
+</div>
+</aura:component>

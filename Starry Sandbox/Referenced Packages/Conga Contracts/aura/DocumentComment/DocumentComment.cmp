@@ -1,0 +1,39 @@
+<aura:component extends="APXT_Redlining:Base">
+  <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+  <aura:registerEvent name="render" type="APXT_Redlining:BaseEvent"/>
+  <aura:attribute name="author" type="String"/>
+  <aura:attribute name="date" type="DateTime" />
+  <aura:attribute name="commentBody" type="String" />
+  <aura:attribute name="commentId" type="String" />
+  <aura:attribute name="offsetTop" type="Integer" description="offset relative to container" />
+  <aura:attribute name="staticTop" type="Integer" description="offset when positioned static" />
+  <aura:attribute name="positionAbsolute" type="boolean" default="true" description="If true will position absolute and offset by absoluteTop otherwise static positioning" />
+  <aura:attribute name="height" type="Integer" description="height of rendered comment" />
+  <aura:attribute name="absoluteTop" type="Integer" description="calculated by component height so offset is centered vertically" />
+
+  <aura:attribute access="private" name="showDate" type="Boolean" default="true" description="false if date is today" />
+  <aura:attribute access="private" name="renderTimer" type="Object" description="used by helper to debounce render events per instance of comment" />
+
+  <div class="{!(v.positionAbsolute ? 'conga-is-absolute ' : '') + 'slds-text-body_small slds-m-vertical_xx-small slds-p-horizontal_large slds-p-vertical_x-small'}" style="{!'top:' + v.absoluteTop + 'px;'}">
+    <div class="slds-clearfix">
+      <span class="slds-float_right slds-icon slds-icon_small">
+        <lightning:icon iconName="utility:comments" size="small"/>
+      </span>
+      <b>{!v.author}</b>
+      <span aura:id="dateContainer" class="slds-text-title slds-p-left_small">
+        <aura:if isTrue="{!v.showDate}">
+          <aura:set attribute="else">
+            <!-- Having two formattedDateTime not only allows us to show only time if today -->
+            <!-- It also converts v.date from localtime to utc time w/o custom javascript -->
+            <!-- using !v.date to bidirectionally bind results in formattedDateTime modifying v.date by reference -->
+            <!-- TLDR: don't remove either one of these formattedDateTime components or timezone may be incorrect -->
+            <lightning:formattedDateTime value="{!v.date}" hour="numeric" minute="numeric" timeZone="UTC" />
+          </aura:set>
+        <lightning:formattedDateTime value="{!v.date}" timeZone="{!$Locale.timezone}" />
+        </aura:if>
+      </span>
+    </div>
+    <div class="conga-comment-body">{!v.commentBody}</div>
+  </div>
+
+</aura:component>

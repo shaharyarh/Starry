@@ -1,0 +1,56 @@
+<aura:component extends="APXT_Redlining:Base">
+  <aura:registerEvent name="treeItemSelect" type="APXT_Redlining:BaseEvent"/>
+  <aura:registerEvent name="treeItemRemove" type="APXT_Redlining:BaseEvent"/>
+  <aura:attribute name="isExpanded" type="Boolean" default="true" />
+  <aura:attribute name="alwaysExpanded" type="Boolean" default="false" />
+  <aura:attribute name="label" type="String" default="Tree Branch" />
+  <aura:attribute name="value" type="Object" />
+  <aura:attribute name="action" type="Object" description="Name of Apex Action if server side loading of subitems" />
+  <aura:attribute name="level" type="Integer" default="1" />
+  <aura:attribute name="items" type="Array"/>
+  <aura:attribute name="unique" type="String"/>
+  <aura:attribute name="hasItems" type="Boolean" default="{!v.items.length gt 0}" />
+  <aura:attribute name="iconName" type="String" description="utility:warning, utility:lock" />
+  <aura:attribute name="selected" type="Boolean"/>
+  <aura:attribute name="isDisabled" type="Boolean" default="{!v.iconName == 'utility:lock'}" />
+  <aura:attribute name="doAllowRemove" type="Boolean" default="false" description="for capture we allow removing items" />
+  <aura:method name="select" action="{!c.select}"/>
+
+  <li role="treeitem" aria-level="{!v.level}" aria-expanded="{!v.isExpanded}" class="{!(v.selected ? 'slds-is-selected ' : '') + 'conga-tree-item'}">
+    <div class="{!(v.isDisabled ? 'slds-is-disabled ' : '') + 'slds-tree__item'}" onclick="{!c.select}">
+      <aura:if isTrue="{!and(v.iconName != undefined, v.hasItems == false)}">
+        <lightning:icon class="slds-p-horizontal_x-small" iconName="{!v.iconName}" size="x-small"/>
+      </aura:if>
+      <!-- Expand button not visible when disabled but serves as heirarchy padding so important button is rendered always -->
+      <button class="{!or(!v.hasItems, v.alwaysExpanded) ? 'slds-is-disabled ' : '' + 'slds-button slds-button_icon'}" aria-controls="tree0-node1" title="{!$Label.apxt_redlining.apxt_treeItem_toggleTitle}">
+        <!-- svg output by lightning:icon differs from svg recommended by slds but no problems yet -->
+        <aura:if isTrue="{!v.isExpanded}">
+          <!-- TODO I think this can be done with single icon with css animation and be pretty -->
+          <lightning:icon iconName="utility:chevrondown" size="x-small" />
+          <aura:set attribute="else">
+            <lightning:icon iconName="utility:chevronright" size="x-small" />
+          </aura:set>
+        </aura:if>
+        <span class="slds-assistive-text">{!$Label.apxt_redlining.apxt_treeItem_toggleTitle}</span>
+      </button>
+      <aura:if isTrue="{!v.isDisabled}">
+        <aura:unescapedHtml value="{!v.label}" />
+        <aura:set attribute="else">
+          <a id="tree0-node1__label" href="javascript:void(0);" tabindex="-1" role="presentation" class="slds-truncate" title="{!v.label}">
+            <aura:unescapedHtml value="{!v.label}" />
+          </a>
+        </aura:set>
+      </aura:if>
+      <aura:if isTrue="{!and(v.doAllowRemove, !v.hasItems)}">
+        <a href="javascript:void(0);" onclick="{!c.remove}" class="slds-col_bump-left slds-p-right_x-small conga-remove"><lightning:icon iconName="utility:close" size="x-small"/></a>
+      </aura:if>
+    </div>
+    <aura:if isTrue="{!v.isExpanded}">
+      <ul class="{!v.isExpanded ? 'slds-is-expanded' : ''}" role="group" aria-labelledby="tree0-node1__label">
+        <aura:iteration items="{!v.items}" var="item">
+          <APXT_Redlining:TreeItem doAllowRemove="{!v.doAllowRemove}" aura:id="items" unique="{!item.id}" selected="{!item.selected}" level="{!v.level + 1}" label="{!item.label}" iconName="{!item.iconName}" value="{!item.value}" action="{!item.action}" alwaysExpanded="{!and(item.alwaysExpanded != undefined, item.alwaysExpanded == true)}" items="{!item.items}" />
+        </aura:iteration>
+      </ul>
+    </aura:if>
+  </li>
+</aura:component>

@@ -1,0 +1,49 @@
+.THIS {
+  color: #706e6b;
+}
+
+/* Show input placeholder text as greyed out */
+.THIS *::-webkit-input-placeholder,
+.THIS *::placeholder {
+  color:#999 !important;
+  font-size: 1rem;
+  font-weight: lighter;
+}
+
+.THIS input[type="search"] {
+  font-size: 1rem;
+}
+
+.THIS .bold-text {
+  font-weight: bold;
+} 
+
+.THIS .slds-media__body,
+.THIS .slds-media__body>:last-child {
+  color: #54698d;
+}
+
+.THIS .slds-badge {
+  text-transform: capitalize;
+  cursor:pointer;
+}
+.THIS .conga-is-selected {
+  background-color: token(colorBackgroundButtonIconFocus);
+  color: token(colorTextTabLabelSelected);
+  border-color: token(colorBorderInputActive);
+}
+.THIS .slds-pill:hover {
+  box-shadow: token(shadowButtonFocus);
+  background-color: #fff;
+  border-color: token(colorBorderInputActive);
+}
+.THIS .slds-pill__icon_container {
+  color: rgb(75, 202, 129);
+}
+.THIS .slds-scrollable {
+  flex-wrap: wrap;
+  height: 15em;
+}
+.THIS .slds-media__body {
+  white-space: nowrap;
+}

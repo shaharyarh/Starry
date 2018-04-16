@@ -1,0 +1,19 @@
+.THIS {
+  border-left: 6px solid rgb(140,131,242);
+  background-color: token(colorBackgroundStencil);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+  max-height: 50%;
+  overflow: hidden;
+}
+
+.THIS .conga-comment-body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 200px;
+}
+
+.THIS.conga-is-absolute {
+  position: absolute;
+  right: 0px;
+  width: 16.6%;
+}

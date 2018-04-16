@@ -1,0 +1,18 @@
+.THIS {
+  background-color:#fff;
+}
+
+.THIS .conga-error-icon {
+  /* Hardcoded slds error color */
+  background-color: #c23934;
+}
+
+.THIS .conga-sync-icon, .THIS .conga-sync-icon .slds-icon-text-default {
+  /* Give our icons inverse fill */
+  fill: #fff;
+  /* Allow icons to have medium background but small centered icon */
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  display:flex;
+}

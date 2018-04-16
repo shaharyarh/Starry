@@ -1,0 +1,3 @@
+<apex:page standardController="Account" showHeader="false" sidebar="false" docType="html-5.0">
+  <c:SyncStatus recordId="{!Account.Id}" />
+</apex:page>

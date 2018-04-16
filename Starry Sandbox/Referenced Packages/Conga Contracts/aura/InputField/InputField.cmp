@@ -1,0 +1,26 @@
+<aura:component extends="APXT_Redlining:Base">
+
+  <ltng:require styles="{!$Resource.APXT_Redlining__DatePicker}" />
+  <aura:registerEvent name="valueParsed" type="APXT_Redlining:ParsedEvent" />
+  <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+  <aura:handler name="change" value="{!v.value}" action="{!c.valueChanged}"/>
+  <aura:handler name="change" value="{!v.placeholder}" action="{!c.fieldDescribeChanged}"/>
+  <aura:handler name="change" value="{!v.fieldDescribe}" action="{!c.fieldDescribeChanged}"/>
+  <aura:method name="parse" action="{!c.parse}">
+    <aura:attribute name="value" type="String" />
+  </aura:method>
+
+  <aura:attribute name="value" type="Object" />
+  <aura:attribute name="placeholder" type="Object" />
+  <aura:attribute name="fieldDescribe" type="Object" />
+  <aura:attribute name="input" type="Aura.Component" />
+  <aura:attribute name="isDirty" type="Boolean" />
+  <aura:attribute name="error" type="String" />
+
+  <aura:attribute name="lblapxt_trueUp_unableParsePicklist" type="String" default="{!$Label.apxt_redlining.apxt_trueUp_unableParsePicklist}" />
+  <aura:attribute name="lblapxt_trueUp_unableParseNumber" type="String" default="{!$Label.apxt_redlining.apxt_trueUp_unableParseNumber}" />
+  <aura:attribute name="lblapxt_trueUp_unableParseDate" type="String" default="{!$Label.apxt_redlining.apxt_trueUp_unableParseDate}" />
+
+  {!v.input}
+  
+</aura:component>

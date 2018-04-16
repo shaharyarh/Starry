@@ -1,0 +1,54 @@
+.THIS .slds-pill {
+  /* Make clauses appear clickable */
+  cursor:pointer;
+}
+
+.THIS .slds-pill span {
+  color:  #54698D;
+}
+
+.THIS .bold-text {
+  font-weight: bold;
+}
+
+.THIS .conga-is-selected {
+  background-color: token(colorBackgroundButtonIconFocus);
+  color: token(colorTextTabLabelSelected);
+  border-color: token(colorBorderInputActive);
+}
+
+.THIS .slds-pill:hover {
+  box-shadow: token(shadowButtonFocus);
+  background-color: #fff;
+  border-color: token(colorBorderInputActive);
+}
+
+.THIS .slds-icon-utility-add {
+  /* Add icon is positioned over the top of unkown doctype icon */
+  color: #fff;
+  position:absolute;
+  top: 26px;
+  left: 10px;
+}
+
+.THIS .slds-scrollable {
+  flex-wrap: wrap;
+  max-height: 25em;
+  overflow-x: hidden;
+}
+
+.THIS .slds-lookup__result-meta {
+  /* hide text if it more than N lines  */
+  overflow: hidden;
+  /* for set '...' in absolute position */
+  position: relative; 
+  /* use this value to count block height */
+  line-height: 1.2em;
+  /* max-height = line-height (1.2) * lines max number (3) */
+  max-height: 3.6em; 
+  /* fix problem when last visible word doesn't adjoin right side  */
+  text-align: justify;  
+  /* place for '...' */
+  margin-right: -1em;
+  padding-right: 1em;
+}

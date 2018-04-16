@@ -1,0 +1,87 @@
+<aura:component controller="APXT_Redlining.apxt_contractActivity" implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+    <ltng:require scripts="/resource/apxt_jQuery"/>
+    <ltng:require scripts="/resource/apxt_svg4everybody" afterScriptsLoaded="{!c.ieSvg}"/>
+
+    <aura:attribute name="isLoading" type="Boolean" default="true"/>
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="results" type="Object"/>
+    <aura:attribute name="headerParams" type="String[]"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <aura:handler event="force:refreshView" action="{!c.onInit}"/>
+
+    <div class="slds">
+        <div class="slds-card conga-overflow--hidden conga-position--relative" style="min-height: 100px;">
+            <aura:if isTrue="{!v.isLoading}">
+                <!-- Loading Spinner -->
+                <div class="slds-spinner_container">
+                    <div class="slds-spinner slds-spinner--small" aria-hidden="false" role="alert">
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+                <!-- /Loading Spinner -->
+                <aura:set attribute="else">
+                    <aura:if isTrue="{!v.results.parent == null}">
+                        <p class="slds-text-heading--small slds-text-align--center slds-m-top--x-large slds-p-top--x-small slds-truncate">
+                            <em class="conga-opacity--50">
+                                {!v.results.labels.apxt_contractActivity_noContract}
+                            </em>
+                        </p>
+                        <aura:set attribute="else">
+                            <div class="slds-card__header slds-grid slds-p-horizontal--medium slds-p-top--medium slds-p-bottom--xx-small">
+                                <div class="slds-media slds-media--center slds-has-flexi-truncate">
+                                    <div class="slds-media__figure">
+                                        <APXT_Redlining:apxt_svg ariaHidden="true" class="slds-icon slds-icon--small slds-icon-standard-hierarchy" xlinkHref="{!'/resource/' + v.results.namespaceApi + 'apxt_lightningCss/icons/custom-sprite/svg/symbols.svg#custom14'}" winterClass="" winterIconName="custom:custom14" winterSize="small"></APXT_Redlining:apxt_svg>
+                                    </div>
+                                    <div class="slds-media__body slds-truncate">
+                                        <span class="slds-text-heading--small">
+                                            <APXT_Redlining:apxt_label label="{!v.results.labels.apxt_contractActivity_header}" params="{!v.headerParams}"></APXT_Redlining:apxt_label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="slds-no-flex">
+                                    <aura:if isTrue="{!v.results.parentStatusCode == 'Activated'}">
+                                        <div class="slds-badge slds-theme--success slds-float--right">{!v.results.parentStatus}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-badge slds-theme--info slds-float--right">{!v.results.parentStatus}</div>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </div>
+                            <div class="slds-card__body slds-theme--default slds-p-around--medium">
+                                <ul class="conga-contract-activity">
+                                    <aura:if isTrue="{!v.results.activityList.length > 0}">
+                                        <aura:iteration items="{!v.results.activityList}" var="activityItem">
+                                            <li>
+                                                <aura:if isTrue="{!activityItem.sObjectType == 'ContentVersion'}">
+                                                    <APXT_Redlining:apxt_contractActivityContentVersion contentVersion="{!activityItem}" parentId="{!v.results.parentId}" labels="{!v.results.labels}" namespaceApi="{!v.results.namespaceApi}"/>
+                                                </aura:if>
+
+                                                <aura:if isTrue="{!activityItem.sObjectType == 'EmailMessage'}">
+                                                    <APXT_Redlining:apxt_contractActivityEmailMessage emailMessage="{!activityItem}" labels="{!v.results.labels}" namespaceApi="{!v.results.namespaceApi}"/>
+                                                </aura:if>
+
+                                                <aura:if isTrue="{!activityItem.sObjectType == 'FieldHistory'}">
+                                                    <APXT_Redlining:apxt_contractActivityContractHistory fieldHistory="{!activityItem}" labels="{!v.results.labels}" namespaceApi="{!v.results.namespaceApi}"/>
+                                                </aura:if>
+                                                
+                                                <aura:if isTrue="{!activityItem.sObjectType == 'dsfs__DocuSign_Status__c'}">
+                                                    <APXT_Redlining:apxt_contractActivityDocuSignEnvelope docuSignEnvelope="{!activityItem}" labels="{!v.results.labels}" namespaceApi="{!v.results.namespaceApi}"/>
+                                                </aura:if>
+                                            </li>
+                                        </aura:iteration>
+                                        <aura:set attribute="else">
+                                            <p class="slds-p-around--medium slds-text-align--center">{!v.results.labels.apxt_contractActivity_emptyState}</p>
+                                        </aura:set>
+                                    </aura:if>
+                                </ul>
+                            </div>
+                        </aura:set>
+                    </aura:if>
+                    <div class="slds-card__footer"></div>
+                </aura:set>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

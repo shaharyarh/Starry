@@ -1,0 +1,4 @@
+.THIS .slds-popover_walkthrough div.slds-popover__body {
+  /* Smaller padding than SLDS for popover body */
+  padding: 0.5rem;
+}

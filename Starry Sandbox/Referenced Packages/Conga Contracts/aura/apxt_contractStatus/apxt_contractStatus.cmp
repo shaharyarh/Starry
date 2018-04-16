@@ -1,0 +1,54 @@
+<aura:component controller="APXT_Redlining.apxt_contractStatus" access="global" implements="flexipage:availableForAllPageTypes,force:hasRecordId">
+    <ltng:require scripts="/resource/apxt_svg4everybody" afterScriptsLoaded="{!c.ieSvg}"/>
+    
+    <aura:attribute name="recordId" type="Id"/>
+
+    <aura:attribute name="currentStatus" type="String"/>
+    <aura:attribute name="errMsg" type="String"/>
+    <aura:attribute name="namespaceApi" type="String"/>
+    
+    <aura:attribute name="hasError" default="false" type="Boolean"/>
+
+    <aura:attribute name="labels" type="Object"/>
+    <aura:attribute name="statusObjs" type="Object[]"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <aura:handler event="force:refreshView" action="{!c.reloadStatus}"/>
+
+    <div class="slds">
+        <aura:if isTrue="{!v.hasError}">
+            <!-- Error Notification -->
+            <div class="slds-p-horizontal--large slds-p-vertical--small">
+                <div class="slds-notify slds-notify--toast slds-theme--error slds-m-around--none conga-notification" role="alert">
+                    <span class="slds-assistive-text">{!v.labels.apxt_contractStatus_error_assist}</span>
+                    <div class="slds-grid">
+                        <APXT_Redlining:apxt_svg ariaHidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex" xlinkHref="{!'/resource/' + v.namespaceApi + 'apxt_lightningCss/icons/utility-sprite/svg/symbols.svg#error'}" winterClass="slds-m-right--small slds-col slds-no-flex" winterIconName="utility:error" winterSize="small"></APXT_Redlining:apxt_svg>
+                        <div class="slds-col slds-align-middle">
+                            <h2 class="slds-text-heading--small">{!v.errMsg}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Error Notification -->
+            <aura:set attribute="else">
+                <div class="slds-grid slds-p-horizontal--x-large">
+                    <div class="slds-tabs--path" role="application">
+                        <ul class="slds-tabs--path__nav" role="tablist">
+                            <aura:iteration items="{!v.statusObjs}" var="statusObj">
+                                <li class="{!'slds-tabs--path__item ' + statusObj.color}" role="presentation">
+                                    <span class="slds-tabs--path__link conga-cursor--default" id="tabs-path-1" aria-controls="content-path-1" aria-selected="false" tabindex="-1" role="tab" href="javascript:void(0);" aria-live="assertive">
+                                        <span class="slds-tabs--path__stage">
+                                            <APXT_Redlining:apxt_svg ariaHidden="true" class="slds-icon slds-icon--x-small" xlinkHref="{!'/resource/' + v.namespaceApi + 'apxt_lightningCss/icons/utility-sprite/svg/symbols.svg#check'}"></APXT_Redlining:apxt_svg>
+                                        </span>
+                                        <span class="slds-tabs--path__title">{!statusObj.label}</span>
+                                    </span>
+                                </li>
+                            </aura:iteration>
+                        </ul>
+                    </div>
+
+                </div>
+            </aura:set>
+        </aura:if>
+    </div>
+</aura:component>

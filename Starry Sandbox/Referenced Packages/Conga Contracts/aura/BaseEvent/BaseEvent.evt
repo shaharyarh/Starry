@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Generic Component Event">
+  <aura:attribute name="value" type="Object" />
+</aura:event>

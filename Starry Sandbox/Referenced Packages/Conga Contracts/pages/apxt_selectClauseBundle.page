@@ -1,0 +1,298 @@
+<apex:page standardController="Contract" extensions="APXT_Redlining.apxt_selectClauseBundle" showHeader="false" sidebar="false" applyHtmlTag="false" >
+<html xmlns:xlink="http://www.w3.org/1999/xlink">
+    <head>
+        <meta name="robots" content="noindex, nofollow"/>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>{!$Label.apxt_selectClauseBundle_title}</title>
+        <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.apxt_lightningCss, './styles/salesforce-lightning-design-system-vf.css')}"/>
+        <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.apxt_mainCss, './main.css')}"/>
+        <script src="{!URLFOR($Resource.apxt_jQuery)}"/>
+        <script src="{!URLFOR($Resource.apxt_svg4everybody)}"></script>
+    </head>
+
+    <body>
+        <div class="slds">
+            <!-- Page Header -->
+            <div class="slds-page-header" role="banner">
+                <div class="slds-grid">
+                    <div class="slds-col slds-has-flexi-truncate">
+                        <div class="slds-media slds-media--center slds-no-space slds-grow">
+                            <div class="slds-media__figure">
+                                <svg aria-hidden="true" class="slds-icon slds-icon-standard-contract">
+                                    <use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/standard-sprite/svg/symbols.svg')}#contract"></use>
+                                </svg>
+                            </div>
+                            <div class="slds-media__body">
+                                <nav role="navigation" aria-label="Breadcrumbs">
+                                    <ol class="slds-breadcrumb slds-list--horizontal">
+                                        <li class="slds-breadcrumb__item slds-text-heading--label">
+                                            <a href="/{!parentTypePrefix}/o">{!parentTypeLabel}</a>
+                                        </li>
+                                        <li class="slds-breadcrumb__item slds-text-heading--label">
+                                            <a href="/{!parentObj.Id}">{!parentObjName}</a>
+                                        </li>
+                                    </ol>
+                                </nav>
+                                <h1 class="slds-page-header__title slds-m-right--small slds-truncate slds-align-middle" title="{!$Label.apxt_selectClauseBundle_title}">{!$Label.apxt_selectClauseBundle_title}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-no-flex slds-grid slds-align-bottom">
+                        <a href="/{!parentObj.Id}" class="js-cancel slds-button slds-button--neutral">{!$Label.apxt_selectClauseBundle_cancel}</a>
+                        <a href="/{!parentObj.Id}" class="js-close slds-button slds-button--neutral slds-hide">{!$Label.apxt_selectClauseBundle_close}</a>
+                        <button class="js-save slds-button slds-button--brand">{!$Label.apxt_selectClauseBundle_save}</button>
+                    </div>
+                </div>
+            </div>
+            <!-- /Page Header -->
+
+            <div class="slds-container slds-container--large slds-container--center slds-hide" id="notifCont">
+                <div class="slds-col slds-col--padded slds-size--1-of-1 slds-m-around--small">
+                    <div class="slds-notify slds-notify--toast slds-theme--error slds-m-around--none conga-notification" id="notifMsg" role="alert">
+                        <span class="slds-assistive-text">{!$Label.apxt_selectClauseBundle_notificationTitle}</span>
+                        <div class="slds-grid">
+                            <svg aria-hidden="true" id="notifIcoSuc" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#success"></use>
+                            </svg>
+                            <svg aria-hidden="true" id="notifIcoErr" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#error"></use>
+                            </svg>
+                            <svg aria-hidden="true" id="notifIcoInf" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#info"></use>
+                            </svg>
+                            <div class="slds-col slds-align-middle">
+                                <h2 class="slds-text-heading--small" id="notifLabel">{!$Label.apxt_selectClauseBundle_notificationLabel}</h2>
+                                <p class="slds-text-body--small slds-hide" style="color:inherit" id="notifDetail">{!$Label.apxt_selectClauseBundle_notificationDetail}</p>
+                                <div class="slds-hide" id="notifObjId">{!$Label.apxt_selectClauseBundle_notificationObjectId}</div>
+                                <div class="slds-hide" id="notifDebug">{!$Label.apxt_selectClauseBundle_notificationDebug}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="pgSpinner" class="slds-spinner_container slds-hide">
+                <div role="status" class="slds-spinner slds-spinner--medium">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+
+            <div class="slds-container slds-container--medium slds-container--center slds-p-around--large">
+                <div class="slds-box js-selectBox {!IF(pageStatusMap['success'], 'slds-theme--default', 'slds-theme--error slds-theme--alert-texture')}">
+                    <apex:outputPanel layout="none" rendered="{!parentObj!=null}">
+                        <h3 class="slds-text-heading--small slds-m-bottom--small">{!$Label.apxt_selectClauseBundle_prompt}</h3>
+                        <input type="hidden" id="js-selectedBundle"/>
+
+                        <apex:outputPanel layout="none" rendered="{!noFiles}">
+                            <div class="slds-notify slds-notify--toast slds-theme--info slds-m-around--none conga-notification" role="alert">
+                                <span class="slds-assistive-text">{!$Label.apxt_selectClauseBundle_info}</span>
+                                <div class="slds-grid">
+                                    <svg aria-hidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                                        <use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#info"></use>
+                                    </svg>
+                                    <div class="slds-col slds-align-middle">
+                                        <h2 class="slds-text-heading--small">{!$Label.apxt_selectClauseBundle_emptyState}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </apex:outputPanel>
+                        <apex:outputPanel layout="none" rendered="{!NOT(noFiles)}">
+                            <ul class="slds-has-dividers--around">
+                                <apex:repeat value="{!bundleMaps}" var="bundleMap">
+                                    <li class="slds-item slds-p-around--small {!IF(bundleMap['isSelected'], 'slds-theme--shade' ,'')}">
+                                        <div class="slds-grid">
+                                            <div class="slds-form-element slds-shrink slds-p-right--xxx-small">
+                                                <div class="slds-form-element__control">
+                                                    <label class="slds-radio">
+                                                        <apex:outputPanel layout="none" rendered="{!bundleMap['isSelected']}">
+                                                            <input type="radio" name="bundle-document" class="js-selected" checked="true" value="{!bundleMap['id']}"/>
+                                                        </apex:outputPanel>
+                                                        <apex:outputPanel layout="none" rendered="{!NOT(bundleMap['isSelected'])}">
+                                                            <input type="radio" name="bundle-document" class="js-selected" value="{!bundleMap['id']}"/>
+                                                        </apex:outputPanel>
+                                                        <span class="slds-radio--faux"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="slds-shrink slds-m-right--x-small">
+                                                <svg aria-hidden="true" class="slds-icon slds-icon--medium slds-icon-doctype-groups slds-m-top--xxx-small conga-contract-icon__document">
+                                                    <use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/doctype-sprite/svg/symbols.svg')}#{!bundleMap['iconType']}"></use>
+                                                </svg>
+                                            </div>
+                                            <div class="slds-grow">
+                                                <p class="conga-word-break" title="{!bundleMap['title']}">
+                                                    <a href="/{!bundleMap['id']}">{!bundleMap['title']}</a>
+                                                </p>
+                                                <div class="slds-text-body--small">
+                                                    <ul class="slds-list--horizontal slds-has-dividers--right conga-list--horizontal">
+                                                        <li class="slds-item">
+                                                            <span href="#">
+                                                                <apex:outputText value="{!$Label.apxt_redlining__apxt_selectclausebundle_numclauses}">
+                                                                    <apex:param value="{!bundleMap['totalClauses']}"/>
+                                                                    <apex:param value="{!IF(bundleMap['totalClauses'] == 1, $Label.apxt_redlining__apxt_selectclausebundle_clause, $Label.apxt_redlining__apxt_selectclausebundle_clause_plural)}"/>
+                                                                </apex:outputText>
+                                                            </span>
+                                                        </li>
+                                                        <li class="slds-item">
+                                                            <apex:outputText value="{!bundleMap['description']}" />
+                                                        </li>
+                                                    </ul>
+                                                    <ul class="slds-list--horizontal slds-has-dividers--right conga-list--horizontal slds-hide">
+                                                        <li class="slds-item">
+                                                            <apex:outputText value="{!$Label.apxt_redlining__apxt_selectclausebundle_lastmodidfer}">
+                                                                <apex:param value="{!$Label.apxt_redlining__apxt_selectclausebundle_lastmod}"/>
+                                                                <apex:param value="{!bundleMap['editor']}"/>
+                                                            </apex:outputText>
+                                                        </li>
+                                                        <li class="slds-item">
+                                                            <apex:outputText value="{0, date, MMM dd, yyyy}">
+                                                                <apex:param value="{!bundleMap['editDate']}"/>
+                                                            </apex:outputText>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </apex:repeat>
+                            </ul>
+                        </apex:outputPanel>
+
+                    </apex:outputPanel>
+                    <apex:outputPanel layout="none" rendered="{!!pageStatusMap['success']}">
+                        <h2 class="slds-text-heading--small">{!pageStatusMap['label']}</h2>
+                        <p class="slds-text-body--small">{!pageStatusMap['detail']}</p>
+                        <div class="slds-hide">{!pageStatusMap['id']}</div>
+                        <div class="slds-hide">{!pageStatusMap['debug']}</div>
+                    </apex:outputPanel>
+                </div>
+
+            </div>
+        </div>
+    </body>
+
+        <script type="text/javascript">
+            svg4everybody();
+
+            var callRemoteAction = function(controllerName, methodName, params, callback, options) {
+                var args = params;
+                // Prepend namespace and apex controller name to method name
+                var ns = "{!JSENCODE(NAMESPACE)}";
+                if (ns && ns.length > 0) ns += ".";
+                methodName = ns + controllerName + "." + methodName;
+                // Method name is first argument
+                params.unshift(methodName);
+                // Callback comes after arguments
+                params.push(callback);
+                // If options are specified they are the last argument
+                if (options) params.push(options);
+                Visualforce.remoting.Manager.invokeAction.apply(Visualforce.remoting.Manager, params);
+            };
+
+            $(document).ready(function() {
+                $('body').on('change', 'input[name="bundle-document"]', function (e) {
+                    var $selectedInput = $(e.target);
+                    var bundleId = $selectedInput.val();
+                    $('.slds-theme--shade').removeClass('slds-theme--shade');
+                    $selectedInput.closest('li').addClass('slds-theme--shade');
+                    $('#js-selectedBundle').val(bundleId);
+                });
+
+                $('.js-save').click(function () {
+                    var hideClass = 'slds-hide';
+                    var updateParams = {
+                        objId: '{!JSENCODE(parentObj.Id)}',
+                        bundleId: $('#js-selectedBundle').val()
+                    };
+                    $('html, body').animate({ scrollTop: 0 }, 500);
+                    // validate bundle selected
+                    if (updateParams.bundleId){
+                        // reconfigure page to "waiting".
+                        $('.js-save').prop('disabled', true);
+                        $('.js-selected').prop('disabled', true);
+                        $('#pgSpinner').removeClass(hideClass);
+
+                        callRemoteAction("apxt_selectClauseBundle", "populateClauses", [JSON.stringify(updateParams)], function (popClauseResStr) {
+                            $('#pgSpinner').addClass(hideClass);
+                            if (popClauseResStr){
+                                var popClauseResults = JSON.parse(popClauseResStr);
+                                displayNotification( (popClauseResults.success) ? 'success' : 'error',
+                                        popClauseResults.label,
+                                        popClauseResults.detail,
+                                        popClauseResults.id,
+                                        popClauseResults.debug );
+                                if (popClauseResults.success) {
+                                    // If was successful redirect after time.
+                                    window.setTimeout(function () {
+                                        if({!isLightningUI}){
+                                            sforce.one.navigateToSObject('{!JSENCODE(parentObj.Id)}');
+                                        } else {
+                                            window.location.href = '/{!JSENCODE(parentObj.Id)}';
+                                        }}, 2000);
+                                }
+                            } else {
+                                displayNotification('error', '{!JSENCODE($Label.apxt_selectClauseBundle_error)}', null, null, 'Bundle select result is blank');
+                            }
+                        }, {"escape": false});
+                    } else {
+                        displayNotification('info', '{!JSENCODE($Label.apxt_selectClauseBundle_noneSelected)}', null, null, null);
+                    }
+                });
+
+            });
+
+        function displayNotification(type, label, detail, id, debug){
+            var hideClass = 'slds-hide';
+
+            $('#notifLabel').text(escapeHtml(label));
+            if(label)
+                $('#notifLabel').removeClass(hideClass);
+            else
+                $('#notifLabel').addClass(hideClass);
+            $('#notifDetail').text(escapeHtml(detail));
+            if(detail)
+                $('#notifDetail').removeClass(hideClass);
+            else
+                $('#notifDetail').addClass(hideClass);
+
+            $('#notifObjId').text(escapeHtml(id));
+            $('#notifDebug').text(escapeHtml(debug));
+
+            $('#notifMsg').removeClass('slds-theme--default slds-theme--success slds-theme--error');
+            $('#notifMsg .slds-icon').addClass(hideClass);
+            $('#notifCont').removeClass(hideClass);
+
+            if (type==='success'){
+                $('#notifMsg').addClass('slds-theme--success');
+                $('#notifIcoSuc').removeClass(hideClass);
+            }
+            else if (type==='error'){
+                $('#notifMsg').addClass('slds-theme--error');
+                $('#notifIcoErr').removeClass(hideClass);
+            }
+            else {
+                $('#notifIcoInf').removeClass(hideClass);
+            }
+            $('#notifMsg').removeClass(hideClass)
+        }
+
+        function escapeHtml(txt){
+            if (txt){
+                return txt.replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;')
+                    .replace(/\//g, '&#x2F;')
+                    .replace(/`/g, '&#x60;')
+                    .replace(/=/g, '&#x3D;');
+            } else {
+                return '';
+            }
+        }
+
+        </script>
+    </html>
+</apex:page>

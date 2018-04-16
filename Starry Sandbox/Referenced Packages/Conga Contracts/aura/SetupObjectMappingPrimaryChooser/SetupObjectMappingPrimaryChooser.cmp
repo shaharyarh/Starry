@@ -1,0 +1,23 @@
+<aura:component controller="APXT_Redlining.SetupObjectMappingController" extends="APXT_Redlining:Base">
+    <aura:handler name="render" value="{!this}" action="{!c.onRender}"/>
+
+    <!-- parent/global primary changing value for all components (top-down) -->
+    <aura:method name="changeSelectedPrimary" action="{!c.changeSelectedPrimary}">
+        <aura:attribute name="newPrimary" type="String"/>
+    </aura:method>
+    <!-- this component value changed (bottom-up) -->
+    <aura:registerEvent name="primaryChanged" type="APXT_Redlining:BaseEvent"/>
+    <aura:attribute name="selectedPrimary" type="String" />
+    <aura:attribute name="required" type="Boolean" default="true" />
+    <aura:attribute name="disabled" type="Boolean" default="false" />
+    <aura:attribute name="primaryOptions" type="List" default="[{value: 'Salesforce', label: 'Salesforce'}, {value: 'Novatus', label: 'Novatus'}]"/>
+
+    <lightning:combobox aura:id="selectPrimary" name="primary"
+                    placeholder="{!$Label.apxt_redlining.apxt_setup_objectMappingChoosePrimary}"
+                    value="{!v.selectedPrimary}"
+                    onchange="{!c.handleChange}"
+                    options="{!v.primaryOptions}"
+                    variant="label-hidden"
+                    required="{!v.required}"
+                    disabled="{!v.disabled}" />
+</aura:component>

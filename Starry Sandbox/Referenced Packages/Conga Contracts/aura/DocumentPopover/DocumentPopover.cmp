@@ -1,0 +1,360 @@
+<aura:component access="global" controller="APXT_Redlining.TrueUpController" extends="APXT_Redlining:RecordIconBase">
+
+  <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+  <aura:handler name="change" value="{!v.fieldMeta}" action="{!c.fieldChanged}"/>
+  <aura:handler name="change" value="{!v.placeholder}" action="{!c.fieldChanged}"/>
+  <aura:handler name="change" value="{!v.inputValue}" action="{!c.inputChanged}"/>
+  <aura:handler name="change" value="{!v.recordId}" action="{!c.recordIdChanged}"/>
+  <aura:handler name="change" value="{!v.clauseSearchResults}" action="{!c.reposition}"/>
+  <aura:handler name="change" value="{!v.value}" action="{!c.valueChanged}"/>
+  <aura:handler name="valueParsed" action="{!c.valueParsed}" event="APXT_Redlining:ParsedEvent" />
+  <aura:registerEvent name="navigateSObject" type="force:editRecord"/>
+  <aura:registerEvent name="capture" type="APXT_Redlining:CaptureEvent"/>
+  <aura:registerEvent name="close" type="APXT_Redlining:BaseEvent"/>
+  <aura:registerEvent name="showNewClauseModal" type="APXT_Redlining:BaseEvent" />
+  
+  <aura:attribute name="objectLabel" type="String" default="Account"/>
+  <aura:attribute name="parentRecordId" type="Id" />
+  <aura:attribute name="recordLabel" type="String" />
+  <aura:attribute name="describe" type="Object" />
+  <aura:attribute name="fieldName" type="String" />
+  <aura:attribute name="nameField" type="String" default="Name"/>
+  <aura:attribute name="fieldMeta" type="Object" />
+  <aura:attribute name="data" type="Object"/>
+  <aura:attribute name="sobject" type="Object"/>
+  <aura:attribute name="value" type="String" />
+  <aura:attribute name="truncatedValue" type="String" default="{#v.value}" />
+  <aura:attribute name="htmlValue" type="String" />
+  <aura:attribute name="fieldLabel" type="String"/>
+  <aura:attribute name="popoverX" type="Integer"/>
+  <aura:attribute name="popoverY" type="Integer"/>
+  <aura:attribute name="popoverHeight" type="Integer" description="height of element popover is pointing at" />
+  <aura:attribute name="popoverPageNumber" type="Integer"/>
+  <aura:attribute name="popoverOccurrenceNumber" type="Integer"/>
+  
+  <aura:attribute name="isEditing" type="boolean" default="true" />
+  <aura:attribute name="isClause" type="boolean" />
+  <aura:attribute name="useQuoteTerms" type="boolean" />
+  <aura:attribute name="isTextarea" type="boolean" />
+  <aura:attribute name="isCaptureMode" type="boolean" description="True when parent component is Capture never show front of Popover" />
+  <aura:attribute name="userSelection" type="Object" />
+  <aura:attribute name="contentVersionId" type="Id" />
+
+  <!-- Private attributes -->
+  <aura:attribute access="private" name="isVisible" type="boolean" default="true" />
+  <aura:attribute access="private" name="isCurrent" type="boolean" default="false"/>
+  <aura:attribute access="private" name="isLoading" type="boolean" />
+  <aura:attribute access="private" name="isExtracting" type="boolean" />
+  <aura:attribute access="private" name="isSaveAndContinue" type="boolean"/>
+  <aura:attribute access="private" name="inputValue" type="Object"/>
+  <aura:attribute access="private" name="showError" type="boolean" />
+  <aura:attribute access="private" name="error" type="String" />
+  <aura:attribute access="private" name="clauseSearchResults" type="Array" />
+  <aura:attribute access="private" name="suggestions" type="Array"/>
+  <aura:attribute access="private" name="hasSuggestions" type="Boolean" />
+  <aura:attribute access="private" name="suggestionState" type="Integer" />
+  <aura:attribute access="private" name="extractionError" type="String" />
+
+  <APXT_Redlining:Popover aura:id="popover" showBack="{!v.isEditing}" hasBack="{!v.isCaptureMode != true}" isVisible="{!v.isVisible}" popoverX="{!v.popoverX}" popoverY="{!v.popoverY}" popoverHeight="{!v.popoverHeight}">
+    <aura:set attribute="header">
+      <div class="slds-media">
+        <div class="slds-media__figure">
+          <aura:if isTrue="{!v.isLoading == undefined}">
+            <lightning:icon iconName="{!v.iconName}" size="medium"></lightning:icon>
+            <aura:set attribute="else">
+              <aura:if isTrue="{!v.isLoading}">
+                <lightning:spinner size="small" class="recordIconSpinner" />
+                <aura:set attribute="else">
+                  <lightning:icon class="successIcon" iconName="utility:success" size="medium" />
+                </aura:set>
+              </aura:if>
+            </aura:set>
+          </aura:if>
+        </div>
+        <div class="slds-media__body slds-truncate">
+          <aura:if isTrue="{!v.isClause}">
+              <!-- Managed Clauses -->
+              <h2 class="slds-text-heading_small">
+      {!v.describe.objectLabel}: <a href="#" onclick="{!c.recordLabelClick}">{!v.recordLabel}</a>
+              </h2>
+              <h2>
+                <a href="javascript:void(0);" onclick="{!c.edit}" class="slds-text-link_reset">{!v.fieldMeta.label}</a>
+              </h2>
+            <!-- end managed clauses -->
+            <aura:set attribute="else">
+              <h2 class="slds-text-heading_small">
+                <a href="javascript:void(0);" onclick="{!c.edit}" class="slds-text-link_reset">{!v.fieldMeta.label}</a>
+              </h2>
+              <h2>{!v.describe.objectLabel}: <a href="#" onclick="{!c.recordLabelClick}">{!v.recordLabel}</a>
+              </h2>
+            </aura:set>
+          </aura:if>
+        </div>
+      </div>
+    </aura:set>
+    <aura:set attribute="body">
+      <aura:if isTrue="{!v.isTextarea}">
+        <ul class="slds-has-dividers_bottom-space">
+          <li class="slds-item">
+            <fieldset class="slds-form-element">
+              <div class="slds-form-element__control slds-align_absolute-center slds-p-bottom_x-small">
+                <div class="slds-radio_button-group">
+                  <span class="slds-button slds-radio_button">
+                    <input type="radio" id="{!globalId + 'Document'}" name="clauseRadio" onchange="{!c.setProposed}" checked="{!v.isCurrent ? '' : 'checked'}"/>
+                    <label class="slds-radio_button__label" for="{!globalID + 'Document'}">
+                      <span class="slds-radio_faux">{!$Label.apxt_redlining.apxt_trueUp_modifiedHeader}</span>
+                    </label>
+                  </span>
+                  <span class="slds-button slds-radio_button">
+                    <input type="radio" id="{!globalId + 'Salesforce'}" name="clauseRadio" onchange="{!c.setCurrent}" checked="{!v.isCurrent ? 'checked' : ''}" />
+                    <label class="slds-radio_button__label" for="{!globalId + 'Salesforce'}">
+                      <span class="slds-radio_faux">{!$Label.apxt_redlining.apxt_trueUp_originalHeader}</span>
+                    </label>
+                  </span>
+                </div>
+              </div>
+              <div class="slds-form-element slds-size_1-of-1" style="height:300px;">
+                <div class="slds-form-element fill-height">
+                  <div class="slds-form-element__control fill-height">
+                    <lightning:inputRichText aura:id="field" disabledCategories="FORMAT_FONT,REMOVE_FORMATTING" value="{!v.inputValue}" />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </li>
+        </ul>
+        <aura:set attribute="else">
+          <div class="slds-card__body card-body">
+            <ul class="slds-has-dividers_bottom-space">
+              <li class="slds-item">
+                <fieldset class="slds-form_compound">
+                  <div class="slds-form-element__group">
+                    <div class="slds-form-element__row">
+                      <div class="slds-form-element slds-size_1-of-2">
+                        <div class="slds-form-element slds-text-title_caps">
+                          {!$Label.apxt_redlining.apxt_trueUp_modifiedHeader}
+                        </div>
+                      </div>
+                      <div class="slds-form-element slds-size_1-of-2">
+                        <div class="slds-form-element slds-text-title_caps">
+                          {!$Label.apxt_redlining.apxt_trueUp_originalHeader}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </li>
+            </ul>
+          </div>
+          <!-- Error Only -->
+          <aura:if isTrue="{!v.showError}">
+            <div style="position:relative;">
+              <section class="slds-popover slds-nubbin_bottom-left slds-theme_error tu-error-popover" role="dialog">
+                <button class="slds-button slds-button_icon-small slds-float_right slds-popover__close slds-button_icon" title="{!$Label.apxt_redlining.apxt_viewRedLines_closeDialogTitle}" onclick="{!c.hideError}">
+                  <lightning:icon iconName="utility:close" size="x-small" />
+                  <span class="slds-assistive-text">{!$Label.apxt_redlining.apxt_viewRedLines_closeDialogTitle}</span>
+                </button>
+                  <div class="slds-popover__body">
+                  <p>{!v.error}</p>
+                </div>
+              </section>
+            </div>
+          <!-- End Error Only -->
+          </aura:if>
+          <div class="slds-card__body card-body card-scrollable">
+            <ul class="slds-has-dividers_bottom-space">
+              <li class="slds-item">
+                <fieldset class="slds-form_compound">
+                  <div class="slds-form-element__group">
+                    <div class="slds-form-element__row">
+                      <div class="slds-form-element slds-size_1-of-2">
+                        <div class="slds-form-element">
+                          <div class="slds-form-element__control">
+                            <div class="slds-grid">
+                              <div>
+                                <span class="slds-radio">
+                                  <input type="radio" id="{!globalId + '_proposed'}" onchange="{!c.setProposed}" name="{!globalId + '_radio'}" checked="{!v.isCurrent ? '' : 'checked'}"/>
+                                  <label class="slds-radio__label" for="{!globalId + '_proposed'}">
+                                    <span class="slds-radio_faux"></span>
+                                    <span class="slds-form-element__label">
+                                    </span>
+                                  </label>
+                                </span>
+                              </div>
+                              <div aura:id="proposed" class="slds-col proposed">
+                                <aura:unescapedHtml value="{!v.value}" />
+                              </div>
+                              <span class="slds-radio spinner radio">
+                                <input type="radio" id="{!globalId + '_current'}" onchange="{!c.setCurrent}" name="{!globalId + '_radio'}" checked="{!v.isCurrent ? 'checked' : ''}"/>
+                                <label class="slds-radio__label" for="{!globalId + '_current'}">
+                                  <span class="slds-radio_faux"></span>
+                                </label>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="slds-form-element slds-size_1-of-2">
+                        <div class="slds-form-element fill-height">
+                          <div class="slds-form-element__control fill-height">
+                            <APXT_Redlining:InputField aura:id="field" fieldDescribe="{#v.fieldMeta}" placeholder="{!v.data}" value="{!v.inputValue}" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </li>
+            </ul>
+          </div>
+        </aura:set>
+      </aura:if>
+    </aura:set>
+    <aura:set attribute="footer">
+      <button class="slds-button slds-button_neutral slds-col_bump-left" onclick="{!c.skip}">{!$Label.apxt_redlining.apxt_viewRedLines_skip}</button>
+      <button class="slds-button slds-button_neutral slds-col_bump-left" onclick="{!c.save}">{!$Label.apxt_redlining.apxt_viewRedLines_save}</button>
+      <button class="slds-button slds-button_brand slds-col_bump-left" aura:id="acceptBtn" onclick="{!c.saveAndContinue}">{!$Label.apxt_redlining.apxt_viewRedLines_saveAndContinue}</button>
+    </aura:set>
+    <aura:set attribute="headerBack">
+      <aura:if isTrue="{!v.isExtracting}">
+          <h2 class="slds-text-heading_small slds-truncate">
+        <div class="conga-spinner-container">
+          <div role="status" class="slds-spinner slds-spinner_x-small slds-spinner_inverse">
+            <span class="slds-assistive-text">{!$Label.apxt_redlining.apxt_treeList_loading}</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+          </div>
+        </div>
+        {!$Label.apxt_redlining.apxt_trueUp_extracting}
+          </h2>
+        <aura:set attribute="else">
+          <aura:if isTrue="{!v.isCaptureMode}">
+            <h2 class="slds-text-heading_small slds-truncate slds-m-bottom_none">
+              {!$Label.apxt_redlining.apxt_viewRedLines_additionalUpdate}
+            </h2>
+            <aura:set attribute="else">
+              <h2 class="slds-text-heading_small slds-truncate slds-m-bottom_none">
+                {!$Label.apxt_redlining.apxt_viewRedLines_captureHeading}&nbsp;{!v.truncatedValue}
+              </h2>
+            </aura:set>
+          </aura:if>
+        </aura:set>
+      </aura:if>
+    </aura:set>
+    <aura:set attribute="back">
+      <!-- Custom Tabs -->
+      <div class="{!(v.isExtracting == true ? 'conga-disable ' : '') + 'slds-card__body card-body'}">
+      <div class="slds-radio_button-group custom-tabs slds-text-heading_small slds-m-bottom_none">
+          <span class="slds-button slds-radio_button">
+            <input type="radio" id="{!globalId + 'Field'}" name="radio" onchange="{!c.setField}" checked="{!v.isClause ? '' : 'checked'}" />
+            <label class="slds-radio_button__label" for="{!globalId + 'Field'}">
+              <span class="slds-radio_faux">{!$Label.apxt_redlining.apxt_viewRedLines_fieldLabel}</span>
+            </label>
+          </span>
+          <span class="slds-button slds-radio_button">
+              <input type="radio" id="{!globalId + 'Clause'}" name="radio" onchange="{!c.setClause}" checked="{!v.isClause ? 'checked' : ''}"/>
+              <label class="slds-radio_button__label" for="{!globalID + 'Clause'}">
+                <span class="slds-radio_faux">
+                  <aura:if isTrue="{!v.useQuoteTerms}">
+                      {!$Label.apxt_redlining.apxt_viewRedlines_quoteTerm}
+                    <aura:set attribute="else">
+                      {!$Label.apxt_redlining.apxt_selectClauseBundle_clause_plural}
+                    </aura:set>
+                  </aura:if>
+                </span>
+              </label>
+            </span>
+        </div>
+        <!-- End Custom Tabs -->
+        <ul class="slds-has-dividers_bottom-space slds-grid slds-grid_vertical conga-back-body">   
+          <li class="slds-item conga-picker slds-card slds-card_narrow square-corners">
+            <fieldset class="slds-form-element">
+              <aura:if isTrue="{!v.isClause}">
+                  <!-- Clauses -->
+                  <aura:if isTrue="{!and(v.extractionError, v.extractionError.length > 0)}">
+                    <div class="slds-region_narrow slds-is-relative">
+                      <div class="slds-notify slds-notify_toast slds-theme_warning" role="alert">
+                          <span class="slds-assistive-text">Error</span>
+                          <div class="slds-icon_container slds-icon-utility-error slds-m-right_small slds-no-flex slds-align-top">
+                            <lightning:icon iconName="utility:warning" size="x-small" variant="inverse" />
+                          </div>
+                          <div class="slds-notify__content slds-truncate">
+                            <h2 class="slds-text-heading_small slds-truncate" title="{!v.extractionError}">{!v.extractionError}</h2>
+                          </div>
+                      </div>
+                    </div>
+                  </aura:if>
+                  <APXT_Redlining:ClauseList useQuoteTerms="{!v.useQuoteTerms}" recordId="{!v.parentRecordId}" selectedText="{!v.htmlValue}" selectedId="{!v.recordId}" searchResults="{!v.clauseSearchResults}" />
+                <!-- End Clauses -->
+                <aura:set attribute="else">
+                <!-- Fields Tab Content-->
+                    <div class="slds-item conga-suggestions slds-p-left_x-small slds-m-top_x-small">
+                        <aura:if isTrue="{!and(v.extractionError, v.extractionError.length > 0)}">
+                          <div class="slds-region_narrow slds-is-relative">
+                            <div class="slds-notify slds-notify_toast slds-theme_warning" role="alert">
+                                <span class="slds-assistive-text">Error</span>
+                                <div class="slds-icon_container slds-icon-utility-error slds-m-right_small slds-no-flex slds-align-top">
+                                  <lightning:icon iconName="utility:warning" size="x-small" variant="inverse" />
+                                </div>
+                                <div class="slds-notify__content slds-truncate">
+                                  <h2 class="slds-text-heading_small slds-truncate" title="{!v.extractionError}">{!v.extractionError}</h2>
+                                </div>
+                            </div>
+                          </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.suggestionState == 1}">
+                          <div class="slds-align_absolute-center slds-m-top_medium">
+                            <aura:if isTrue="{!v.isExtracting}">
+                              <legend class="slds-form-element__legend slds-form-element__label">{!$Label.apxt_redlining.apxt_trueUp_extracting}...</legend>
+                              <aura:set attribute="else">
+                                <legend class="slds-form-element__legend slds-form-element__label">{!$Label.apxt_redlining.apxt_trueUp_suggestionSearch}...</legend>
+                              </aura:set>
+                            </aura:if>
+                            <lightning:spinner size="small" class="recordIconSpinner" />
+                          </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.suggestionState == -1}">
+                          <div class="slds-align_absolute-center slds-m-top_medium">
+                            <legend class="slds-form-element__legend slds-form-element__label">{!$Label.apxt_redlining.apxt_trueUp_suggestionNotFound}</legend>
+                          </div>
+                        </aura:if>
+                        <aura:if isTrue="{!and(v.suggestionState == 0, v.hasSuggestions)}">
+                          <legend class="slds-form-element__legend slds-form-element__label">{!$Label.apxt_redlining.apxt_viewRedLines_selectSuggestion}</legend>
+                          <ul>
+                          <aura:iteration items="{!v.suggestions}" var="item">
+                            <li class="slds-text-body_small"><a href="javascript:void();" onclick="{!c.selectSuggestion}" data-text="{!item.suggestedText}" data-value="{!item.name}">{!item.label}</a></li>
+                          </aura:iteration> 
+                          </ul>
+                        </aura:if> 
+                      </div>
+                  <APXT_Redlining:FieldList describe="{!v.describe}" value="{!v.fieldMeta}" showTitle="{!v.suggestionState == -1}"/>
+                <!-- End Fields Content-->
+                </aura:set>
+              </aura:if>
+            </fieldset>
+          </li>
+        </ul>
+      </div>
+    </aura:set>
+    <aura:set attribute="footerBack">
+      <aura:if isTrue="{!v.isCaptureMode}">
+        <button class="slds-button slds-button_neutral slds-col_bump-left" onclick="{!c.close}">{!$Label.apxt_redlining.apxt_viewRedLines_cancel}</button>
+        <button class="slds-button slds-button_brand slds-col_bump-left" onclick="{!c.capture}">{!$Label.apxt_redlining.apxt_capture_title}</button>
+        <aura:set attribute="else">
+            <!-- New Clause Button -->
+            <aura:if isTrue="{!v.isClause}">
+                <button class="slds-button slds-button_neutral" onclick="{!c.openNewClause}">
+                    <aura:if isTrue="{!v.useQuoteTerms}">
+                      {!$Label.apxt_redlining.apxt_viewRedlines_newQuoteTerm}
+                      <aura:set attribute="else">
+                        {!$Label.apxt_redlining.apxt_viewRedlines_newClause}
+                      </aura:set>
+                    </aura:if>
+                  </button>
+                </aura:if>
+            <!-- End New Clause Button -->
+        </aura:set>
+      </aura:if>
+    </aura:set>
+  </APXT_Redlining:Popover>
+</aura:component>

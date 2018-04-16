@@ -1,0 +1,11 @@
+<apex:page standardController="Account" extensions="Account_Contact">
+  <apex:form >
+    <apex:pageblock >
+       <!-- Display Account related Contacts -->
+       <apex:pageBlockTable value="{!relatedContacts}" var="val">
+         <apex:column value="{!val.name}"/>
+         <apex:column value="{!val.email}"/>
+       </apex:pageBlockTable> 
+    </apex:pageblock>
+  </apex:form>
+</apex:page>

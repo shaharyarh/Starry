@@ -1,0 +1,120 @@
+<aura:component >
+    <ltng:require scripts="/resource/apxt_jQuery"/>
+
+    <aura:attribute name="fieldHistory" type="Object" description="Field History Object"/>
+    <aura:attribute name="labels" type="Object" description="Labels"/>
+    <aura:attribute name="namespaceApi" type="String" description="Namespace"/>
+
+    <aura:attribute name="activatedContractParams" type="String[]"/>
+    <aura:attribute name="changedContractParams" type="String[]"/>
+    <aura:attribute name="newPrimaryDocumentParams" type="String[]"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+
+    <div aura:id="contractHistoryWrapper">
+        <aura:if isTrue="{!v.fieldHistory.data.fieldCategory == 'Status'}">
+            <aura:if isTrue="{!v.fieldHistory.data.statusCode == 'Activated'}">
+                <span class="slds-assistive-text">{!v.labels.apxt_contractActivityContractHistory_activatedTitle}</span>
+                <div class="slds-media">
+                    <div class="slds-media__body">
+                        <div class="slds-media slds-media--timeline conga-timeline__media--activated">
+                            <div class="slds-media__figure slds-timeline__icon">
+                                <div class="slds-icon_container">
+                                    <APXT_Redlining:apxt_svg ariaHidden="true" class="slds-icon slds-icon--small conga-timeline__icon--activated" xlinkHref="{!'/resource/' + v.namespaceApi + 'apxt_lightningCss/icons/standard-sprite/svg/symbols.svg#task2'}" winterClass="conga-timeline__icon--activated" winterIconName="standard:task2" winterSize="small"></APXT_Redlining:apxt_svg>
+                                </div>
+                            </div>
+                            <div class="slds-media__body">
+                                <div class="slds-media">
+                                    <div class="slds-media__body">
+                                        <p class="slds-truncate conga-contract-activity__title" title="{!v.labels.apxt_contractActivityContractHistory_activatedTitle}">
+                                            <span class="slds-tile__title conga-position--static">
+                                                <APXT_Redlining:apxt_label label="{!v.labels.apxt_contractActivity_activatedContract}" params="{!v.activatedContractParams}"></APXT_Redlining:apxt_label>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-media__figure slds-media__figure--reverse">
+                        <div class="slds-timeline__actions">
+                            <p class="slds-timeline__date">
+                                {!v.fieldHistory.data.FormattedCreatedDate}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <aura:set attribute="else">
+                    <span class="slds-assistive-text">{!v.labels.apxt_contractActivityContractHistory_changedTitle}</span>
+                    <div class="slds-media">
+                        <div class="slds-media__body">
+                            <div class="slds-media slds-media--timeline conga-timeline__media--status-changed">
+                                <div class="slds-media__figure slds-timeline__icon">
+                                    <div class="slds-icon_container">
+                                        <APXT_Redlining:apxt_svg ariaHidden="true" class="slds-icon slds-icon--small conga-timeline__icon--status-changed" xlinkHref="{!'/resource/' + v.namespaceApi + 'apxt_lightningCss/icons/custom-sprite/svg/symbols.svg#custom6'}" winterClass="conga-timeline__icon--status-changed" winterIconName="custom:custom6" winterSize="small"></APXT_Redlining:apxt_svg>
+                                    </div>
+                                </div>
+                                <div class="slds-media__body">
+                                    <div class="slds-media">
+                                        <div class="slds-media__body">
+                                            <p class="slds-truncate conga-contract-activity__title" title="{!v.labels.apxt_contractActivityContractHistory_changedTitle}">
+                                                <span class="slds-tile__title conga-position--static">
+                                                    <APXT_Redlining:apxt_label label="{!v.labels.apxt_contractActivityContractHistory_changedContract}" params="{!v.changedContractParams}"></APXT_Redlining:apxt_label>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-media__figure slds-media__figure--reverse">
+                            <div class="slds-timeline__actions">
+                                <p class="slds-timeline__date">
+                                    {!v.fieldHistory.data.FormattedCreatedDate}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </aura:set>
+            </aura:if>
+        </aura:if>
+
+        <aura:if isTrue="{!v.fieldHistory.data.fieldCategory == 'PrimaryDocument'}">
+            <span class="slds-assistive-text">{!v.labels.apxt_contractActivityContractHistory_primaryDocumentSelected}</span>
+            <div class="slds-media">
+                <div class="slds-media__body">
+                    <div class="slds-media slds-media--timeline conga-timeline__media--switched">
+                        <div class="slds-media__figure slds-timeline__icon">
+                            <div class="slds-icon_container">
+                                <APXT_Redlining:apxt_svg ariaHidden="true" class="slds-icon slds-icon--small slds-p-around--xx-small conga-timeline__icon--switched" xlinkHref="{!'/resource/' + v.namespaceApi + 'apxt_lightningCss/icons/utility-sprite/svg/symbols.svg#replace'}" winterClass="slds-p-around--xx-small conga-timeline__icon--switched" winterIconName="utility:replace" winterSize="small"></APXT_Redlining:apxt_svg>
+                            </div>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-media">
+                                <div class="slds-media__body">
+                                    <p class="slds-truncate conga-contract-activity__title" title="{!v.labels.apxt_contractActivityContractHistory_primaryDocumentSelected}">
+                                        <span class="slds-tile__title conga-position--static">
+                                            <aura:if isTrue="{!v.fieldHistory.data.NewValue != null}">
+                                                <APXT_Redlining:apxt_label label="{!v.labels.apxt_contractActivityContractHistory_newPrimaryDocument}" params="{!v.newPrimaryDocumentParams}"></APXT_Redlining:apxt_label>
+                                                <aura:set attribute="else">
+                                                    <APXT_Redlining:apxt_label label="{!v.labels.apxt_contractActivityContractHistory_noPrimaryDocument}" params="{!v.newPrimaryDocumentParams}"></APXT_Redlining:apxt_label>
+                                                </aura:set>
+                                            </aura:if>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-media__figure slds-media__figure--reverse">
+                    <div class="slds-timeline__actions">
+                        <p class="slds-timeline__date">
+                            {!v.fieldHistory.data.FormattedCreatedDate}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

@@ -1,0 +1,5 @@
+.THIS .slds-is-disabled.slds-tree__item:hover {
+  /* Custom styling for disabled items */
+  cursor: unset;
+  background: unset;
+}

@@ -1,0 +1,4 @@
+<aura:event access="global" type="APPLICATION" description="Event to show message in Prompt">
+  <aura:attribute name="message" type="String" />
+  <aura:attribute name="title" type="String" />
+</aura:event>

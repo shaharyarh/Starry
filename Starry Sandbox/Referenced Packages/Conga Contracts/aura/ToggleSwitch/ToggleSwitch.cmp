@@ -1,0 +1,26 @@
+<aura:component >
+  <aura:attribute name="onchange" type="Aura.Action" />
+  <aura:attribute name="value" type="Boolean" default="false" />
+  <aura:attribute name="disabled" type="Boolean" default="false" />
+  <aura:attribute name="label" type="String" />
+  <aura:attribute name="enabledLabel" type="String" />
+  <aura:attribute name="disabledLabel" type="String" />
+
+  <div class="slds-form-element slds-p-around_xx-small">
+    <label class="slds-checkbox_toggle slds-grid">
+      <aura:if isTrue="{!v.disabled}">
+        <aura:set attribute="else">
+            <input aura:id="cb" onchange="{!v.onchange}" type="checkbox" aria-describedby="toggle-desc" value="on" />
+        </aura:set>
+        <!-- Don't allow changing when external connections -->
+        <input aura:id="cb" disabled="true" type="checkbox" aria-describedby="toggle-desc" value="on" />
+      </aura:if>
+      <span id="toggle-desc" class="slds-checkbox_faux_container" aria-live="assertive">
+        <span class="slds-checkbox_faux"></span>
+        <span class="slds-checkbox_on">{!v.enabledLabel}</span>
+        <span class="slds-checkbox_off">{!v.disabledLabel}</span>
+      </span>
+      <span class="slds-form-element__label slds-m-bottom_none slds-p-left_x-small">{!v.label}</span>
+    </label>
+  </div>
+</aura:component>

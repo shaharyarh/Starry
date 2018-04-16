@@ -1,0 +1,2 @@
+<aura:component access="global" extends="APXT_Redlining:CanvasAnimation">
+</aura:component>

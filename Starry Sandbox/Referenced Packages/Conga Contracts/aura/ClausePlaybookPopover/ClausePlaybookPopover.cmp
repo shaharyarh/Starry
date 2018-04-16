@@ -1,0 +1,85 @@
+<aura:component controller="APXT_Redlining.apxt_selectClauseOrder" extends="APXT_Redlining:Base">
+
+  <aura:handler name="init" action="{!c.init}" value="{!this}"/> 
+  <aura:registerEvent name="replaceClause" type="APXT_Redlining:DocumentReplaceEvent"/>
+
+  <aura:attribute name="recordId" type="Id" />
+  <aura:attribute name="popoverX" type="Integer" />
+  <aura:attribute name="popoverY" type="Integer" />
+  <aura:attribute name="popoverPageNumber" type="Integer"/>
+  <aura:attribute name="popoverHeight" type="Integer" description="height of element popover is pointing at" />
+
+  <!-- Private attributes -->
+  <aura:attribute access="private" name="selectedId" type="Object"/>
+  <aura:attribute access="private" name="searchResults" type="Array"/>
+  <aura:attribute access="private" name="searchText" type="String"/>
+  <aura:attribute access="private" name="clauseTypes" type="Array"/>
+  <aura:attribute access="private" name="filterClauseTypeId" type="Id"/>
+  <aura:attribute access="private" name="isVisible" type="boolean" default="true" />
+  <aura:attribute access="private" name="width" type="Integer" />
+  <aura:attribute access="private" name="height" type="Integer" />
+  <aura:attribute access="private" name="calloutDirection" type="String" default="bottom" />
+  <aura:attribute access="private" name="offsetX" type="Integer" />
+  <aura:attribute access="private" name="offsetY" type="Integer"/>
+  <aura:attribute access="private" name="restrictToAlt" type="Boolean"/>
+  <aura:attribute access="private" name="noClausesFound" type="Boolean"/>
+  <aura:attribute access="private" name="altClausesExist" type="Boolean"/>
+  <aura:attribute access="private" name="showRevertClause" type="Boolean"/>
+
+  <APXT_Redlining:Popover aura:id="popover" isVisible="{!v.isVisible}" popoverX="{!v.popoverX}" popoverY="{!v.popoverY}" popoverHeight="{!v.popoverHeight}" noPaddingSquareCorners="true">
+    <aura:set attribute="header">
+      <h2 class="slds-text-heading_small slds-truncate">{!$Label.apxt_redlining.apxt_clausePlaybook_title}</h2>
+    </aura:set>
+    <aura:set attribute="body">
+      <div class="slds-card__body card-body slds-p-around_x-small">
+          <ul class="slds-has-dividers_bottom-space">
+            <li class="slds-item">
+              <div class="slds-grid">
+                <select class="slds-col slds-size_1-of-3 slds-select slds-m-right_xx-small" onchange="{!c.selectType}">
+                  <option>{!$Label.apxt_redlining.apxt_clausePlaybook_filterPlaceholder}</option>
+                  <aura:iteration items="{!v.clauseTypes}" var="item">
+                    <option value="{!item.Id}">{!item.Name}</option>
+                  </aura:iteration>
+                </select>
+                <div class="slds-col slds-size_2-of-3 slds-input-has-icon slds-input-has-icon_left">
+                  <lightning:icon class="slds-input__icon" iconName="utility:search" size="x-small"></lightning:icon>
+                  <input type="search" class="slds-lookup__search-input slds-input" value="{!v.searchText}" onkeyup="{!c.search}" placeholder="{!$Label.apxt_redlining.apxt_clausePlaybook_searchPlaceholder}" role="combobox" aria-activedescendant="" aria-expanded="false" aria-autocomplete="list" />
+                </div>
+              </div>
+              <h3 class="slds-text-align_center slds-m-top_medium">
+                  <aura:if isTrue="{!v.showRevertClause}">{!$Label.apxt_redlining.apxt_clausePlaybook_title_noAtlClauses}</aura:if>
+                  <aura:if isTrue="{!v.restrictToAlt}">{!$Label.apxt_redlining.apxt_clausePlaybook_title_atlClauses}</aura:if>
+                  <aura:if isTrue="{!v.altClausesExist}">{!$Label.apxt_redlining.apxt_clausePlaybook_title_noAtlClausesForced}</aura:if>
+                  <aura:if isTrue="{!v.noClausesFound}">{!$Label.apxt_redlining.apxt_clausePlaybook_title_noClausesFound}</aura:if>
+              </h3>
+              <div class="slds-scrollable slds-grid slds-wrap slds-m-vertical_x-small slds-grid_vertical-align-start">
+                <aura:iteration items="{!v.searchResults}" var="item">
+                  <div class="slds-size_1-of-1 slds-p-top_small" role="presentation" onclick="{!c.select}" data-id="{!item.Id}">
+                    <span class="{!(item.selected ? 'conga-is-selected ' : '') + 'slds-pill slds-media slds-media_center slds-media_small slds-text-body_small'}" role="option" title="{!item.Name}">
+                      <span class="slds-p-around_xx-small">
+                        <span class="slds-lookup__result-text  slds-text-heading_small bold-text">
+                          <aura:unescapedHtml value="{!item.Name}" />
+                        </span>
+                        <span class="slds-lookup__result-meta slds-text-body_regular" title="{!item.Text}">{!item.Text}</span>
+                      </span>
+                    </span>
+                  </div>
+                </aura:iteration>
+              </div>
+            </li>
+          </ul>
+        </div>
+    </aura:set>
+    <aura:set attribute="footer">
+      <button class="slds-button slds-button_neutral slds-col_bump-left" onclick="{!c.closeClick}">{!$Label.apxt_redlining.apxt_clausePlaybook_cancel}</button>
+          <button class="slds-button slds-button_brand slds-col_bump-left" onclick="{!c.replaceClick}">
+          <aura:if isTrue="{!v.showRevertClause}">
+            {!$Label.apxt_redlining.apxt_clausePlaybook_revert}
+          <aura:set attribute="else">
+            {!$Label.apxt_redlining.apxt_clausePlaybook_replace}
+          </aura:set>
+        </aura:if>
+      </button>
+    </aura:set>
+  </APXT_Redlining:Popover>
+</aura:component>

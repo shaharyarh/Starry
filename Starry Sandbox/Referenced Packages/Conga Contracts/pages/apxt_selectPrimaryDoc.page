@@ -1,0 +1,156 @@
+<apex:page standardController="Contract" extensions="APXT_Redlining.apxt_selectPrimaryDoc" showHeader="false" sidebar="false">
+    <html xmlns:xlink="http://www.w3.org/1999/xlink">
+        <head>
+            <meta name="robots" content="noindex, nofollow"/>
+            <meta charset="UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1"/>
+            <title>{!$Label.apxt_selectPrimaryDoc_title}</title>
+            <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.apxt_lightningCss, './styles/salesforce-lightning-design-system-vf.css')}"/>
+            <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.apxt_mainCss, './main.css')}"/>
+            <script type="text/javascript" src="{!URLFOR($Resource.apxt_jQuery)}"/>
+            <script src="{!URLFOR($Resource.apxt_svg4everybody)}"></script>
+        </head>
+
+        <div class="slds">
+            <!-- Page Header -->
+            <div class="slds-page-header" role="banner">
+                <div class="slds-grid">
+                    <div class="slds-col slds-has-flexi-truncate">
+                        <div class="slds-media slds-media--center slds-no-space slds-grow">
+                            <div class="slds-media__figure">
+                                <svg aria-hidden="true" class="slds-icon slds-icon-standard-contract">
+                                    <use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/standard-sprite/svg/symbols.svg')}#contract"></use>
+                                </svg>
+                            </div>
+                            <div class="slds-media__body">
+                                <nav role="navigation" aria-label="Breadcrumbs">
+                                    <ol class="slds-breadcrumb slds-list--horizontal">
+                                        <li class="slds-breadcrumb__item slds-text-heading--label">
+                                            <a href="/{!parentTypePrefix}/o">{!parentTypeLabel}</a>
+                                        </li>
+                                        <li class="slds-breadcrumb__item slds-text-heading--label">
+                                            <a href="/{!parentObj.Id}">{!parentObjName}</a>
+                                        </li>
+                                    </ol>
+                                </nav>
+                                <h1 class="slds-page-header__title slds-m-right--small slds-truncate slds-align-middle" title="{!$Label.apxt_selectPrimaryDoc_title}">{!$Label.apxt_selectPrimaryDoc_title}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-no-flex slds-grid slds-align-bottom">
+                        <a id="cancelBtn" href="/{!parentObj.Id}" class="slds-button slds-button--neutral">{!$Label.apxt_selectPrimaryDoc_cancel}</a>
+                        <a id="saveBtn" href="javascript:void(0);" class="slds-button slds-button--brand">{!$Label.apxt_selectPrimaryDoc_save}</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Page Header -->
+            <div class="slds-container slds-container--medium slds-container--center slds-p-around--large">
+                <div class="slds-box {!IF(pageStatusMap['success'], 'slds-theme--default', 'slds-theme--error slds-theme--alert-texture')}">
+                    <apex:outputPanel layout="none" rendered="{!parentObj!=null}">
+                        <h3 class="slds-text-heading--small slds-m-bottom--small">{!$Label.apxt_redlining__apxt_selectprimarydoc_primaryprompt}</h3>
+                        <apex:form id="vfForm">
+                            <apex:actionFunction name="updateParent" action="{!updateParent}"/>
+                            <apex:inputText id="js-primaryDoc" styleClass="js-primaryDoc slds-hide" value="{!primaryDocId}"/>
+                        </apex:form>
+
+                        <apex:outputPanel layout="none" rendered="{!noFiles}">
+                            <div class="slds-notify slds-notify--toast slds-theme--info slds-m-around--none conga-notification" role="alert">
+                                <span class="slds-assistive-text">{!$Label.apxt_selectPrimaryDoc_info}</span>
+                                <div class="slds-grid">
+                                    <svg aria-hidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                                        <use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#info"></use>
+                                    </svg>
+                                    <div class="slds-col slds-align-middle">
+                                        <h2 class="slds-text-heading--small">{!$Label.apxt_selectPrimaryDoc_emptyState}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </apex:outputPanel>
+                        <apex:outputPanel layout="none" rendered="{!NOT(noFiles)}">
+                            <ul class="slds-has-dividers--around">
+                                <apex:repeat value="{!cdMaps}" var="cdMap">
+                                    <li class="slds-item slds-p-around--small {!IF(cdMap['isPrimary'], 'slds-theme--shade' ,'')}">
+                                        <div class="slds-grid">
+                                            <div class="slds-form-element slds-shrink slds-p-right--xxx-small">
+                                                <div class="slds-form-element__control">
+                                                    <label class="slds-radio">
+                                                        <apex:outputPanel layout="none" rendered="{!cdMap['isPrimary']}">
+                                                            <input type="radio" name="primary-document" class="js-primary" checked="true" value="{!cdMap['id']}"/>
+                                                        </apex:outputPanel>
+                                                        <apex:outputPanel layout="none" rendered="{!NOT(cdMap['isPrimary'])}">
+                                                            <input type="radio" name="primary-document" class="js-primary" value="{!cdMap['id']}"/>
+                                                        </apex:outputPanel>
+                                                        <span class="slds-radio--faux"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="slds-shrink slds-m-right--x-small">
+                                                <svg aria-hidden="true" class="slds-icon slds-icon--medium slds-icon-doctype-groups slds-m-top--xxx-small conga-contract-icon__document">
+                                                    <use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/doctype-sprite/svg/symbols.svg')}#{!cdMap['iconType']}"></use>
+                                                </svg>
+                                            </div>
+                                            <div class="slds-grow">
+                                                <p class="conga-word-break" title="{!cdMap['title']}">
+                                                    <a href="/{!cdMap['id']}">{!cdMap['title']}</a>
+                                                </p>
+                                                <div class="slds-text-body--small">
+                                                    <ul class="slds-list--horizontal slds-has-dividers--right conga-list--horizontal">
+                                                        <li class="slds-item">
+                                                            <span href="#">
+                                                                <apex:outputText value="{!$Label.apxt_redlining__apxt_selectprimarydoc_numversions}">
+                                                                    <apex:param value="{!cdMap['totalVersions']}"/>
+                                                                    <apex:param value="{!IF(cdMap['totalVersions'] == 1, $Label.apxt_redlining__apxt_selectprimarydoc_version, $Label.apxt_redlining__apxt_selectprimarydoc_version_plural)}"/>
+                                                                </apex:outputText>
+                                                            </span>
+                                                        </li>
+                                                        <li class="slds-item">
+                                                            <apex:outputText value="{!$Label.apxt_redlining__apxt_selectprimarydoc_lastmodidfer}">
+                                                                <apex:param value="{!$Label.apxt_redlining__apxt_selectprimarydoc_lastmod}"/>
+                                                                <apex:param value="{!cdMap['editor']}"/>
+                                                            </apex:outputText>
+                                                        </li>
+                                                        <li class="slds-item">
+                                                            <apex:outputText value="{0}">
+                                                                <apex:param value="{!cdMap['editDate']}"/>
+                                                            </apex:outputText>
+                                                            <!-- <apex:outputText value="{0, date, MMM dd, yyyy}" lang="de">
+                                                                <apex:param value="{!cdMap['editDate']}"/>
+                                                            </apex:outputText> -->
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </apex:repeat>
+                            </ul>
+                        </apex:outputPanel>
+
+                    </apex:outputPanel>
+                    <apex:outputPanel layout="none" rendered="{!!pageStatusMap['success']}">
+                        <h2 class="slds-text-heading--small">{!pageStatusMap['label']}</h2>
+                        <p class="slds-text-body--small">{!pageStatusMap['detail']}</p>
+                        <div class="slds-hide">{!pageStatusMap['id']}</div>
+                        <div class="slds-hide">{!pageStatusMap['debug']}</div>
+                    </apex:outputPanel>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            svg4everybody();
+
+            $('body').on('change', 'input[name="primary-document"]', function (e) {
+                var $selectedInput = $(e.target);
+                var primDocId = $selectedInput.val();
+                $('.slds-theme--shade').removeClass('slds-theme--shade');
+                $selectedInput.closest('li').addClass('slds-theme--shade');
+                $('.js-primaryDoc').val(primDocId);
+            });
+
+            $('body').on('click', '#saveBtn', function () {
+                updateParent();
+            });
+        </script>
+    </html>
+</apex:page>

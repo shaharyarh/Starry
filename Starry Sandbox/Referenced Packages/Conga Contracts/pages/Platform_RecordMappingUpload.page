@@ -1,0 +1,193 @@
+<apex:page controller="APXT_Redlining.Platform_RecordMappingUploadController" title="Internal Record Mapping Upload Tool ">
+    <style type="text/css">
+        .custPopup{
+            background-color: white; 
+            background-color: rgba(255,255,255,1);  
+            border-width: 2px;
+            border-style: solid;
+            z-index: 1002;
+            left: 50%;
+            padding:10px;
+            position: fixed;
+            /* These are the 3 css properties you will need to change so the popup 
+            displays in the center of the screen. First set the width. Then set 
+            margin-left to negative half of what the width is. You can add 
+            the height property for a fixed size pop up if you want.*/
+            width: 40%;
+            
+            margin-left: -20%;
+            top:50px;  
+            overflow: scroll;
+
+        }
+        .popupBackground{
+            background-color:black;
+            background-color: rgba(0,0,0,0.5); 
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1001;
+        }
+    </style>
+    <script type="text/javascript">
+        function switchMenu(obj,obj1,obj2) 
+        {
+            var el = document.getElementById(obj);                                       
+            if ( el.style.display != 'none' ) {
+            el.style.display = 'none';
+            }
+            else {
+            el.style.display = '';
+            }
+            var e2 = document.getElementById(obj1);                                       
+            if ( e2.style.display != 'none' ) {
+            e2.style.display = 'none';
+            }
+            else {
+            e2.style.display = '';
+            }
+             var e3 = document.getElementById(obj2);                                       
+            if ( e2.style.display != 'none' ) {
+            e3.style.display = 'none';
+            }
+            else {
+            e3.style.display = '';
+            }
+
+        }
+    </script>
+    <apex:form id="pgform">
+        <apex:pageMessages id="msgs"></apex:pageMessages>
+        <apex:actionStatus id="actionLoading" stopText="">
+            <apex:facet name="start">
+                <apex:outputPanel styleClass="popupBackground" layout="block" >
+                    <apex:outputPanel styleClass="custPopup" layout="block" > 
+                        <div style=" margin-left: auto;  margin-right: auto;display:block; text-align:center; font-size: 1.3em;">
+                            <h1>Please wait...</h1> <br />
+                        </div>
+                        <div style=" margin-left: auto;  margin-right: auto;display:block;text-align:center;">
+                            <apex:image url="{!URLFOR($Resource.APXT_Redlining__apxt_mainCss, 'images/loading-icon.gif')}" width="30px" ></apex:image> 
+                        </div>
+                    </apex:outputPanel>
+                 </apex:outputPanel>
+            </apex:facet> 
+          </apex:actionStatus>
+        <apex:pageBlock title="Connections" id="connections">  
+            <apex:pageBlockTable title="Connections" value="{!connections}" var="conn" >
+                <apex:column style="width:25px">
+                    <apex:outputPanel id="toggleOM">
+                        <apex:outputpanel id="expandedImageOM" rendered="{!NOT(omKeys = '')}">
+                            <apex:image url="{!URLFOR($Resource.APXT_Redlining__apxt_mainCss, 'images/treeitem-expanded.png')}" onclick="switchMenu('{!$Component.objectMappings}','{!$Component.expandedImageOM}','{!$Component.collapsedImageOM}')" title="Expand - Object Mappings"/> 
+                        </apex:outputpanel>
+                        <apex:outputpanel id="collapsedImageOM" style="display:none;" rendered="{!NOT(omKeys = '')}">
+                            <apex:image url="{!URLFOR($Resource.APXT_Redlining__apxt_mainCss, 'images/treeitem-collapsed.png')}" onclick="switchMenu('{!$Component.objectMappings}','{!$Component.expandedImageOM}','{!$Component.collapsedImageOM}')" title="Collapse - Object Mappings"/>
+                        </apex:outputpanel>
+                    </apex:outputPanel>
+                </apex:column>
+                <apex:column title="Action">
+                    <apex:commandLink action="{!loadObjectMappings}" value="Get OMs" styleClass="actionLink" reRender="objectMappings,msgs,toggleOM" status="actionLoading">
+                        <apex:param name="connId" value="{!conn.connectionId}" />
+                    </apex:commandLink>
+                </apex:column>
+                <apex:column headerValue="Id" value="{!conn.connectionId}"/>
+                <apex:column headerValue="name" value="{!conn.name}"/>
+                <apex:column headerValue="system" value="{!conn.app}" /> 
+                <apex:column headerValue="oms" breakBefore="true" colspan="5" > 
+                    <apex:outputPanel id="objectMappings">
+                    	<apex:pageBlock title="Object Mappings" rendered="{!AND(omKeys != '', contains(omKeys, conn.connectionId))}">
+                        	<apex:pageBlockTable title="Object Mappings" value="{!objectMappings[conn.connectionId]}" var="omId" >
+                                <apex:column style="width:25px">
+                                    <apex:outputPanel id="toggleRM">
+                                        <apex:outputpanel id="expandedImageRM" rendered="{!NOT(rmKeys = '')}">
+                                            <apex:image url="{!URLFOR($Resource.APXT_Redlining__apxt_mainCss, 'images/treeitem-expanded.png')}" onclick="switchMenu('{!$Component.recordMappings}','{!$Component.expandedImageRM}','{!$Component.collapsedImageRM}')" title="Expand - Object Mappings"/> 
+                                        </apex:outputpanel>
+                                        <apex:outputpanel id="collapsedImageRM" style="display:none;" rendered="{!NOT(rmKeys = '')}">
+                                            <apex:image url="{!URLFOR($Resource.APXT_Redlining__apxt_mainCss, 'images/treeitem-collapsed.png')}" onclick="switchMenu('{!$Component.recordMappings}','{!$Component.expandedImageRM}','{!$Component.collapsedImageRM}')" title="Collapse - Object Mappings"/>
+                                        </apex:outputpanel>
+                                    </apex:outputPanel>
+                                </apex:column>
+                                <apex:column title="Action">
+                                    <apex:commandLink action="{!loadRecordMappings}" value="Get RMs" styleClass="actionLink" reRender="recordMappings,msgs,toggleRM" status="actionLoading">                                
+                                        <apex:param name="omId" value="{!omId}" />
+                                        <apex:param name="connId" value="{!conn.ConnectionId}" />
+                                    </apex:commandLink>
+                                </apex:column>
+                                <apex:column headerValue="Id" value="{!omId}" />
+                                <apex:column headerValue="Salesforce Object" value="{!objectMappings[conn.connectionId][omId].objectMapping.SalesforceObjectName}" />
+                                <apex:column headerValue="External Object" value="{!objectMappings[conn.connectionId][omId].objectMapping.ExternalObjectName}" />
+                                <apex:column headerValue="Active" value="{!objectMappings[conn.connectionId][omId].objectMapping.IsActive}" />
+                                <apex:column id="rms" breakBefore="true" colspan="6" >
+                                	<apex:outputPanel id="recordMappings">
+                                    	<apex:pageBlock title="Record Mappings ({!recordMappingsPager[omId].totalSize})" rendered="{!AND(rmKeys != '', contains(rmKeys, omId))}">
+                                            <apex:pageBlockButtons location="bottom"  rendered="{!NOT(objectMappings[conn.connectionId][omId].filterActive)}">
+                                                <apex:outputPanel id="rmPagerButtons">
+                                                    <apex:commandButton action="{!pageRecordMappings}" title="Beginning" value="<<" disabled="{!recordMappingsPager[omId].disablePrevious}" reRender="recordMappings">
+                                                        <apex:param name="omId" value="{!omId}" />
+                                                        <apex:param name="to" value="first" />
+                                                    </apex:commandButton>
+                                                    <apex:commandButton action="{!pageRecordMappings}" title="Previous" value="<" disabled="{!recordMappingsPager[omId].disablePrevious}" reRender="recordMappings">
+                                                        <apex:param name="omId" value="{!omId}" />
+                                                        <apex:param name="to" value="prev" />
+                                                    </apex:commandButton>
+                                                    <apex:commandButton action="{!pageRecordMappings}" title="Next" value=">" disabled="{!recordMappingsPager[omId].disableNext}" reRender="recordMappings">
+                                                        <apex:param name="omId" value="{!omId}" />
+                                                        <apex:param name="to" value="next" />
+                                                    </apex:commandButton>
+                                                    <apex:commandButton action="{!pageRecordMappings}" title="End" value=">>" disabled="{!recordMappingsPager[omId].disableNext}" reRender="recordMappings,">
+                                                        <apex:param name="omId" value="{!omId}" />
+                                                        <apex:param name="to" value="last" />
+                                                    </apex:commandButton>
+                                                </apex:outputPanel>
+                                            </apex:pageBlockButtons>
+                                            <apex:selectList value="{!objectMappings[conn.connectionId][omId].searchBy}" size="1">
+                                                <apex:selectOption itemLabel="SalesforceId" itemValue="SalesforceId" />
+                                                <apex:selectOption itemLabel="ExternalId" itemValue="ExternalId" />
+                                                <apex:selectOption itemLabel="RecordMappingId" itemValue="RecordMappingId" />
+                                                <apex:selectOption itemLabel="ApprovalObjectId" itemValue="ApprovalObjectId" />
+                                            </apex:selectList>&nbsp;
+                                            <apex:inputText value="{!objectMappings[conn.connectionId][omId].searchText}" style="width:300px" />&nbsp;
+                                            <apex:commandButton action="{!applyFilterRecordMappings}" value="Apply Filter" reRender="recordMappings" status="actionLoading" >
+                                                <apex:param name="omId" value="{!omId}" />
+                                                <apex:param name="connId" value="{!conn.ConnectionId}" />
+                                            </apex:commandButton>&nbsp;
+                                            <apex:commandButton action="{!removeFilterRecordMappings}" value="Remove Filter" reRender="recordMappings" status="actionLoading">
+                                                <apex:param name="omId" value="{!omId}" />
+                                                <apex:param name="connId" value="{!conn.ConnectionId}" />
+                                            </apex:commandButton>
+                                            <apex:pageBlockTable title="Record Mappings" value="{!recordMappings[omId]}" var="rm">
+                                                <apex:column headerValue="Id" value="{!rm.RecordMappingId}" />
+                                                <apex:column headerValue="Salesforce Id" value="{!rm.SalesforceId}" />
+                                                <apex:column headerValue="External Id" value="{!rm.ExternalId}" />
+                                                <apex:column headerValue="Deleted in SF" value="{!rm.IsDeletedInSalesforce}" />
+                                                <apex:column headerValue="Deleted in Ext" value="{!rm.IsDeletedInExternal}" />
+                                                <apex:column headerValue="Excluded in SF" value="{!rm.IsExcludedInSalesforce}" />
+                                                <apex:column headerValue="Excluded in Ext" value="{!rm.IsExcludedInExternal}" />
+                                                <apex:column headerValue="SF To Ext Status" value="{!rm.SalesforceToExternalStatus}" />
+                                                <apex:column headerValue="SF To Ext Status Msg" value="{!rm.SalesforceToExternalStatusMessage}" />
+                                                <apex:column headerValue="SF Last Status Changed" value="{!rm.SalesforceLastStatusChangedDateTime}" />
+                                                <apex:column headerValue="SF Last Synced" value="{!rm.SalesforceLastSyncDateTime}" />
+                                                <apex:column headerValue="Ext To SF Status" value="{!rm.ExternalToSalesforceStatus}" />
+                                                <apex:column headerValue="Ext To SF Status Msg" value="{!rm.ExternalToSalesforceStatusMessage}" />
+                                                <apex:column headerValue="Ext Last Status Changed" value="{!rm.ExternalLastStatusChangedDateTime}" />
+                                                <apex:column headerValue="Ext Last Synced" value="{!rm.ExternalLastSyncDateTime}" />
+                                                <apex:column headerValue="Approval Object" value="{!rm.ApprovalObjectName}" />
+                                                <apex:column headerValue="Approval Object Id" value="{!rm.ApprovalObjectId}" />
+                                            </apex:pageBlockTable>
+                                    	</apex:pageBlock>
+                                	</apex:outputPanel>
+                            	</apex:column>
+                        	</apex:pageBlockTable>
+                    	</apex:pageBlock>
+                    </apex:outputPanel>
+                </apex:column>
+            </apex:pageBlockTable> 
+        </apex:pageBlock>
+        <apex:pageBlock title="Upload Record Mappings" id="recordMappingUpload">
+            <apex:inputTextArea value="{!recordMappingsJSON}" cols="90" rows="20"></apex:inputTextArea>
+            <br/>
+            <apex:commandButton value="Upload" action="{!saveRecordMappings}" reRender="msgs" status="actionLoading" />
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

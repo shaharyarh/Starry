@@ -1,0 +1,6 @@
+<aura:component access="global" extends="APXT_Redlining:CanvasAnimation">
+  <aura:attribute name="fireworks" type="Aura.Component"/>
+  <div class="background">
+    {!v.fireworks}
+  </div>
+</aura:component>

@@ -1,0 +1,202 @@
+/* Custom colors used for this popup 
+ Text colors #54698D 
+ Background colors #E0E5EE, #FFF;
+ */
+
+.THIS {
+  perspective: 1000;
+  position: relative;
+  overflow: visible;
+  z-index: 1999;
+}
+
+.THIS .conga-back-body {
+  overflow:hidden;
+  flex-basis:15em;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.THIS .conga-back-body ul.slds-scrollable {
+  max-height: 5em;
+}
+
+.THIS .card-body {
+  -webkit-font-smoothing: antialiased;
+}
+
+.THIS .card-body .conga-suggestions {
+  flex-grow: 1;
+  flex-shrink: 0;
+  min-height: 7em;
+  max-height: 7em;
+  overflow-y: auto;
+}
+
+.THIS .card-body .conga-picker {
+  flex-shrink: 1;
+  flex-grow: 0;
+}
+
+.THIS .slds-popover_walkthrough a:hover {
+  /* This is to override nasty SLDS hover on hrefs in header */
+  color: currentColor;
+}
+
+.THIS .slds-popover_walkthrough-alt {
+  border-color: #54698D;
+  background-color: #E0E5EE;
+}
+
+.THIS .slds-popover_walkthrough-alt .slds-popover__header {
+  background-color: #54698D;
+  border: none;
+}
+
+.THIS .slds-popover_walkthrough a:hover, .THIS .slds-popover_walkthrough a:focus, .THIS .slds-popover--walkthrough a:hover, .THIS .slds-popover--walkthrough a:focus {
+  color: #000;
+}
+
+.THIS .slds-card {
+  background-color:#FFF;
+  color: #706e6b;
+}
+
+.THIS .slds-nubbin_top:before, .THIS .slds-nubbin_top-right:before, .THIS .slds-nubbin_top-left:before {
+  background-color:#54698D;
+}
+
+.THIS .card-scrollable {
+  max-height: 400px;
+  overflow: auto;
+}
+
+.THIS .slds-popover {
+  max-width: 800px;
+}
+.THIS .slds-popover {
+  width: auto;
+}
+
+.THIS .front .slds-card {
+  min-width: 600px;
+}
+
+.THIS .recordIconSpinner {
+  position:relative;
+}
+
+.THIS .recordIconSpinner {
+  background-color: transparent;
+  height: 32px;
+  width: 32px;
+}
+
+.THIS .recordIconSpinner .slds-spinner {
+  position: relative;
+  top:15px;
+}
+
+.THIS .successIcon {
+  color: rgb(75, 202, 129);
+}
+
+.THIS .proposed {
+  line-height: 1.875rem;
+}
+
+/* Show input placeholder text as greyed out */
+.THIS *::-webkit-input-placeholder,
+.THIS *::placeholder {
+  color:#999 !important;
+  font-size: 1rem;
+  font-weight: lighter;
+}
+
+.THIS input[type="search"] {
+  font-size: 1rem;
+}
+
+/* Add some margin around document value for visual alignment */
+.THIS div.proposed {
+  margin-left: 0.5em;
+  padding-right: 35px;
+}
+
+.THIS header .conga-spinner-container {
+  /* Don't center align spinner in popover header */
+  position: relative;
+  height: 10px;
+  width: 38px;
+  display: inline-block;
+}
+
+.THIS .conga-disable {
+  /* Prevent user from clicking anything and give greyed out appearance */
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.THIS .tu-error-popover {
+  /* position error popover appropriately */
+  position:absolute; 
+  width:14rem; 
+  left:-8px; 
+  bottom:0px;
+}
+
+/* Make textarea fields fill available height */
+.THIS .fill-height {
+  height: 100%;
+}
+
+.THIS .fill-height textarea {
+  min-height: calc(100% - 1.5em); /* 1.5 em is space for the label */
+}
+
+/* This is only necessary to override some bad styles being inherited in some contexts */
+.THIS .datePicker-openIcon {
+  position: absolute;
+  left: auto;
+  right: 12px;
+  height: 19px;
+  top: 10px;
+}
+
+.THIS select.slds-select[multiple] {
+  height: 8rem;
+}
+
+.THIS .square-corners {
+  border-radius: 0;
+}
+
+.THIS .conga-picker,
+.THIS .custom-tabs {
+  border: none;
+}
+
+
+.THIS .custom-tabs .slds-button * {
+  /* Used the !important because there was to many styles to override and it is only in this small tab section */
+    box-shadow: none!important;
+}
+
+.THIS .custom-tabs .slds-radio_button [type=radio]+.slds-radio_button__label {
+  background-color: #E0E5EE;
+  color:  #54698D;
+  border: 0;
+  border-radius: 0;
+}
+
+.THIS .custom-tabs *:last-child {
+  /* Needed to override the left border on the tab list that was being set by another component */
+  border: 0;
+}
+
+.THIS .custom-tabs .slds-radio_button:hover [type=radio]+.slds-radio_button__label,
+.THIS .custom-tabs .slds-radio_button [type=radio]:checked+.slds-radio_button__label {
+    background-color: #FFF;
+    color:  #54698D;
+    border: 0;
+}

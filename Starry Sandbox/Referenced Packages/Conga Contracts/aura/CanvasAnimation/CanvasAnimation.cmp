@@ -1,0 +1,6 @@
+<aura:component extensible="true" extends="APXT_Redlining:Base">
+  <aura:attribute name="playing" type="Boolean" default="true" />
+  <aura:attribute name="height" type="Integer" default="200" />
+  <aura:attribute name="width" type="Integer" default="200" />
+  {!v.body}
+</aura:component>

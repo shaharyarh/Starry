@@ -1,0 +1,55 @@
+<aura:component >
+    <aura:attribute name="contentVersion" type="Object" description="ContentVersion Object"/>
+    <aura:attribute name="parentId" type="String" description="Parent Record Id"/>
+    <aura:attribute name="labels" type="Object" description="Labels"/>
+    <aura:attribute name="namespaceApi" type="String" description="Namespace"/>
+    
+    <aura:attribute name="uploadFirstParams" type="String[]"/>
+    <aura:attribute name="uploadValidParams" type="String[]"/>
+    <aura:attribute name="uploadInvalidParams" type="String[]"/>
+
+    <aura:registerEvent name="nativeRecordSelected" type="ltng:selectSObject"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+
+    <span class="slds-assistive-text">{!v.labels.apxt_contractActivityContentVersion_title}</span>
+    <div class="slds-media">
+        <div class="slds-media__body">
+            <div class="slds-media slds-media--timeline conga-timeline__media--uploaded">
+                <div class="slds-media__figure slds-timeline__icon">
+                    <div class="slds-icon_container">
+                        <APXT_Redlining:apxt_svg ariaHidden="true" class="slds-icon slds-icon--small slds-p-around--xx-small conga-timeline__icon--uploaded" xlinkHref="{!'/resource/' + v.namespaceApi + 'apxt_lightningCss/icons/utility-sprite/svg/symbols.svg#upload'}" winterClass="slds-p-around--xx-small conga-timeline__icon--uploaded" winterIconName="utility:upload" winterSize="small"></APXT_Redlining:apxt_svg>
+                    </div>
+                </div>
+                <div class="slds-media__body">
+                    <div class="slds-media">
+                        <div class="slds-media__body">
+                            <p class="slds-truncate conga-contract-activity__title" title="{!v.labels.apxt_contractActivityContentVersion_title}">
+                                <span class="slds-tile__title conga-position--static">
+                                    <aura:if isTrue="{!v.contentVersion.data.VersionNumber == '1'}">
+                                        <APXT_Redlining:apxt_label label="{!v.labels.apxt_contractActivityContentVersion_uploadFirst}" params="{!v.uploadFirstParams}"></APXT_Redlining:apxt_label>
+                                        <aura:set attribute="else">
+                                            <aura:if isTrue="{!v.contentVersion.data.IsValidRedlineFileType}">
+                                                <APXT_Redlining:apxt_label label="{!v.labels.apxt_contractActivityContentVersion_uploadValid}" params="{!v.uploadValidParams}"></APXT_Redlining:apxt_label>
+                                                <aura:set attribute="else">
+                                                    <APXT_Redlining:apxt_label label="{!v.labels.apxt_contractActivityContentVersion_uploadValid}" params="{!v.uploadInvalidParams}"></APXT_Redlining:apxt_label>
+                                                </aura:set>
+                                            </aura:if>
+                                        </aura:set>
+                                    </aura:if>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-media__figure slds-media__figure--reverse">
+            <div class="slds-timeline__actions">
+                <p class="slds-timeline__date">
+                    {!v.contentVersion.data.FormattedCreatedDate}
+                </p>
+            </div>
+        </div>
+    </div>
+</aura:component>

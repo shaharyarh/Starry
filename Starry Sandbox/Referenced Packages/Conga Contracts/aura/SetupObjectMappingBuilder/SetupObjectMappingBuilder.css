@@ -1,0 +1,35 @@
+.THIS .rotate-90 svg {
+    transform: rotate(90deg);
+}
+
+.THIS .m-t-10 {
+    margin-top: 10px;
+}
+
+.THIS .w-100 .slds-form-element__control {
+    width: 100%;
+}
+
+.THIS .m-t-minus-1em {
+    margin-top: -1em;
+}
+
+.THIS .m-t-2em {
+    margin-top: 2em;
+}
+
+.THIS .m-b-page {
+    margin-bottom: 15em;
+}
+
+.THIS .text-center {
+    text-align: center;
+}
+
+.THIS .text-left {
+    text-align: left;
+}
+
+.THIS .inline-block {
+    display: inline-block;
+}

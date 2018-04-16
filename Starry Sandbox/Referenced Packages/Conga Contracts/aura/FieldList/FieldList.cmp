@@ -1,0 +1,58 @@
+<aura:component extends="APXT_Redlining:Base" controller="APXT_Redlining.FieldListController" implements="force:hasSObjectName">
+  <aura:attribute name="searchResults" type="Array" />
+  <aura:attribute name="describe" type="Object" />
+  <aura:attribute name="searchText" type="String" />
+  <aura:attribute name="value" type="Object" />
+  <aura:attribute name="displayUpdateable" type="Boolean" />
+  <aura:attribute name="displayCreatable" type="Boolean" />
+  <aura:attribute name="showTitle" type="Boolean" />
+  
+  <aura:attribute access="private" name="objectLabel" type="String" default="{!v.describe.objectLabel}" />
+  <aura:attribute access="private" name="apxt_dataType_reference" type="String" default="{!$Label.apxt_redlining.apxt_dataType_reference}" />
+  <aura:attribute access="private" name="apxt_dataType_date" type="String" default="{!$Label.apxt_redlining.apxt_dataType_date}" />
+  <aura:attribute access="private" name="apxt_dataType_time" type="String" default="{!$Label.apxt_redlining.apxt_dataType_time}" />
+  <aura:attribute access="private" name="apxt_dataType_dateTime" type="String" default="{!$Label.apxt_redlining.apxt_dataType_dateTime}" />
+  <aura:attribute access="private" name="apxt_dataType_currency" type="String" default="{!$Label.apxt_redlining.apxt_dataType_currency}" />
+  <aura:attribute access="private" name="apxt_dataType_integer" type="String" default="{!$Label.apxt_redlining.apxt_dataType_integer}" />
+  <aura:attribute access="private" name="apxt_dataType_double" type="String" default="{!$Label.apxt_redlining.apxt_dataType_double}" />
+  <aura:attribute access="private" name="apxt_dataType_percent" type="String" default="{!$Label.apxt_redlining.apxt_dataType_percent}" />
+  <aura:attribute access="private" name="apxt_dataType_boolean" type="String" default="{!$Label.apxt_redlining.apxt_dataType_boolean}" />
+  <aura:attribute access="private" name="apxt_dataType_multiPicklist" type="String" default="{!$Label.apxt_redlining.apxt_dataType_multiPicklist}" />
+  <aura:attribute access="private" name="apxt_dataType_picklist" type="String" default="{!$Label.apxt_redlining.apxt_dataType_picklist}" />
+  <aura:attribute access="private" name="apxt_dataType_phone" type="String" default="{!$Label.apxt_redlining.apxt_dataType_phone}" />
+  <aura:attribute access="private" name="apxt_dataType_email" type="String" default="{!$Label.apxt_redlining.apxt_dataType_email}" />
+  <aura:attribute access="private" name="apxt_dataType_url" type="String" default="{!$Label.apxt_redlining.apxt_dataType_url}" />
+  <aura:attribute access="private" name="apxt_dataType_textarea" type="String" default="{!$Label.apxt_redlining.apxt_dataType_textarea}" />
+  <aura:attribute access="private" name="apxt_dataType_string" type="String" default="{!$Label.apxt_redlining.apxt_dataType_string}" />
+  
+  <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+  <aura:handler name="change" value="{!v.value}" action="{!c.valueChanged}"/>
+  <aura:handler name="change" value="{!v.describe}" action="{!c.describeChanged}"/>
+  <aura:if isTrue="{!v.showTitle}">
+  <p class="slds-p-left_x-small slds-p-bottom_xx-small slds-text-heading_small">{!v.objectLabel}</p>
+</aura:if>
+  <div>
+    <div class="slds-form-element slds-lookup slds-p-around_xx-small" data-select="single">
+      <div class="slds-form-element__control">
+        <div class="slds-form-element__control">
+          <div class="slds-input-has-icon slds-input-has-icon_left">
+            <lightning:icon class="slds-input__icon" iconName="utility:search" size="x-small"></lightning:icon>
+            <input type="search" class="slds-lookup__search-input slds-input" placeholder="{! format($Label.apxt_redlining.apxt_fieldList_searchPlaceholder, v.objectLabel) }" aria-owns="lookup-65" role="combobox" aria-activedescendant="" aria-expanded="false" aria-autocomplete="list" value="{!v.searchText}" onkeyup="{!c.search}" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slds-grid slds-scrollable slds-grid_vertical-align-start slds-p-top-small">
+      <aura:iteration items="{!v.searchResults}" var="item">
+        <div role="presentation" class="slds-size_1-of-1 slds-p-around_xx-small" onclick="{!c.select}" data-id="{!item.name}">
+          <span class="{!(item == v.value ? 'conga-is-selected ' : '') + 'slds-pill slds-badge slds-media slds-media_center slds-media_small slds-text-body_small'}" role="option" title="{!item.label}">
+            <span class="slds-media__body slds-p-around_xx-small slds-text-body_large">
+              <span class="slds-lookup__result-text slds-p-bottom_xx-small slds-text-heading_small bold-text slds-m-bottom_none">{!item.label}</span>
+              <span class="slds-lookup__result-meta slds-text-body_regular">{!item.typeLabel}</span>
+            </span>
+          </span>
+        </div>
+      </aura:iteration>
+    </div>
+  </div>
+</aura:component>

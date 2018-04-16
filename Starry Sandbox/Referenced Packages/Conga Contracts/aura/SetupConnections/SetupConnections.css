@@ -1,0 +1,4 @@
+.THIS .conga-spinner-container {
+  /* Spinner is positioned relatively and occupies no space so container needs a fixed height */
+  height: 2rem;
+}

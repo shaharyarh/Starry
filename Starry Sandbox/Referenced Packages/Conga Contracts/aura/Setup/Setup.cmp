@@ -1,0 +1,35 @@
+<aura:component extends="APXT_Redlining:Base">
+  <ltng:require scripts="{! $Resource.APXT_Redlining__ldclient }" afterScriptsLoaded="{!c.initLaunchDarkly}"/>
+
+  <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+  <aura:handler event="APXT_Redlining:BaseEvent" name="treeItemSelect" action="{!c.itemSelected}" includeFacets="true"/>
+  <aura:handler event="APXT_Redlining:BaseEvent" name="selectTreeItem" action="{!c.selectItem}" includeFacets="true"/>
+  <aura:handler event="APXT_Redlining:BaseEvent" name="populatedExternalConnections" action="{!c.showConnectionMenuItems}" includeFacets="true" />
+  
+  <aura:attribute name="detailFacet" type="Aura.Component" />
+  <aura:attribute name="ldEnablePlatform" type="Boolean" default="false" />
+  <!-- These label attributes are here for package dependency spidering which doesnt work so well if you reference a label in JS -->
+  <aura:attribute access="private" name="lblContractsHeader" type="String" default="{!$Label.apxt_redlining.apxt_herokuConnect_leftTitle2}" />
+  <aura:attribute access="private" name="lblConnect" type="String" default="{!$Label.apxt_redlining.apxt_herokuConnect_connect}" />
+  <aura:attribute access="private" name="lblConfig" type="String" default="{!$Label.apxt_redlining.apxt_herokuConnect_orgConfigHeading}" />
+  <aura:attribute access="private" name="lblReports" type="String" default="{!$Label.apxt_redlining.apxt_herokuConnect_createBaseReportsHeading}" />
+  <aura:attribute access="private" name="lblEmailTemplates" type="String" default="{!$Label.apxt_redlining.apxt_herokuConnect_EmailTemplatesFolderHeader}" />
+  <aura:attribute access="private" name="lblAdditional" type="String" default="{!$Label.apxt_redlining.apxt_setup_additional}" />
+  <aura:attribute access="private" name="lblemailDisplayNameLabel" type="String" default="{!$Label.apxt_redlining.apxt_herokuConnect_emailDisplayNameTitle}" />
+  <aura:attribute access="private" name="lblPlatforms" type="String" default="{!$Label.apxt_redlining.apxt_setup_platforms}" />
+  <aura:attribute access="private" name="lblConnections" type="String" default="{!$Label.apxt_redlining.apxt_setup_connections}" />
+  <aura:attribute access="private" name="lblPlatformGeneral" type="String" default="{!$Label.apxt_redlining.apxt_setup_platformGeneral}" />
+  <aura:attribute access="private" name="lblObjectMapping" type="String" default="{!$Label.apxt_redlining.apxt_setup_objectMapping}" />
+  <aura:attribute access="private" name="lblRecordMapping" type="String" default="{!$Label.apxt_redlining.apxt_setup_recordMapping}" />
+  
+  <div class="slds-grid slds-grid_frame slds-grid_vertical">
+    <div class="slds-grid slds-grow">
+      <lightning:layoutItem class="no-overflow slds-border_right" size="2">
+        <APXT_Redlining:TreeList aura:id="setupTreeList" isLoading="false" doAllowSearch="true" searchPlaceholder="{!$Label.apxt_redlining.apxt_setup_quickFind}" /> 
+      </lightning:layoutItem>
+
+      {!v.detailFacet}
+      
+    </div>
+  </div>
+</aura:component>

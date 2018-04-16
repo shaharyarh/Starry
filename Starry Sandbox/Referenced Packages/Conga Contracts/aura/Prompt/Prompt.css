@@ -1,0 +1,7 @@
+.THIS svg.slds-icon-text-default {
+  fill: #ffffff;
+}
+
+.THIS .slds-truncate {
+  max-width: token(sizeXLarge);
+}

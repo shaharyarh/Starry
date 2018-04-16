@@ -1,0 +1,133 @@
+<aura:component controller="APXT_Redlining.apxt_viewRedlines" access="global" implements="force:hasRecordId" extends="APXT_Redlining:Base">
+
+    <ltng:require scripts="{! $Resource.APXT_Redlining__Mixpanel }" afterScriptsLoaded="{!c.initMixpanel}"/>
+    
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="parentId" type="String"/>
+    <aura:attribute name="iframeUrl" type="String"/>
+    <aura:attribute name="parentName" type="String"/>
+    <aura:attribute name="parentAPIName" type="String"/>
+    <aura:attribute name="parentTypePrefix" type="String"/>
+    <aura:attribute name="parentTypeLabel" type="String"/>
+    <aura:attribute name="errMsg" type="String"/>
+    <aura:attribute name="namespace" type="String"/>
+    <aura:attribute name="namespaceApi" type="String"/>
+    <aura:attribute name="hasNoFiles" default="false" type="Boolean"/>
+    <aura:attribute name="hasError" default="false" type="Boolean"/>
+    <aura:attribute name="popover" type="Aura.Component[]"/>
+    <aura:attribute name="modal" type="Aura.Component[]"/>
+    <aura:attribute name="popoverX" type="Integer" />
+    <aura:attribute name="popoverY" type="Integer" />
+
+    <!-- Data Service private attributes to load docType field data -->
+    <aura:attribute access="private" name="docType" type="Object"/>
+    <aura:attribute access="private" name="docTypeSObject" type="Object"/>
+    <aura:attribute access="private" name="targetObjectName" type="String"/>
+    <aura:attribute access="private" name="clauseType" type="String"/>
+    <aura:attribute access="private" name="recordError" type="String"/>
+    
+    <aura:attribute access="private" name="documentVersionId" type="Id"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.getParentData}"/>
+    <aura:handler event="APXT_Redlining:BaseEvent" name="close" action="{!c.focusIframe}" includeFacets="true"/>
+
+    <force:recordData aura:id="recordLoader"
+    recordId="{!v.recordId}"
+    layoutType="FULL"
+    targetRecord="{!v.docType}"
+    targetFields="{!v.docTypeSObject}"
+    targetError="{!v.recordError}"
+    recordUpdated="{!c.docTypeUpdated}"
+    />
+    
+    <div class="slds-grid slds-grid_frame" style="overflow:hidden;">
+        {!v.popover}
+        {!v.modal}
+    </div>
+
+    <APXT_Redlining:Prompt showOnEvent="true" title="{!$Label.apxt_redlining.apxt_trueUp_somethingBadHappened}"/>
+
+    <div aura:id="slds-container" class="slds">
+        <div aura:id="pdf-spinner" class="slds-spinner_container conga-z-index--max conga-position--fixed">
+            <div class="slds-spinner_brand slds-spinner slds-spinner_large" aria-hidden="false" role="alert">
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+        <div aura:id="conga-container" class="conga-dimension-controller">
+            <div aura:id="conga-container-inner" class="slds-grid slds-grid_frame slds-grid_vertical">
+                <aura:if isTrue="{!v.hasNoFiles}">
+                    <div class="slds-backdrop slds-fade-in-open">
+                        <div class="slds-text-align_center conga-absolute-center">
+                            <h3 class="slds-text-heading_medium slds-theme_inverse-text slds-m-bottom_medium slds-p-horizontal_large">
+                                <em>{!$Label.apxt_redlining.apxt_viewRedLines_emptyState}</em>
+                            </h3>
+                            <aura:if isTrue="{!v.isLightning}">
+                                <button onclick="{!c.closeOverlay}" class="slds-button slds-button_inverse">{!$Label.apxt_redlining.apxt_viewRedLines_closeRedlines}</button>
+                                <aura:set attribute="else">
+                                    <a href="{!'/' + v.recordId}" class="slds-button slds-button_inverse">{!$Label.apxt_redlining.apxt_viewRedLines_goBack}</a>
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                    </div>
+                    <aura:set attribute="else">
+                        <!-- Page Header -->
+                        <div aura:id="header" class="slds-page-header" role="banner">
+                            <div class="slds-grid">
+                                <div class="slds-col slds-has-flexi-truncate">
+                                    <div class="slds-media slds-media_center slds-no-space slds-grow">
+                                        <div class="slds-media__figure">
+                                            <lightning:icon iconName="doctype:word" size="medium"></lightning:icon>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <nav role="navigation" aria-label="Breadcrumbs">
+                                                <ol class="slds-breadcrumb slds-list_horizontal">
+                                                    <li class="slds-breadcrumb__item slds-text-heading_label">
+                                                        <a href="{!'/' + v.parentTypePrefix + '/o'}">{!v.parentTypeLabel}</a>
+                                                    </li>
+                                                    <li class="slds-breadcrumb__item slds-text-heading_label slds-truncate">
+                                                        <a href="{!'/' + v.recordId}">{!v.parentName}</a>
+                                                    </li>
+                                                </ol>
+                                            </nav>
+                                            <h1 class="slds-page-header__title slds-m-right_small slds-truncate slds-align-middle">{!$Label.apxt_redlining.apxt_capture_captureDocumentTypeTitle}</h1>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div aura:id="compareSelector" class="slds-col slds-no-flex slds-grid slds-grid_pull-padded slds-align-bottom slds-p-vertical_xx-small conga-compare-selector">
+                                    <button href="javascript:void(0);" onclick="{!c.goToParent}" class="slds-button slds-button_neutral">
+                                            {!$Label.apxt_redlining.apxt_capture_cancel}
+                                    </button>
+                                    <button href="javascript:void(0);" onclick="{!c.saveDocTypeClick}" class="slds-button slds-button_brand">
+                                        {!$Label.apxt_redlining.apxt_capture_saveDocumentType}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </aura:set>
+                </aura:if>
+                <aura:if isTrue="{!v.hasError}">
+                    <!-- Error State -->
+                    <div class="slds-backdrop slds-fade-in-open conga-z-index---1">
+                        <div class="slds-text-align_center conga-absolute-center">
+                            <h3 class="slds-text-heading_medium slds-theme_inverse-text slds-m-top_medium slds-p-horizontal_large">
+                                <em>{!v.errMsg}</em>
+                            </h3>
+                        </div>
+                    </div>
+                    <aura:set attribute="else">
+                        <div class="slds-grid slds-grow">
+                            <div class="slds-size_2-of-12 no-overflow">
+                                <APXT_Redlining:DocumentTreeList aura:id="captureTree" emptyMessage="{!$Label.apxt_redlining.apxt_capture_emptyTree}" doLoadImmediately="false" doAllowRemove="true" recordId="{!v.recordId}" documentId="{!v.selectedCdId}" sObjectName="{!v.parentAPIName}" sObjectLabel="{!v.parentTypeLabel}"/> 
+                            </div>
+                            <!-- <aura:if isTrue="{!v.iframeUrl != null}">  -->
+                                <iframe aura:id="viewer" class="slds-grow conga-document-iframe" src="{!v.iframeUrl}" onload="{!c.iframeLoaded}"></iframe>
+                            <!-- </aura:if> -->
+                        </div>
+                    </aura:set>
+                </aura:if>
+            </div>
+        </div>
+    </div>
+</aura:component>

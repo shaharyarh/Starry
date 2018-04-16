@@ -1,0 +1,11 @@
+<aura:event type="APPLICATION" description="Fires when content in the document is being Captured">
+    <aura:attribute name="fieldName" type="String"/>
+    <aura:attribute name="treeItemLabel" type="String"/>
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="describe" type="Object"/>
+    <aura:attribute name="page" type="Integer"/>
+    <aura:attribute name="occurrence" type="Integer"/>
+    <aura:attribute name="scrollX" type="Integer"/>
+    <aura:attribute name="scrollY" type="Integer"/>
+    <aura:attribute name="value" type="String"/>
+</aura:event>

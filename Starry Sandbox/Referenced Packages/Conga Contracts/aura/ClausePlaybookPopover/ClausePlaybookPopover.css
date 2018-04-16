@@ -1,0 +1,90 @@
+.THIS .slds-card {
+  background-color:#fff;
+  min-width: 500px;
+  color: #54698D;
+}
+
+.THIS .card-body {
+  -webkit-font-smoothing: antialiased;
+}
+
+.THIS .bold-text {
+  font-weight: bold;
+}
+
+.THIS .conga-is-selected {
+  background-color: token(colorBackgroundButtonIconFocus);
+  color: token(colorTextTabLabelSelected);
+  border-color: token(colorBorderInputActive);
+}
+
+.THIS .slds-input__icon,
+.THIS .slds-pill,
+.THIS .slds-lookup__result-meta,
+.THIS select{
+  color: #54698D;
+}  
+
+.THIS select {
+  font-size: 1.2em;
+}
+
+/* Show input placeholder text as greyed out and changed the default font size */
+.THIS *::-webkit-input-placeholder,
+.THIS *::placeholder {
+  font-size: 1em;
+  color: #999!important;
+}
+
+/* Needed to fix the size of the search bar because of the offset padding that was originally on there */
+.THIS input[type="search"] {
+  font-size: 1.2em;
+  color: #706e6b;
+  max-width: 97%;
+  padding-left: 20px;
+}
+
+.THIS .slds-pill:hover {
+  box-shadow: token(shadowButtonFocus);
+  background-color: #fff;
+  border-color: token(colorBorderInputActive);
+}
+
+.THIS .slds-lookup__result-meta {
+  /* hide text if it more than N lines  */
+  overflow: hidden;
+  /* for set '...' in absolute position */
+  position: relative; 
+  /* use this value to count block height */
+  line-height: 1.2em;
+  /* max-height = line-height (1.2) * lines max number (3) */
+  max-height: 3.6em; 
+  /* fix problem when last visible word doesn't adjoin right side  */
+  text-align: justify;  
+  /* place for '...' */
+  margin-right: -1em;
+  padding-right: 1em;
+}
+
+.THIS .slds-pill {
+  /* Make clauses appear clickable */
+  cursor:pointer;
+}
+
+.THIS .slds-scrollable {
+  max-height: 250px;
+  min-height: 250px;
+  overflow-x: hidden;
+}
+
+.THIS .container {
+  backface-visibility: hidden;
+  position: absolute;
+  opacity:0;
+  transition: opacity 300ms;
+}
+
+.THIS .container.visible {
+  transition: opacity 300ms;
+  opacity: 1;
+}

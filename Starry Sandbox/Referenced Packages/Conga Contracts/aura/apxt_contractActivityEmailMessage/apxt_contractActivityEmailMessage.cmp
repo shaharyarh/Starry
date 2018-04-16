@@ -1,0 +1,201 @@
+<aura:component >
+    <aura:attribute name="emailMessage" type="Object" description="EmailMessage Object"/>
+    <aura:attribute name="labels" type="Object" description="Labels"/>
+    <aura:attribute name="namespaceApi" type="String" description="Namespace"/>
+
+    <aura:attribute name="toAddressHtml" type="String" description="HTML of List of To Address"/>
+    <aura:attribute name="ccAddressHtml" type="String" description="HTML of List of Cc Address"/>
+    <aura:attribute name="bccAddressHtml" type="String" description="HTML of List of Bcc Address"/>
+    <aura:attribute name="fromAddressHtml" type="String" description="HTML of List of From Address"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+
+    <aura:if isTrue="{!v.emailMessage.data.Incoming}">
+        <span class="slds-assistive-text">{!v.labels.apxt_contractActivityEmailMessage_replyTitle}</span>
+        <div class="slds-media">
+            <div class="slds-media__body">
+                <div class="slds-media slds-media--timeline conga-timeline__media--replied">
+                    <div class="slds-media__figure slds-timeline__icon">
+                        <div class="slds-icon_container">
+                            <APXT_Redlining:apxt_svg ariaHidden="true" class="slds-icon slds-icon--small slds-p-around--xx-small conga-timeline__icon--replied" xlinkHref="{!'/resource/' + v.namespaceApi + 'apxt_lightningCss/icons/utility-sprite/svg/symbols.svg#reply'}" winterClass="slds-p-around--xx-small conga-timeline__icon--replied" winterIconName="utility:reply" winterSize="small"></APXT_Redlining:apxt_svg>
+                        </div>
+                    </div>
+                    <div class="slds-media__body">
+                        <div class="slds-media">
+                            <div class="slds-media__body">
+                                <p class="slds-truncate conga-contract-activity__title" title="{!v.labels.apxt_contractActivityEmailMessage_replyTitle}">
+                                    <span class="slds-tile__title conga-position--static">
+                                        <a href="{!'/' + v.emailMessage.data.Id}">
+                                            <aura:if isTrue="{!empty(v.emailMessage.data.Subject)}">
+                                                <em>{!v.labels.apxt_contractActivityEmailMessage_subject_empty}</em>
+                                                <aura:set attribute="else">
+                                                    {!v.emailMessage.data.Subject}
+                                                </aura:set>
+                                            </aura:if>
+                                        </a>
+                                        <aura:if isTrue="{!v.emailMessage.data.HasAttachment}">
+                                            <span class="slds-icon_container">
+                                                <APXT_Redlining:apxt_svg ariaHidden="true" class="slds-icon slds-icon--x-small slds-icon-text-default" xlinkHref="{!'/resource/' + v.namespaceApi + 'apxt_lightningCss/icons/utility-sprite/svg/symbols.svg#attach'}" winterClass="" winterIconName="utility:attach" winterSize="small"></APXT_Redlining:apxt_svg>
+                                                <span class="slds-assistive-text">{!v.labels.apxt_contractActivityEmailMessage_attachmentsTitle}</span>
+                                            </span>
+                                        </aura:if>
+                                    </span>
+                                </p>
+                                <aura:if isTrue="{!not(empty(v.emailMessage.data.TextBody))}">
+                                    <p class="slds-truncate">
+                                        {!v.emailMessage.data.TextBody}
+                                    </p>
+                                </aura:if>
+                                <ul class="slds-list--horizontal slds-wrap">
+                                    <aura:if isTrue="{!not(empty(v.toAddressHtml))}">
+                                        <li class="slds-m-right--large">
+                                            <span class="tile__label slds-text-heading--label-normal">{!v.labels.apxt_contractActivityEmailMessage_toAddress}</span>
+                                            <span class="slds-text-body--small">
+                                                <aura:unescapedHtml value="{!v.toAddressHtml}"/>
+                                            </span>
+                                        </li>
+                                    </aura:if>
+                                    <aura:if isTrue="{!not(empty(v.ccAddressHtml))}">
+                                        <li class="slds-m-right--large">
+                                            <span class="tile__label slds-text-heading--label-normal">{!v.labels.apxt_contractActivityEmailMessage_ccAddress}</span>
+                                            <span class="slds-text-body--small">
+                                                <aura:unescapedHtml value="{!v.ccAddressHtml}"/>
+                                            </span>
+                                        </li>
+                                    </aura:if>
+                                    <aura:if isTrue="{!not(empty(v.bccAddressHtml))}">
+                                        <li class="slds-m-right--large">
+                                            <span class="tile__label slds-text-heading--label-normal">{!v.labels.apxt_contractActivityEmailMessage_bccAddress}</span>
+                                            <span class="slds-text-body--small">
+                                                <aura:unescapedHtml value="{!v.bccAddressHtml}"/>
+                                            </span>
+                                        </li>
+                                    </aura:if>
+                                    <aura:if isTrue="{!not(empty(v.fromAddressHtml))}">
+                                        <li class="slds-m-right--large">
+                                            <span class="tile__label slds-text-heading--label-normal">{!v.labels.apxt_contractActivityEmailMessage_fromAddress}</span>
+                                            <span class="slds-text-body--small">
+                                                {!v.fromAddressHtml}
+                                            </span>
+                                        </li>
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.emailMessage.data.HasAttachment}">
+                                        <li class="slds-m-right--large">
+                                            <span class="tile__label slds-text-heading--label-normal">{!v.labels.apxt_contractActivityEmailMessage_attachmentsTitle}</span>
+                                            <aura:iteration items="{!v.emailMessage.data.Attachments.records}" var="attachment">
+                                                <span class="slds-text-body--small">
+                                                    <a href="javascript:void(0);" onclick="{!c.openFilePreview}" data-attachmentid="{!attachment.Id}">{!attachment.Name}</a>
+                                                </span>
+                                            </aura:iteration>
+                                        </li>
+                                    </aura:if>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-media__figure slds-media__figure--reverse">
+                <div class="slds-timeline__actions">
+                    <p class="slds-timeline__date">
+                        {!v.emailMessage.data.FormattedCreatedDate}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <aura:set attribute="else">
+            <span class="slds-assistive-text">{!v.labels.apxt_contractActivityEmailMessage_sentTitle}</span>
+            <div class="slds-media">
+                <div class="slds-media__body">
+                    <div class="slds-media slds-media--timeline conga-timeline__media--sent">
+                        <div class="slds-media__figure slds-timeline__icon">
+                            <div class="slds-icon_container">
+                                <APXT_Redlining:apxt_svg ariaHidden="true" class="slds-icon slds-icon--small conga-timeline__icon--sent" xlinkHref="{!'/resource/' + v.namespaceApi + 'apxt_lightningCss/icons/standard-sprite/svg/symbols.svg#email'}" winterClass="conga-timeline__icon--sent" winterIconName="standard:email" winterSize="small"></APXT_Redlining:apxt_svg>
+                            </div>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-media">
+                                <div class="slds-media__body">
+                                    <p class="slds-truncate conga-contract-activity__title" title="{!v.labels.apxt_contractActivityEmailMessage_sentTitle}">
+                                        <span class="slds-tile__title conga-position--static">
+                                            <a href="{!'/' + v.emailMessage.data.Id}">
+                                                <aura:if isTrue="{!empty(v.emailMessage.data.Subject)}">
+                                                    <em>{!v.labels.apxt_contractActivityEmailMessage_subject_empty}</em>
+                                                    <aura:set attribute="else">
+                                                        {!v.emailMessage.data.Subject}
+                                                    </aura:set>
+                                                </aura:if>
+                                            </a>
+                                            <aura:if isTrue="{!v.emailMessage.data.HasAttachment}">
+                                                <span class="slds-icon_container">
+                                                    <APXT_Redlining:apxt_svg ariaHidden="true" class="slds-icon slds-icon--x-small slds-icon-text-default" xlinkHref="{!'/resource/' + v.namespaceApi + 'apxt_lightningCss/icons/utility-sprite/svg/symbols.svg#attach'}" winterClass="slds-icon-text-default" winterIconName="utility:attach" winterSize="x-small"></APXT_Redlining:apxt_svg>
+                                                    <span class="slds-assistive-text">{!v.labels.apxt_contractActivityEmailMessage_attachmentTitle}</span>
+                                                </span>
+                                            </aura:if>
+                                        </span>
+                                    </p>
+                                    <aura:if isTrue="{!not(empty(v.emailMessage.data.TextBody))}">
+                                        <p class="slds-truncate">
+                                            {!v.emailMessage.data.TextBody}
+                                        </p>
+                                    </aura:if>
+                                    <ul class="slds-list--horizontal slds-wrap">
+                                        <aura:if isTrue="{!not(empty(v.toAddressHtml))}">
+                                            <li class="slds-m-right--large">
+                                                <span class="tile__label slds-text-heading--label-normal">{!v.labels.apxt_contractActivityEmailMessage_toAddress}</span>
+                                                <span class="slds-text-body--small">
+                                                    <aura:unescapedHtml value="{!v.toAddressHtml}"/>
+                                                </span>
+                                            </li>
+                                        </aura:if>
+                                        <aura:if isTrue="{!not(empty(v.ccAddressHtml))}">
+                                            <li class="slds-m-right--large">
+                                                <span class="tile__label slds-text-heading--label-normal">{!v.labels.apxt_contractActivityEmailMessage_ccAddress}</span>
+                                                <span class="slds-text-body--small">
+                                                    <aura:unescapedHtml value="{!v.ccAddressHtml}"/>
+                                                </span>
+                                            </li>
+                                        </aura:if>
+                                        <aura:if isTrue="{!not(empty(v.bccAddressHtml))}">
+                                            <li class="slds-m-right--large">
+                                                <span class="tile__label slds-text-heading--label-normal">{!v.labels.apxt_contractActivityEmailMessage_bccAddress}</span>
+                                                <span class="slds-text-body--small">
+                                                    <aura:unescapedHtml value="{!v.bccAddressHtml}"/>
+                                                </span>
+                                            </li>
+                                        </aura:if>
+                                        <aura:if isTrue="{!not(empty(v.fromAddressHtml))}">
+                                            <li class="slds-m-right--large">
+                                                <span class="tile__label slds-text-heading--label-normal">{!v.labels.apxt_contractActivityEmailMessage_fromAddress}</span>
+                                                <span class="slds-text-body--small">
+                                                    {!v.fromAddressHtml}
+                                                </span>
+                                            </li>
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.emailMessage.data.HasAttachment}">
+                                            <li class="slds-m-right--large">
+                                                <span class="tile__label slds-text-heading--label-normal">Attachments</span>
+                                                <aura:iteration items="{!v.emailMessage.data.Attachments.records}" var="attachment">
+                                                    <span class="slds-text-body--small">
+                                                        <a href="{!'/' + attachment.Id}">{!attachment.Name}</a>
+                                                    </span>
+                                                </aura:iteration>
+                                            </li>
+                                        </aura:if>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-media__figure slds-media__figure--reverse">
+                    <div class="slds-timeline__actions">
+                        <p class="slds-timeline__date">
+                            {!v.emailMessage.data.FormattedCreatedDate}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </aura:set>
+    </aura:if>
+</aura:component>

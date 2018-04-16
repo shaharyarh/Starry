@@ -1,0 +1,359 @@
+<aura:component controller="APXT_Redlining.apxt_viewRedlines" access="global" implements="flexipage:availableForAllPageTypes,force:hasRecordId" extends="APXT_Redlining:Base">
+    <ltng:require scripts="{! $Resource.APXT_Redlining__apxt_jQuery }"/>
+    <ltng:require scripts="{! $Resource.APXT_Redlining__Mixpanel }" afterScriptsLoaded="{!c.initMixpanel}"/>
+    <ltng:require scripts="{! $Resource.APXT_Redlining__ldclient }" afterScriptsLoaded="{!c.initLaunchDarkly}"/>
+
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="parentId" type="String"/>
+    <aura:attribute name="top" type="String" default="90px"/>
+    <aura:attribute name="left" type="String" default="0px"/>
+    <aura:attribute name="height" type="String" default="calc(100% - 90px)" />
+    <aura:attribute name="width" type="String" default="100%"/>
+    <aura:attribute name="iframeUrl" type="String"/>
+    <aura:attribute name="selectedPrimaryVersion" type="String"/>
+    <aura:attribute name="selectedToVersion" type="String"/>
+    <aura:attribute name="currentPrimaryVersion" type="String"/>
+    <aura:attribute name="currentToVersion" type="String"/>
+    <aura:attribute name="cdName" type="String"/>
+    <aura:attribute name="parentName" type="String"/>
+    <aura:attribute name="parentAPIName" type="String"/>
+    <aura:attribute name="parentTypePrefix" type="String"/>
+    <aura:attribute name="parentTypeLabel" type="String"/>
+    <aura:attribute name="selectedCdId" type="String"/>
+    <aura:attribute name="errMsg" type="String"/>
+    <aura:attribute name="namespace" type="String"/>
+    <aura:attribute name="namespaceApi" type="String"/>
+    <aura:attribute name="timestamp" type="String"/>
+    <aura:attribute name="showTrueUp" type="Boolean" default="false"/>
+    <aura:attribute name="showNegotiate" type="Boolean" default="false"/>
+    <aura:attribute name="ldEnableComments" type="Boolean" default="false" description="used by launch darkly to enable feature"/>
+    <aura:attribute name="showComments" type="Boolean" default="false"/>
+    <aura:attribute name="useQuoteTerms" type="Boolean" default="false"/>
+    
+    <aura:attribute name="hasNoFiles" default="false" type="Boolean"/>
+    <aura:attribute name="mutatorSet" default="false" type="Boolean"/>
+    <aura:attribute name="hasError" default="false" type="Boolean"/>
+    <aura:attribute name="isLightning" default="true" type="Boolean"/>
+    <aura:attribute name="isInit" default="true" type="Boolean"/>
+    <aura:attribute name="scriptsLoaded" default="false" type="Boolean"/>
+    <aura:attribute name="iframeLoaded" default="false" type="Boolean"/>
+    
+    <aura:attribute name="primaryVersions" type="String[]"/>
+    <aura:attribute name="toVersions" type="String[]"/>
+    <aura:attribute name="avaliableCds" type="ContentDocument[]"/>
+    <aura:attribute name="cdsById" type="Object"/>
+    <aura:attribute name="labels" type="Object"/>
+    <aura:attribute name="popover" type="Aura.Component[]"/>
+    <aura:attribute name="modal" type="Aura.Component[]"/>
+    <aura:attribute name="popoverX" type="Integer" />
+    <aura:attribute name="popoverY" type="Integer" />
+    <aura:attribute access="private" name="comments" type="Aura.Component[]" />
+    <aura:attribute access="private" name="commentsPositionAbsolute" default="true" type="Boolean" description="true if no comments will overlap false to have comments layout as stack" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.getParentData}"/>
+    <aura:handler event="ltng:selectSObject" action="{!c.displayOverlay}"/>
+    <aura:handler event="APXT_Redlining:BaseEvent" name="showNewClauseModal" action="{!c.showNewClauseModal}" />
+    <aura:handler event="APXT_Redlining:BaseEvent" name="treeItemSelect" action="{!c.sendIframeMessage}" includeFacets="true"/>
+    <aura:handler event="APXT_Redlining:BaseEvent" name="treeListComplete" action="{!c.sendIframeMessage}" includeFacets="true"/>
+    <aura:handler event="APXT_Redlining:BaseEvent" name="refreshVersions" action="{!c.getParentData}" includeFacets="true"/>
+    <aura:handler event="APXT_Redlining:BaseEvent" name="close" action="{!c.popoverClose}" includeFacets="true"/>
+    
+    <div class="slds-grid slds-grid_frame" style="overflow:hidden;">
+        {!v.popover}
+        {!v.modal}
+    </div>
+
+    <APXT_Redlining:Prompt showOnEvent="true" title="{!$Label.apxt_redlining.apxt_trueUp_somethingBadHappened}"/>
+    <APXT_Redlining:Prompt warning="true" aura:id="warn" title="{!$Label.apxt_redlining.apxt_trueUp_unsupportedChangesTitle}" message="{!$Label.apxt_redlining.apxt_trueUp_unsupportedChangesText}"/>
+
+
+    <iframe aura:id="davFrame" id="davFrame" style="display:none"/>
+
+    <div aura:id="slds-container" class="slds slds-hide">
+        <div aura:id="pdf-spinner" class="slds-spinner_container conga-z-index--max conga-position--fixed">
+            <div class="slds-spinner_brand slds-spinner slds-spinner_large" aria-hidden="false" role="alert">
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+        <div aura:id="conga-container" class="conga-dimension-controller slds-hide">
+            <div aura:id="conga-container-inner" class="slds-grid slds-grid_frame slds-grid_vertical">
+                <div>
+                <aura:if isTrue="{!v.hasNoFiles}">
+                    <div class="slds-backdrop slds-fade-in-open">
+                        <div class="slds-text-align_center conga-absolute-center">
+                            <h3 class="slds-text-heading_medium slds-theme_inverse-text slds-m-bottom_medium slds-p-horizontal_large">
+                                <em>{!$Label.apxt_redlining.apxt_viewRedLines_emptyState}</em>
+                            </h3>
+                            <aura:if isTrue="{!v.isLightning}">
+                                <button onclick="{!c.closeOverlay}" class="slds-button slds-button_inverse">{!$Label.apxt_redlining.apxt_viewRedLines_closeRedlines}</button>
+                                <aura:set attribute="else">
+                                    <a href="{!'/' + v.recordId}" class="slds-button slds-button_inverse">{!$Label.apxt_redlining.apxt_viewRedLines_goBack}</a>
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                    </div>
+                    <aura:set attribute="else">
+                        <!-- Page Header -->
+                        <div aura:id="header" class="slds-page-header" role="banner">
+                            <div class="slds-grid">
+                                <div class="slds-col slds-has-flexi-truncate">
+                                    <div class="slds-media slds-media_center slds-no-space slds-grow">
+                                        <div class="slds-media__figure">
+                                            <aura:if isTrue="{!v.isInit == false}">
+                                                <lightning:icon iconName="doctype:word" size="medium"></lightning:icon>
+                                            </aura:if>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <nav role="navigation" aria-label="Breadcrumbs">
+                                                <ol class="slds-breadcrumb slds-list_horizontal">
+                                                    <li class="slds-breadcrumb__item slds-text-heading_label">
+                                                        <a href="{!'/' + v.parentTypePrefix + '/o'}">{!v.parentTypeLabel}</a>
+                                                    </li>
+                                                    <li class="slds-breadcrumb__item slds-text-heading_label slds-truncate">
+                                                        <a href="{!'/' + v.recordId}">{!v.parentName}</a>
+                                                    </li>
+                                                </ol>
+                                            </nav>
+                                            <h1 class="slds-page-header__title slds-m-right_small slds-truncate slds-align-middle" title="View Redlines">{!$Label.apxt_redlining.apxt_viewRedLines_redlineHeader}</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div aura:id="ddlOptions" class="slds-dropdown-trigger slds-dropdown-trigger_click slds-no-flex slds-align-bottom conga-show--desktop conga-button--responsive slds-hide">
+                                    <button class="slds-button slds-button_neutral" aria-haspopup="true" onclick="{!c.optionsClick}">
+                                        {!$Label.apxt_redlining.apxt_viewRedLines_options}
+                                        <APXT_Redlining:apxt_svg ariaHidden="true" class="slds-button__icon slds-button__icon_right" xlinkHref="{!'/resource/' + v.namespaceApi + 'apxt_lightningCss/icons/utility-sprite/svg/symbols.svg#down'}" winterClass="slds-p-around_xx-small" winterIconName="utility:edit" winterSize="small"></APXT_Redlining:apxt_svg>
+                                    </button>
+                                    <div class="slds-dropdown slds-dropdown_left">
+                                        <ul class="slds-dropdown__list" role="menu">
+                                          <li class="slds-dropdown__item" role="presentation">
+                                            <a href="javascript:void(0);" onclick="{!c.showModal}" role="menuitem" tabindex="0">
+                                              <span class="slds-truncate">{!$Label.apxt_redlining.apxt_viewRedLines_compare}</span>
+                                              <lightning:icon iconName="utility:preview" size="x-small" class="slds-icon-text-default slds-m-left_small slds-shrink-none"/>
+                                            </a>
+                                          </li>
+                                          <li class="slds-dropdown__item" role="presentation">
+                                            <a href="javascript:void(0);" onclick="{!c.openWebDav}" role="menuitem" tabindex="-1">
+                                              <span class="slds-truncate">{!$Label.apxt_redlining.apxt_viewRedLines_editLatest}</span>
+                                              <lightning:icon iconName="utility:edit" size="x-small" class="slds-icon-text-default slds-m-left_small slds-shrink-none"/>
+                                            </a>
+                                          </li>
+                                          <li class="slds-dropdown__item" role="presentation">
+                                            <a href="javascript:void(0);" onclick="{!c.showTrueUp}" role="menuitem" tabindex="-1">
+                                              <span class="slds-truncate">{!$Label.apxt_redlining.apxt_viewRedLines_trueUp}</span>
+                                              <lightning:icon iconName="utility:sync" size="x-small" class="slds-icon-text-default slds-m-left_small slds-shrink-none"/>
+                                            </a>
+                                          </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div aura:id="compareSelector" class="slds-col slds-grid_align-center slds-grid slds-grid_pull-padded slds-align-bottom slds-p-vertical_xx-small conga-compare-selector">
+                                    <div class="slds-col slds-col_padded">
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <label class="slds-form-element__label slds-show_inline-block">{!$Label.apxt_redlining.apxt_viewRedLines_document}</label>
+                                                <div class="slds-select_container slds-show_inline-block">
+                                                    <ui:inputSelect value="{!v.selectedCdId}" change="{!c.changedDocument}" class="slds-select">
+                                                        <aura:iteration items="{!v.avaliableCds}" var="cd">
+                                                            <ui:inputSelectOption text="{!cd.Id}" label="{!cd.Title}"/>
+                                                        </aura:iteration>
+                                                    </ui:inputSelect>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-col_padded">
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <label class="slds-form-element__label slds-show_inline-block">{!$Label.apxt_redlining.apxt_viewRedLines_versions}</label>
+                                                <div class="slds-select_container slds-show_inline-block">
+                                                    <ui:inputSelect aura:id="toVersion" value="{!v.selectedToVersion}" change="{!c.getIframeUrl}" class="slds-select">
+                                                        <aura:iteration items="{!v.toVersions}" var="version">
+                                                            <ui:inputSelectOption text="{!version}" label="{!version}"/>
+                                                        </aura:iteration>
+                                                    </ui:inputSelect>
+                                                </div>
+                                                <span class="slds-m-horizontal_x-small">{!$Label.apxt_redlining.apxt_viewRedLines_and}</span>
+                                                <div class="slds-select_container slds-show_inline-block">
+                                                    <ui:inputSelect aura:id="primaryVersion" value="{!v.selectedPrimaryVersion}" change="{!c.recalcToVersions}" class="slds-select">
+                                                        <aura:iteration items="{!v.primaryVersions}" var="version">
+                                                            <ui:inputSelectOption text="{!version}" label="{!version}"/>
+                                                        </aura:iteration>
+                                                    </ui:inputSelect>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>                                
+                                </div>
+
+                                <div aura:id="compareSelector" class="slds-col slds-no-flex slds-grid slds-grid_pull-padded slds-align-bottom slds-p-vertical_xx-small slds-p-right_x-small conga-compare-selector">
+                                    <button onclick="{!c.openWebDav}" href="javascript:void(0);" class="slds-button slds-button_neutral">
+                                        {!$Label.apxt_redlining.apxt_viewRedLines_editLatest}
+                                    </button>
+                                    <button onclick="{!c.showNegotiate}" href="javascript:void(0);" class="{!v.showNegotiate ? 'slds-button slds-button_brand' : 'slds-button slds-button_neutral'}">
+                                        {!$Label.apxt_redlining.apxt_viewRedLines_negotiate}
+                                    </button>
+                                    <button onclick="{!c.showTrueUp}" href="javascript:void(0);" class="{!v.showTrueUp ? 'slds-button slds-button_brand' : 'slds-button slds-button_neutral'}">
+                                        {!$Label.apxt_redlining.apxt_viewRedLines_trueUp}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Page Header -->
+                        <!-- Edit Comparison Modal -->
+                        <div role="dialog" tabindex="-1" class="slds-modal" aura:id="modal">
+                            <div class="slds-modal__container">
+                                <div class="slds-modal__header">
+                                    <button onclick="{!c.dismissModal}" class="slds-button slds-button_icon-inverse slds-modal__close">
+                                        <aura:if isTrue="{!v.isInit == false}">
+                                            <APXT_Redlining:apxt_svg ariaHidden="true" class="slds-button__icon slds-button__icon_large" xlinkHref="{!'/resource/' + v.namespaceApi + 'apxt_lightningCss/icons/action-sprite/svg/symbols.svg#close'}"></APXT_Redlining:apxt_svg>
+                                        </aura:if>
+                                        <span class="slds-assistive-text">{!$Label.apxt_redlining.apxt_viewRedLines_closeRedlines}</span>
+                                    </button>
+                                    <h2 id="header43" class="slds-text-heading_medium">{!$Label.apxt_redlining.apxt_viewRedLines_editComparison}</h2>
+                                </div>
+                                <div class="slds-modal__content slds-p-around_medium">
+                                    <div class="slds-form-element slds-m-bottom_small">
+                                        <div class="slds-form-element__control">
+                                            <label class="slds-form-element__label">{!$Label.apxt_redlining.apxt_viewRedLines_document}</label>
+                                            <div class="slds-select_container">
+                                                <ui:inputSelect value="{!v.selectedCdId}" change="{!c.changedDocumentDialog}" class="slds-select">
+                                                    <aura:iteration items="{!v.avaliableCds}" var="cd">
+                                                        <ui:inputSelectOption text="{!cd.Id}" label="{!cd.Title}"/>
+                                                    </aura:iteration>
+                                                </ui:inputSelect>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form-element slds-m-bottom_xx-small">
+                                        <div class="slds-form-element__control">
+                                            <label class="slds-form-element__label">{!$Label.apxt_redlining.apxt_viewRedLines_versions}</label>
+                                            <div class="slds-grid slds-grid_pull-padded">
+                                                <div class="slds-col_padded">
+                                                    <div class="slds-select_container">
+                                                        <ui:inputSelect aura:id="primaryVersion" value="{!v.selectedPrimaryVersion}" change="{!c.recalcToVersions}" class="slds-select">
+                                                            <aura:iteration items="{!v.primaryVersions}" var="version">
+                                                                <ui:inputSelectOption text="{!version}" label="{!version}"/>
+                                                            </aura:iteration>
+                                                        </ui:inputSelect>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col slds-no-flex">
+                                                    <span class="slds-m-top_xx-small slds-p-top_xxx-small slds-show_inline-block">{!$Label.apxt_redlining.apxt_viewRedLines_and}</span>
+                                                </div>
+                                                <div class="slds-col_padded">
+                                                    <div class="slds-select_container">
+                                                        <ui:inputSelect aura:id="toVersion" value="{!v.selectedToVersion}" change="{!c.markSelectionChanged}" class="slds-select">
+                                                            <aura:iteration items="{!v.toVersions}" var="version">
+                                                                <ui:inputSelectOption text="{!version}" label="{!version}"/>
+                                                            </aura:iteration>
+                                                        </ui:inputSelect>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-modal__footer">
+                                    <button onclick="{!c.dismissModal}" class="slds-button slds-button_neutral">{!$Label.apxt_redlining.apxt_viewRedLines_cancel}</button>
+                                    <button onclick="{!c.mobileGetIframeUrl}" class="slds-button slds-button_neutral">{!$Label.apxt_redlining.apxt_viewRedLines_compare}</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-backdrop" aura:id="modalBackdrop"></div>
+                        <!-- /Edit Comparison Modal -->
+                    </aura:set>
+                </aura:if>
+                </div>
+                <aura:if isTrue="{!v.hasError}">
+                    <!-- Error State -->
+                    <div class="slds-backdrop slds-fade-in-open conga-z-index---1">
+                        <div class="slds-text-align_center conga-absolute-center">
+                            <h3 class="slds-text-heading_medium slds-theme_inverse-text slds-m-top_medium slds-p-horizontal_large">
+                                <em>{!v.errMsg}</em>
+                            </h3>
+                        </div>
+                    </div>
+                    <aura:set attribute="else">
+                        <aura:if isTrue="{!v.showTrueUp}">
+
+                            <div class="slds-grid slds-grow">
+                                <lightning:layoutItem class="no-overflow" size="2">
+                                    <APXT_Redlining:DocumentTreeList aura:id="trueUpTreeList" useQuoteTerms="{!v.useQuoteTerms}" recordId="{!v.recordId}" documentId="{!v.selectedCdId}" sObjectName="{!v.parentAPIName}" sObjectLabel="{!v.parentTypeLabel}"/>
+                                </lightning:layoutItem>
+                                <iframe aura:id="viewer" class="slds-grow conga-document-iframe" src="{!v.iframeUrl}"></iframe>
+                            </div>
+
+                            <aura:set attribute="else">
+                                <aura:if isTrue="{!v.showNegotiate}">
+                                    <div aura:id="header" class="slds-page-header slds-size_1-of-1 slds-grid slds-grid_align-spread conga-secondary-header">
+                                        <div class="slds-col slds-size_5-of-12">
+                                            <!-- Filler column intentionally left blank -->
+                                        </div>
+                                        <div class="slds-col slds-p-around_xx-small slds-size_1-of-6">
+                                            <h1 class="slds-page-header__title">{!$Label.apxt_redlining.apxt_viewRedLines_negotiate}</h1>
+                                        </div>
+                                        <div class="slds-col slds-grid">
+                                            <aura:if isTrue="{!v.ldEnableComments}">
+                                                <span class="slds-grid slds-p-right_small">
+                                                    <label class="slds-text-color_inverse slds-text-body_small slds-p-right_small slds-p-around_xx-small slds-truncate">
+                                                        {!$Label.apxt_redlining.apxt_viewComments}
+                                                    </label>
+                                                    <APXT_Redlining:ToggleSwitch onchange="{!c.toggleComments}" disabled="{!v.iframeLoaded != true}" />
+                                                </span>
+                                            </aura:if>
+
+                                            <button class="slds-button slds-button_neutral slds-truncate" onclick="{!c.showNegotiate}">{!$Label.apxt_redlining.apxt_viewRedLines_cancel}</button>
+
+                                            <div class="slds-button-group" role="group">
+                                                <button class="slds-button slds-button_neutral" onclick="{!c.saveAndDownload}">{!$Label.apxt_redlining.apxt_viewRedLines_saveAndDownload}</button>
+                                                <button class="slds-button slds-button_neutral" onclick="{!c.save}">{!$Label.apxt_redlining.apxt_viewRedLines_save}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-grid slds-grow">
+                                        <lightning:layoutItem class="no-overflow" size="2">
+                                            <APXT_Redlining:DocumentTreeList aura:id="negotiateTreeList" doOnlyShowClauses="true" recordId="{!v.recordId}" documentId="{!v.selectedCdId}" sObjectName="{!v.parentAPIName}" sObjectLabel="{!v.parentTypeLabel}"/>  
+                                        </lightning:layoutItem>
+                                        <iframe aura:id="viewer" class="slds-grow conga-document-iframe" src="{!v.iframeUrl}"></iframe>
+                                        <aura:if isTrue="{!v.showComments}">
+                                            <div class="slds-col slds-size_2-of-12 conga-comments-container slds-grid slds-grid_vertical">
+                                                <div class="conga-mock-toolbar"></div>
+                                                <aura:if isTrue="{!and(v.comments != undefined, v.comments.length gt 0)}">
+                                                    <aura:if isTrue="{!v.commentsPositionAbsolute}">
+                                                        <div class="slds-col">
+                                                            <!-- Comments are positioned absolutely and don't overlap -->
+                                                            {!v.comments}
+                                                        </div>
+                                                        <aura:set attribute="else">
+                                                            <!-- Comments would overlap is positioned absolutely so this is static positioning -->
+                                                            <div aura:id="commentStaticContainer" class="slds-col slds-is-relative">
+                                                                <div class="conga-comments-static">
+                                                                    {!v.comments}
+                                                                </div>
+                                                            </div>
+                                                        </aura:set>
+                                                    </aura:if>
+
+                                                    <aura:set attribute="else">
+                                                        <div class="slds-col slds-align_absolute-center slds-text-color_weak">
+                                                            {!$Label.apxt_redlining.apxt_noViewableComments}
+                                                        </div>
+                                                    </aura:set>
+                                                </aura:if>
+                                            </div>
+                                        </aura:if>
+                                    </div>
+                                    <aura:set attribute="else">
+                                        <iframe aura:id="viewer" class="slds-grow conga-document-iframe" src="{!v.iframeUrl}"></iframe>
+                                    </aura:set>
+                                </aura:if>
+                            </aura:set>
+                        </aura:if>
+                    </aura:set>
+                </aura:if>
+            </div>
+        </div>
+    </div>
+</aura:component>

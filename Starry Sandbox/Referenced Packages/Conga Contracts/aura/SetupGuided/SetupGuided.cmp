@@ -1,0 +1,7 @@
+<aura:component >
+  <div class="slds-align_absolute-center">
+    <div class="slds-text-heading_medium"><h1>Nothing to see here.</h1></div>
+      
+    <APXT_Redlining:Whirlwind />
+  </div>
+</aura:component>

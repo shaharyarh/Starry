@@ -1,0 +1,46 @@
+<apex:page standardController="Contract" showHeader="false" sidebar="false" extensions="APXT_Redlining.apxt_viewRedlines" applyBodyTag="false" docType="html-5.0">
+    <head>
+        <meta name="robots" content="noindex, nofollow"/>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>{!$Label.apxt_viewRedLines_title}</title>
+    </head>
+    <!-- insert own body tag because salesforce class/style inheriting overflow property in undeseriable ways -->
+    <body style="overflow:hidden;">
+    <apex:includeLightning />
+    <div id="vf-outer-spinner" class="slds-scope">
+        <div style="height: 6rem;">
+            <div class="slds-spinner_container">
+                <div role="status" class="slds-spinner slds-spinner_brand slds-spinner_large">
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="lightning"/>
+    
+    <script type="text/javascript">
+        var ns = "{!JSENCODE(NAMESPACE)}";
+        if (ns == undefined || ns.length == 0) {
+            ns = "c";
+        }
+        $Lightning.use(ns + ":apxt_lightningOut", function () {
+            $Lightning.createComponent(ns + ":apxt_viewRedlines", {
+                recordId: "{!JSENCODE(vfParentId)}",
+                isLightning: false,
+                top: '0',
+                height: '100%'
+            }, "lightning", function (component, status) {
+                var el = document.getElementById('vf-outer-spinner');
+                el.parentNode.removeChild(el);
+                // If no error then hide the error container
+                if (status == "SUCCESS") {
+                    var errorDiv = document.getElementById("auraErrorMessage");
+                    if (errorDiv) errorDiv.style="display:none;";
+                }
+            });
+        });
+    </script>
+    </body>
+</apex:page>

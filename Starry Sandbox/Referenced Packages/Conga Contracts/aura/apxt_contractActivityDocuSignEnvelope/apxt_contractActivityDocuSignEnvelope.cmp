@@ -1,0 +1,75 @@
+<aura:component >
+    <aura:attribute name="docuSignEnvelope" type="Object" description="DocuSign Object"/>
+    <aura:attribute name="labels" type="Object" description="Labels"/>
+    <aura:attribute name="namespaceApi" type="String" description="Namespace"/>
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <style>
+        body .slds .conga-timeline__icon--docusigned {
+    		background: #50cc7a !important; 
+        }
+        body .slds .conga-timeline__media--docusigned:before {
+    		background: #50cc7a !important; 
+        }
+    </style>
+    <span class="slds-assistive-text">{!v.labels.apxt_contractActivityDocuSign_title}</span>
+    <div class="slds-media">
+        <div class="slds-media__body">
+            <div class="slds-media slds-media--timeline conga-timeline__media--replied conga-timeline__media--docusigned">
+                <div class="slds-media__figure slds-timeline__icon">
+                    <div class="slds-icon_container">
+                        <APXT_Redlining:apxt_svg ariaHidden="true" class="slds-icon slds-icon--small slds-p-around--xx-small conga-timeline__icon--replied conga-timeline__icon--docusigned" xlinkHref="{!'/resource/' + v.namespaceApi + 'apxt_lightningCss/icons/action-sprite/svg/symbols.svg#submit_for_approval'}" winterClass="slds-p-around--xx-small conga-timeline__icon--replied conga-timeline__icon--docusigned" winterIconName="action:submit_for_approval" winterSize="small"></APXT_Redlining:apxt_svg>
+                    </div>
+                </div>
+                <div class="slds-media__body">
+                    <div class="slds-media">
+                        <div class="slds-media__body">
+                            <p class="slds-truncate conga-contract-activity__title" title="{!v.labels.apxt_contractActivityDocuSign_envelopeCreated}">
+                                <span class="slds-tile__title conga-position--static">
+                                    <a href="{!'/' + v.docuSignEnvelope.data.CreatedById}">
+                                        {! v.docuSignEnvelope.data.CreatedByName}
+                                    </a>&nbsp;<aura:if isTrue="{! empty(v.docuSignEnvelope.data.Sent) }">
+                                        {! v.labels.apxt_contractActivityDocuSign_CreateAction }
+                                        <aura:set attribute="else">
+                                        	{! v.labels.apxt_contractActivityDocuSign_SentAction }
+                                        </aura:set>
+                                    </aura:if>&nbsp;
+                                    <a href="{!'/' + v.docuSignEnvelope.data.Id}">
+                                        <aura:if isTrue="{!empty(v.docuSignEnvelope.data.dsfs__Subject__c)}">
+                                            <em>{!v.labels.apxt_contractActivityDocuSign_subjectEmpty}</em>
+                                            <aura:set attribute="else">
+                                                {!v.docuSignEnvelope.data.dsfs__Subject__c}
+                                            </aura:set>
+                                        </aura:if>
+                                    </a>
+                                </span>
+                            </p>
+                            <ul class="slds-list--horizontal slds-wrap">
+                                <li class="slds-m-right--large">
+                                    <span class="tile__label slds-text-heading--label-normal">{! v.labels.apxt_contractActivityDocuSign_status }</span>
+                                    <span class="slds-text-body--small">
+                                        <aura:unescapedHtml value="{! v.docuSignEnvelope.data.dsfs__Envelope_Status__c}"/>
+                                    </span>
+                                </li>
+                                <aura:if isTrue="{! not(empty(v.docuSignEnvelope.data.dsfs__Viewed_Date_Time__c)) }">
+                                	<li class="slds-m-right--large">
+                                        <span class="tile__label slds-text-heading--label-normal">{! v.labels.apxt_contractActivityDocuSign_lastViewed }</span>
+                                        <span class="slds-text-body--small">
+                                            <aura:unescapedHtml value="{! v.docuSignEnvelope.data.dsfs__Viewed_Date_Time__c}"/>
+                                        </span>
+                                    </li>
+                                </aura:if>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-media__figure slds-media__figure--reverse">
+            <div class="slds-timeline__actions">
+                <p class="slds-timeline__date">
+                    {!v.docuSignEnvelope.data.FormattedCreatedDate}
+                </p>
+            </div>
+        </div>
+    </div>
+</aura:component>

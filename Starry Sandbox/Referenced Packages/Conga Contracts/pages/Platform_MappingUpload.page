@@ -1,0 +1,58 @@
+<apex:page controller="APXT_Redlining.Platform_MappingUploadController" title="Internal Mapping Tool">
+    <apex:form id="pgform">
+        <apex:pageMessages id="msgs"></apex:pageMessages>
+        <apex:pageBlock title="Connections" id="connections">           
+            <apex:commandButton value="Get Connection Ids" action="{!loadConnectionIds}" reRender="connections,msgs"></apex:commandButton> 
+            <br />
+            <apex:pageBlockTable title="Connections" value="{!connectionIds}" var="conn" >
+                    <apex:column title="Id" value="{!conn.connectionId}"> <apex:facet name="header">Id</apex:facet></apex:column>
+                    <apex:column title="name" value="{!conn.name}"> <apex:facet name="header">Name</apex:facet></apex:column>
+                    <apex:column title="system" value="{!conn.app}"> <apex:facet name="header">System</apex:facet></apex:column>
+            </apex:pageBlockTable> 
+        </apex:pageBlock>
+        <apex:pageBlock title="Object Mapping Ids" id="objMappings">
+            <apex:outputPanel layout="inline">
+                <apex:outputLabel value="ConnectionId:" style="bold"></apex:outputLabel>
+                <apex:inputText value="{!connectionId}" style="width:330px; margin-left:5px; margin-right:5px"></apex:inputText>
+                <apex:commandButton value="Get Object Mapping Ids" action="{!loadObjectMappingIds}" reRender="objMappings,msgs"></apex:commandButton> 
+            </apex:outputPanel> 
+            <br />
+            <apex:pageBlockSection collapsible="true">
+                <apex:outputPanel layout="block">
+                    <apex:outputText value="{!objectMappingIds}"></apex:outputText> 
+                </apex:outputPanel>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection collapsible="true">
+            <apex:pageBlockTable title="Connections" value="{!objectMappings}" var="om" >
+                    <apex:column title="ObjectMappingId" value="{!om.ObjectMappingId}"> <apex:facet name="header">ObjectMappingId</apex:facet></apex:column>
+                    <apex:column title="ConnectionId" value="{!om.ConnectionId}"> <apex:facet name="header">ConnectionId</apex:facet></apex:column>
+                    <apex:column title="SalesforceObjectName" value="{!om.SalesforceObjectName}"> <apex:facet name="header">SalesforceObjectName</apex:facet></apex:column>
+                    <apex:column title="ExternalObjectName" value="{!om.ExternalObjectName}"> <apex:facet name="header">ExternalObjectName</apex:facet></apex:column>
+                    <apex:column title="SalesforceOptoutField" value="{!om.SalesforceOptoutField}"> <apex:facet name="header">SalesforceOptoutField</apex:facet></apex:column>
+                    <apex:column title="ExternalOptoutField" value="{!om.ExternalOptoutField}"> <apex:facet name="header">ExternalOptoutField</apex:facet></apex:column>
+                    <apex:column title="SalesforceIdField" value="{!om.SalesforceIdField}"> <apex:facet name="header">SalesforceIdField</apex:facet></apex:column>
+                    <apex:column title="ExternalIdField" value="{!om.ExternalIdField}"> <apex:facet name="header">ExternalIdField</apex:facet></apex:column>
+                    <apex:column title="SalesforceIdField" value="{!om.SalesforceIdField}"> <apex:facet name="header">SalesforceIdField</apex:facet></apex:column>
+                    <apex:column title="SalesforceFieldForRequiringExternalApproval" value="{!om.SalesforceFieldForRequiringExternalApproval}"> <apex:facet name="header">SalesforceFieldForRequiringExternalApproval</apex:facet></apex:column>
+                    <apex:column title="ExternalFieldForRequiringSalesforceApproval" value="{!om.ExternalFieldForRequiringSalesforceApproval}"> <apex:facet name="header">ExternalFieldForRequiringSalesforceApproval</apex:facet></apex:column>
+                <apex:column title="IsActive" value="{!om.IsActive}"> <apex:facet name="header">IsActive</apex:facet></apex:column>
+             
+            </apex:pageBlockTable> 
+        </apex:pageBlockSection>
+            
+        </apex:pageBlock>
+        <apex:pageBlock title="Object Mapping Values" id="mapping">
+            <apex:outputPanel layout="inline"> 
+                <apex:outputLabel value="Object Mapping Id:" style="bold"></apex:outputLabel>    
+                <apex:inputText value="{!objectMappingId}" style="width:330px; margin-left:5px; margin-right:5px"></apex:inputText>
+                <apex:commandButton value="Load" action="{!loadMapping}" reRender="mapping,msgs"></apex:commandButton> 
+                <apex:commandButton value="Save" action="{!saveMapping}" reRender="mapping,msgs"></apex:commandButton> 
+                <apex:commandButton value="Delete" action="{!deleteMapping}" reRender="mapping,msgs"></apex:commandButton>   
+            </apex:outputPanel>
+            <br />
+            <apex:outputPanel layout="block"> 
+                <apex:inputTextArea value="{!jsonMapping}" cols="90" rows="20"></apex:inputTextArea>
+            </apex:outputPanel>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

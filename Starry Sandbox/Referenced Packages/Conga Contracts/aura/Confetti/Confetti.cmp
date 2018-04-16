@@ -1,0 +1,4 @@
+<aura:component extends="APXT_Redlining:CanvasAnimation">
+  <aura:attribute name="game" type="Aura.Component"/>
+  {!v.game}
+</aura:component>

@@ -1,0 +1,18 @@
+.THIS {
+}
+
+.THIS .rotate-90 svg {
+    transform: rotate(90deg);
+}
+
+.THIS .text-center {
+    text-align: center;
+}
+
+.THIS .cell-wrap {
+    white-space: -o-pre-wrap !important; 
+    word-wrap: break-word !important;
+    white-space: pre-wrap !important; 
+    white-space: -moz-pre-wrap !important; 
+    white-space: -pre-wrap !important; 
+}

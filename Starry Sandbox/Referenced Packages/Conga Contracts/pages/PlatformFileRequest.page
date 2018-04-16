@@ -1,0 +1,6 @@
+<apex:page controller="APXT_Redlining.PlatformFileController" action="{!actionRedirect}" >
+    <apex:pageMessages ></apex:pageMessages>
+    <apex:outputPanel layout="block" style="font-weight:bold">
+        You can close this window after the file downloads
+    </apex:outputPanel>
+</apex:page>

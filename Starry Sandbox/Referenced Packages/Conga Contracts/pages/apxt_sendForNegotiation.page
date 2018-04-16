@@ -1,0 +1,1178 @@
+<apex:page showHeader="false" sidebar="false" standardController="Contract" extensions="APXT_Redlining.apxt_sendForNegotiation,APXT_Redlining.BaseController" readOnly="true">
+    <html xmlns:xlink="http://www.w3.org/1999/xlink">
+        <head>
+            <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.apxt_mainCss, './main.css')}"/>
+            <script src="{!URLFOR($Resource.apxt_jQuery)}"></script>
+            <script src="{!URLFOR($Resource.apxt_svg4everybody)}"></script>
+            <script src="{!URLFOR($Resource.Mixpanel)}"></script>
+            <script src="{!URLFOR($Resource.apxt_aljs, './jquery.aljs-init.min.js')}"></script>
+            <script src="{!URLFOR($Resource.apxt_aljs, './jquery.aljs-popover.min.js')}"></script>
+        </head>
+        <body>
+            <apex:slds />
+            <div class="slds">
+                <!-- Page Header -->
+                <div class="slds-page-header" role="banner">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-has-flexi-truncate">
+                            <div class="slds-media slds-media--center slds-no-space slds-grow">
+                                <div class="slds-media__figure">
+                                    <svg aria-hidden="true" class="slds-icon slds-icon-standard-email" style="background-color:rgb(0,209,162);">
+                                        <use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/standard-sprite/svg/symbols.svg')}#email"></use>
+                                    </svg>
+                                </div>
+                                <div class="slds-media__body">
+                                    <nav role="navigation" aria-label="Breadcrumbs">
+                                        <ol class="slds-breadcrumb slds-list--horizontal">
+                                            <li class="slds-breadcrumb__item slds-text-heading--label">
+                                                <a href="/{!parentTypePrefix}">{!parentTypeLabel}</a>
+                                            </li>
+                                            <apex:outputPanel layout="none" rendered="{!NOT(ISNULL(parentObj))}">
+                                                <li class="slds-breadcrumb__item slds-text-heading--label">
+                                                    <a href="/{!parentObj.Id}">{!parentObjName}</a>
+                                                </li>
+                                            </apex:outputPanel>
+                                        </ol>
+                                    </nav>
+                                    <h1 class="slds-page-header__title slds-m-right--small slds-truncate slds-align-middle" title="{!$Label.apxt_sendForNegotiation_title}">{!$Label.apxt_sendForNegotiation_title}</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <apex:outputPanel layout="none" rendered="{!pageStatusMap['success']}">
+                            <div class="slds-col slds-no-flex slds-grid slds-align-bottom">
+                                <a class="slds-button slds-button--neutral edit-section-button js-cancel" href="/{!parentObj.Id}">
+                                    {!$Label.apxt_sendForNegotiation_button_cancel}
+                                </a>
+                                <a href="javascript:void(0);" class="slds-button slds-button--brand edit-section-button js-preview">
+                                    <svg aria-hidden="true" class="slds-button__icon slds-button__icon--left conga-hide--tablet">
+                                        <use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#preview"></use>
+                                    </svg>{!$Label.apxt_sendForNegotiation_button_preview}
+                                </a>
+                                <button class="slds-button slds-button--neutral preview-section-button js-edit slds-hide">
+                                    <svg aria-hidden="true" class="slds-button__icon slds-button__icon--left conga-hide--tablet">
+                                        <use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#edit"></use>
+                                    </svg>{!$Label.apxt_sendForNegotiation_button_edit}
+                                </button>
+                                <button class="slds-button slds-button--brand edit-section-button js-send">
+                                    <svg aria-hidden="true" class="slds-button__icon slds-button__icon--left conga-hide--tablet">
+                                        <use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#email"></use>
+                                    </svg>{!$Label.apxt_sendForNegotiation_button_send}
+                                </button>
+                                <button class="slds-button slds-button--brand preview-section-button js-send slds-hide">
+                                    <svg aria-hidden="true" class="slds-button__icon slds-button__icon--left conga-hide--tablet">
+                                        <use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#email"></use>
+                                    </svg>{!$Label.apxt_sendForNegotiation_button_send}
+                                </button>
+                            </div>
+                        </apex:outputPanel>
+                        <apex:outputPanel layout="none" rendered="{!!pageStatusMap['success']}">
+                            <div class="slds-col slds-no-flex slds-grid slds-align-bottom">
+                                <apex:outputPanel layout="none" rendered="{!NOT(ISNULL(parentObj))}">
+                                    <a class="slds-button slds-button--neutral edit-section-button js-cancel" href="/{!parentObj.Id}">
+                                        {!$Label.apxt_sendForNegotiation_button_back}
+                                    </a>
+                                </apex:outputPanel>
+                                <apex:outputPanel layout="none" rendered="{!ISNULL(parentObj)}">
+                                    <a class="slds-button slds-button--neutral edit-section-button js-cancel" href="/{!parentTypePrefix}">
+                                        {!$Label.apxt_sendForNegotiation_button_back}
+                                    </a>
+                                </apex:outputPanel>
+                            </div>
+                        </apex:outputPanel>
+                    </div>
+                </div>
+                <!-- /Page Header -->
+
+                <!-- Page Error -->
+                <apex:outputPanel layout="block" styleClass="slds-container slds-container--large slds-container--center" rendered="{!!pageStatusMap['success']}">
+                    <div class="slds-col slds-col--padded slds-size--1-of-1 slds-m-around--large">
+                        <div class="slds-notify slds-notify--toast slds-theme--error slds-m-around--none conga-notification" role="alert">
+                            <span class="slds-assistive-text">{!$Label.apxt_sendForNegotiation_error_title}</span>
+                            <div class="slds-grid">
+                                <svg aria-hidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#error"></use>
+                                </svg>
+                                <div class="slds-col slds-align-middle">
+                                    <apex:outputPanel layout="none" rendered="{!NOT(ISNULL(pageStatusMap))}">
+                                        <h2 class="slds-text-heading--small">{!pageStatusMap['label']}</h2>
+                                        <p class="slds-text-body--small">{!pageStatusMap['detail']}</p>
+                                        <div class="slds-hide">{!pageStatusMap['id']}</div>
+                                        <div class="slds-hide">{!pageStatusMap['debug']}</div>
+                                    </apex:outputPanel>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </apex:outputPanel>
+                <!-- /Page Error -->
+
+                <!-- Page Body -->
+                <apex:outputPanel layout="none" rendered="{!pageStatusMap['success']}">
+                    <div id="edit-section" class="slds-container slds-p-around--small">
+                        <!-- Validation Error Notification -->
+                        <div id="validation-toast" class="slds-notify slds-notify--toast slds-theme--error slds-m-around--none slds-m-bottom--large conga-notification conga-hide" role="alert">
+                            <span class="slds-assistive-text">{!$Label.apxt_sendForNegotiation_error_title}</span>
+                            <div class="slds-grid">
+                                <svg aria-hidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                                    <use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#error"></use>
+                                </svg>
+                                <div class="slds-col slds-align-middle">
+                                    <h2 class="slds-text-heading--small">{!$Label.apxt_sendForNegotiation_error_subtitle}</h2>
+                                    <ul class="slds-list--dotted">
+                                        <li class="slds-item js-error js-required-field-error">{!$Label.apxt_sendForNegotiation_error_fieldError}</li>
+                                        <li class="slds-item js-error js-email-address-error">{!$Label.apxt_sendForNegotiation_error_addressError}</li>
+                                        <li class="slds-item js-error js-attachment-error">{!$Label.apxt_sendForNegotiation_error_attachmentError}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Validation Error Notification -->
+                        <div class="slds-grid slds-grid_pull-padded">
+                            <div class="slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2 slds-p-horizontal--small">
+                                <h3 class="slds-text-title--caps">{!$Label.apxt_sendForNegotiation_subtitle}</h3>
+                                <div class="slds-lookup" data-scope="single">
+                                    <div class="slds-form-element is-required slds-m-top--medium">
+                                        <label class="slds-form-element__label" for="to-address-input">
+                                            <abbr class="slds-required" title="required">*</abbr>{!$Label.apxt_sendForNegotiation_to}
+                                        </label>
+                                        <!-- Pill Container -->
+                                        <div id="to-address-input-pills" class="conga-multi-picklist-pills"></div>
+                                        <!-- /Pill Container -->
+                                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right">
+                                            <svg aria-hidden="true" class="slds-input__icon">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#search"></use>
+                                            </svg>
+                                            <input id="to-address-input" class="slds-input" type="text" aria-autocomplete="none" role="combobox" placeholder="{!$Label.apxt_sendForNegotiation_emailPlaceholder}" autocomplete="off"/>
+                                        </div>
+                                        <div class="slds-lookup__menu" role="listbox">
+                                            <ul id="to-address-input-list" class="slds-lookup__list" role="presentation"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-lookup" data-scope="single">
+                                    <div class="slds-form-element slds-m-top--medium">
+                                        <label class="slds-form-element__label" for="cc-address-input">{!$Label.apxt_sendForNegotiation_cc}</label>
+                                        <!-- Pill Container -->
+                                        <div id="cc-address-input-pills" class="conga-multi-picklist-pills"></div>
+                                        <!-- /Pill Container -->
+                                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right">
+                                            <svg aria-hidden="true" class="slds-input__icon">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#search"></use>
+                                            </svg>
+                                            <input id="cc-address-input" class="slds-input" type="text" aria-autocomplete="none" role="combobox" placeholder="{!$Label.apxt_sendForNegotiation_emailPlaceholder}" autocomplete="off"/>
+                                        </div>
+                                        <div class="slds-lookup__menu" role="listbox">
+                                            <ul id="cc-address-input-list" class="slds-lookup__list" role="presentation"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-lookup" data-scope="single">
+                                    <div class="slds-form-element slds-m-top--medium">
+                                        <label class="slds-form-element__label" for="bcc-address-input">{!$Label.apxt_sendForNegotiation_bcc}</label>
+                                        <!-- Pill Container -->
+                                        <div id="bcc-address-input-pills" class="conga-multi-picklist-pills"></div>
+                                        <!-- /Pill Container -->
+                                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right">
+                                            <svg aria-hidden="true" class="slds-input__icon">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#search"></use>
+                                            </svg>
+                                            <input id="bcc-address-input" class="slds-input" type="text" aria-autocomplete="none" role="combobox" placeholder="{!$Label.apxt_sendForNegotiation_emailPlaceholder}" autocomplete="off"/>
+                                        </div>
+                                        <div class="slds-lookup__menu" role="listbox">
+                                            <ul id="bcc-address-input-list" class="slds-lookup__list" role="presentation"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <apex:outputPanel layout="none" rendered="{!emTmpltEnabled}">
+                                    <div class="slds-form-element is-required slds-m-top--medium">
+                                        <label class="slds-form-element__label" for="template">
+                                            <apex:outputPanel layout="none" rendered="{!$Setup.Conga_General_Settings__c.Email_Require_Template__c}">
+                                                <abbr class="slds-required" title="required">*</abbr>
+                                            </apex:outputPanel>
+                                            {!$Label.apxt_sendForNegotiation_template}</label>
+                                        <div class="slds-form-element__control slds-select_container">
+                                            <select name="template" id="template" class="slds-select">
+                                                <option disabled="disabled" selected="selected">{!$Label.apxt_sendForNegotiation_templatePlaceholder}</option>
+                                                <apex:repeat value="{!emailTemplateList}" var="emailTemplate">
+                                                    <option value="{!emailTemplate.Id}" subject="{!emailTemplate.Subject}">{!emailTemplate.Name}</option>
+                                                </apex:repeat>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </apex:outputPanel>
+                                <div class="slds-form-element is-required slds-m-top--medium">
+                                    <label class="slds-form-element__label" for="subject">
+                                        <apex:outputPanel layout="none" rendered="{!$Setup.Conga_General_Settings__c.Email_Require_Subject__c}">
+                                            <abbr class="slds-required" title="required">*</abbr>
+                                        </apex:outputPanel>
+                                        {!$Label.apxt_sendForNegotiation_subject}</label>
+                                    <input name="subject" id="subject" class="slds-input" type="text" autocomplete="off"/>
+                                </div>
+                                <div class="slds-form-element slds-m-top--medium">
+                                    <label class="slds-form-element__label" for="message">
+                                        {!$Label.apxt_sendForNegotiation_additionalMessage}
+                                        <svg aria-hidden="true" data-aljs="popover" title="" class="slds-icon slds-icon--x-small slds-icon-text-default slds-m-left--xxx-small" data-aljs-title="{!$Label.apxt_sendForNegotiation_messageHelpText}">
+                                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#info"></use>
+                                        </svg>
+                                    </label>
+                                    <textarea name="message" id="message" class="slds-textarea conga-textarea--tall"></textarea>
+                                </div>
+                                
+                            </div>
+                            <div class="slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2 slds-p-horizontal--small">
+                                <h3 class="slds-text-title--caps">{!$Label.apxt_sendForNegotiation_attachments}</h3>
+                                <div class="slds-form-element is-required slds-m-top--medium">
+                                    <apex:outputPanel rendered="{!contentDocumentList.size == 0}">
+                                        <p>
+                                            <em class="conga-opacity--50">{!$Label.apxt_sendForNegotiation_attachmentsEmptyState}</em>
+                                        </p>
+                                    </apex:outputPanel>
+                                    <ul class="slds-has-dividers_bottom">
+                                        <apex:repeat value="{!contentDocumentList}" var="contentDocument">
+                                            <li class="slds-item slds-p-around--small js-attachment-{!contentDocument.ContentVersions[0].Id}">
+                                                <div class="slds-grid">
+                                                    <div class="slds-form-element slds-shrink slds-p-right--xxx-small">
+                                                        <div class="slds-form-element__control">
+                                                            <label class="slds-checkbox">
+                                                                <input type="checkbox" name="attach" class="js-attach" checked="checked" id="{!contentDocument.ContentVersions[0].Id}" autocomplete="off"/>
+                                                                <span class="slds-checkbox--faux"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-grow slds-grid">
+                                                        <span class="slds-truncate">{!contentDocument.Title}</span>
+                                                        <span class="slds-text-body--small slds-truncate slds-col_bump-left">
+                                                            <ul class="slds-list--horizontal slds-has-dividers--right conga-list--horizontal">
+                                                                <li class="slds-item">
+                                                                    <apex:outputText value="{0} {1}">
+                                                                        <apex:param value="{!contentDocument.contentVersions.size}"/>
+                                                                        <apex:param value="{!IF(contentDocument.contentVersions.size == 1, $Label.apxt_redlining__apxt_sendfornegotiation_version, $Label.apxt_redlining__apxt_sendfornegotiation_version_plural)}"/>
+                                                                    </apex:outputText>
+                                                                </li>
+                                                                <li class="slds-item">
+                                                                    <apex:outputText value="{0}">
+                                                                        <apex:param value="{!attachmentDates[contentDocument.Id]}"/>
+                                                                    </apex:outputText>
+                                                                </li>
+                                                                <!-- Primary Badge -->
+                                                                <apex:outputPanel layout="none" rendered="{!contentDocument.Id == primaryDocumentId}">
+                                                                    <li class="slds-item">
+                                                                        <small>
+                                                                            <span class="slds-badge slds-theme-alt-inverse">{!$Label.apxt_sendForNegotiation_primary}</span>
+                                                                        </small>
+                                                                    </li>
+                                                                </apex:outputPanel>
+                                                                <!-- /Primary Badge -->
+                                                            </ul>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-form-element slds-lookup slds-p-top--small" data-scope="single">
+                                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right">
+                                                        <div class="slds-combobox_container slds-has-inline-listbox">
+                                                            <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                                                                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right">
+                                                                    <svg aria-hidden="true" class="slds-input__icon conga-spyglass">
+                                                                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#search"></use>
+                                                                    </svg>
+                                                                    <input id="{!contentDocument.ContentVersions[0].Id}-doctype-input" class="slds-input slds-combobox__input" type="text" aria-autocomplete="none" role="combobox" placeholder="{!$Label.apxt_sendForNegotiation_doctypePlaceholder}" autocomplete="off"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-lookup__menu" role="listbox">
+                                                        <ul id="{!contentDocument.ContentVersions[0].Id}-doctype-input-list" class="slds-lookup__list" role="presentation"></ul>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </apex:repeat>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Page Body -->
+
+                    <!-- Page Body Preview -->
+                    <div id="preview-section" class="slds-container slds-container--x-large slds-container--center slds-p-vertical--large slds-hide">
+                        <div class="slds-grid slds-p-horizontal--large slds-grid--pull-padded slds-wrap">
+                            <!-- Success Notification -->
+                            <div id="success-toast" class="slds-col slds-col--padded slds-size--1-of-1 slds-m-bottom--large slds-hide">
+                                <div class="slds-notify slds-notify--toast slds-theme--success slds-m-around--none conga-notification" role="alert">
+                                    <span class="slds-assistive-text">{!$Label.apxt_sendForNegotiation_success_title}</span>
+                                    <div class="slds-grid">
+                                        <svg aria-hidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                                            <use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#success"></use>
+                                        </svg>
+                                        <div class="slds-col slds-align-middle">
+                                            <h2 class="slds-text-heading--small">{!$Label.apxt_sendForNegotiation_success_message}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Success Notification -->
+                            <!-- Error Notification -->
+                            <div id="error-toast" class="slds-col slds-col--padded slds-size--1-of-1 slds-m-bottom--large slds-hide">
+                                <div class="slds-notify slds-notify--toast slds-theme--error slds-m-around--none conga-notification" role="alert">
+                                    <span class="slds-assistive-text">{!$Label.apxt_sendForNegotiation_error_sentTitle}</span>
+                                    <div class="slds-grid">
+                                        <svg aria-hidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                                            <use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#error"></use>
+                                        </svg>
+                                        <div class="slds-col slds-align-middle">
+                                            <h2 class="slds-text-heading--small">{!$Label.apxt_sendForNegotiation_error_sentSubtitle}</h2>
+                                            <p>
+                                                <span id="error-toast-supplemental">{!$Label.apxt_sendForNegotiation_error_sentMessage}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Error Notification -->
+                            <!-- Warning Notification -->
+                            <div id="warning-toast" class="slds-col slds-col--padded slds-size--1-of-1 slds-m-bottom--large slds-hide">
+                                    <div class="slds-notify slds-notify--toast slds-theme--warning slds-m-around--none conga-notification" role="alert">
+                                        <span class="slds-assistive-text">{!$Label.apxt_sendForNegotiation_error_sentTitle}</span>
+                                        <div class="slds-grid">
+                                            <svg aria-hidden="true" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                                                <use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#warning"></use>
+                                            </svg>
+                                            <div class="slds-col slds-align-middle">
+                                                    <h2 class="slds-text-heading--small">{!$Label.apxt_sendForNegotiation_warning_sentSubtitle}</h2>
+                                                <p><span id="warning-toast-supplemental"></span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <!-- /Warning Notification -->
+                            <div class="slds-col slds-col--padded slds-size--1-of-1 slds-large-size--3-of-4">
+                                <div class="slds-hide" id="no-body-preview">
+                                    <!-- Email Template Body Error -->
+                                    <div class="slds-notify slds-notify--toast slds-theme--warning slds-m-around--none conga-notification" role="alert">
+                                        <span class="slds-assistive-text">{!$Label.apxt_sendForNegotiation_preview_errorTitle}</span>
+                                        <div class="slds-grid">
+                                            <svg aria-hidden="true" class="slds-icon slds-icon--small slds-icon-text-default slds-m-right--small slds-col slds-no-flex">
+                                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#warning"></use>
+                                            </svg>
+                                            <div class="slds-col slds-align-middle">
+                                                <h2 class="slds-text-heading--small">{!$Label.apxt_sendForNegotiation_preview_errorTitle}</h2>
+                                                <p class="slds-text-body--small">{!$Label.apxt_sendForNegotiation_preview_errorBody}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /Email Template Body Error -->
+                                </div>
+                                <div class="slds-box slds-m-bottom--large js-body-preview-html">
+                                    <h3 class="slds-text-heading--small">{!$Label.apxt_sendForNegotiation_preview_html}</h3>
+                                    <iframe id="body-preview-html" class="slds-m-top--small conga-iframe" src="about:blank"></iframe>
+                                </div>
+                                <div class="slds-box slds-m-bottom--large js-body-preview-text">
+                                    <h3 class="slds-text-heading--small">{!$Label.apxt_sendForNegotiation_preview_text}</h3>
+                                    <iframe id="body-preview-text" class="slds-m-top--small conga-iframe" src="about:blank"></iframe>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-col--padded slds-size--1-of-1 slds-large-size--1-of-4">
+                                <div class="conga-position--relative">
+                                    <div class="conga-animated js-email-info">
+                                        <div class="slds-box slds-scrollable--y conga-email-info">
+                                            <h3 class="slds-text-heading--small">{!$Label.apxt_sendForNegotiation_previewSubtitle}</h3>
+                                            <div class="slds-m-top--medium">
+                                                <p class="slds-form-element__label">{!$Label.apxt_sendForNegotiation_to}</p>
+                                                <div id="to-address-pill-preview" class="slds-text-body--regular conga-pill_container"></div>
+                                            </div>
+                                            <div class="slds-m-top--medium js-pill-preview-container">
+                                                <p class="slds-form-element__label">{!$Label.apxt_sendForNegotiation_cc}</p>
+                                                <div id="cc-address-pill-preview" class="slds-text-body--regular conga-pill_container"></div>
+                                            </div>
+                                            <div class="slds-m-top--medium js-pill-preview-container">
+                                                <p class="slds-form-element__label">{!$Label.apxt_sendForNegotiation_bcc}</p>
+                                                <div id="bcc-address-pill-preview" class="slds-text-body--regular conga-pill_container"></div>
+                                            </div>
+                                            <div class="slds-m-top--medium">
+                                                <p class="slds-form-element__label">{!$Label.apxt_sendForNegotiation_subject}</p>
+                                                <div id="subject-preview" class="slds-text-body--regular"></div>
+                                            </div>
+                                            <div class="slds-m-top--medium js-attachment-preview">
+                                                <p class="slds-form-element__label">{!$Label.apxt_sendForNegotiation_attachments}</p>
+                                                <ul class="slds-has-dividers--around">
+                                                    <apex:repeat value="{!contentDocumentList}" var="contentDocument">
+                                                        <!-- Attachment -->
+                                                        <li class="slds-item slds-p-around--small slds-theme--shade js-attachment-preview-{!contentDocument.ContentVersions[0].Id}">
+                                                            <p class="slds-truncate" title="{!contentDocument.Title}">
+                                                                {!contentDocument.Title}
+                                                            </p>
+                                                            <div class="slds-text-body--small">
+                                                                <ul class="slds-list--horizontal slds-has-dividers--right">
+                                                                    <li class="slds-item">
+                                                                        <span class="js-format-preview-original slds-hide">
+                                                                            {!$Label.apxt_sendForNegotiation_fileType_original}
+                                                                        </span>
+                                                                        <span class="js-format-preview-pdf slds-hide">
+                                                                            {!$Label.apxt_sendForNegotiation_fileType_pdf}
+                                                                        </span>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </li>
+                                                        <!-- /Attachment -->
+                                                    </apex:repeat>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="slds-text-align--right slds-m-top--large conga-page-control conga-page-control--hide">
+                                            <button class="slds-button slds-button--neutral js-edit">
+                                                <svg aria-hidden="true" class="slds-button__icon slds-button__icon--left conga-hide--tablet">
+                                                    <use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#edit"></use>
+                                                </svg>{!$Label.apxt_sendForNegotiation_button_edit}
+                                            </button>
+                                            <button class="slds-button slds-button--brand js-send">
+                                                <svg aria-hidden="true" class="slds-button__icon slds-button__icon--left conga-hide--tablet">
+                                                    <use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#email"></use>
+                                                </svg>{!$Label.apxt_sendForNegotiation_button_send}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        svg4everybody();
+                        var mixpanelTrack = function(eventName) {
+                            if (window.mixpanel) {
+                                var numAttachments = 0;
+                                var numDocTypes = 0;
+                                $('.js-attach').each(function () {
+                                    var id = $(this).attr('id');
+                                    var $item = $(this).closest('.js-attachment-' + id);
+                                    if ($(this).is(':checked')) {
+                                        var docTypeInput = $item.find("input[id*=doctype-input]");
+                                        var templateContentVersionId = docTypeInput.attr("data-id");
+                                        if (templateContentVersionId) numDocTypes++;
+                                        numAttachments++;
+                                    }
+                                });
+                                mixpanel.track(eventName, {
+                                    ObjectName: "{!JSENCODE(parentAPIName)}",
+                                    NumAttachments: numAttachments,
+                                    NumDocTypes: numDocTypes
+                                });
+                            }
+                        };
+                        var callRemoteAction = function(controllerName, methodName, params, callback, options) {
+                            var args = params;
+                            // Prepend namespace and apex controller name to method name
+                            var ns = "{!JSENCODE(NAMESPACE)}";
+                            if (ns && ns.length > 0) ns += ".";
+                            methodName = ns + controllerName + "." + methodName;
+                            // Method name is first argument
+                            params.unshift(methodName);
+                            // Callback comes after arguments
+                            params.push(callback);
+                            // If options are specified they are the last argument
+                            if (options) params.push(options);
+                            Visualforce.remoting.Manager.invokeAction.apply(Visualforce.remoting.Manager, params);
+                        };
+                        $(document).ready(function () {
+                            $.aljsInit({scoped: true});
+
+                            if (window.mixpanel) {
+                                // Setup mixpanel to capture profile and session info
+                                callRemoteAction("BaseController", "getUserMeta", [], function(userInfo, e) {
+                                    if (e.status) {
+                                        // Remote action always returns Classic as SalesforceUI so this is to fix it
+                                        var themeName = "{!JSENCODE($User.UIThemeDisplayed)}";
+                                        if (themeName = "Theme4d") themeName = "Lightning";
+                                        else if (themeName = "Theme4t") themeName = "SF1";
+                                        else themeName = "Classic";
+                                        userInfo.SalesforceUIName = themeName;
+                                        // Identify this user as org + userId combo
+                                        window.mixpanel.identify(userInfo.OrgId + userInfo.UserId);
+                                        // Properties that will be tracked with every event
+                                        window.mixpanel.register(userInfo);
+                                        // Info about this user
+                                        window.mixpanel.people.set(userInfo);
+                                        mixpanelTrack("Send for Negotiation");
+                                    }
+                                });
+                            }
+
+                            $('[data-aljs="popover"]').popover({modifier: 'tooltip'});
+
+                            var EMAIL_TEMPLATE_MESSAGE_PLACEHOLDER = '[!message]';
+                            var emailTemplateDict = {};
+
+                            bindRepositionEmailInfo();
+                            bindInputLookups();
+                            bindFormEvents();
+                            bindButtonEvents();
+
+                            function bindRepositionEmailInfo() {
+                                var emailInfo = $('.js-email-info');
+                                var pageControl = $('.conga-page-control');
+
+                                function repositionEmailInfo() {
+                                    if (matchMedia('only screen and (min-width: 1025px)').matches) {
+                                        var PAGE_HEADER_HEIGHT = 73;
+
+                                        if ($(window).scrollTop() > PAGE_HEADER_HEIGHT) {
+                                            emailInfo.css({
+                                                'top': $(window).scrollTop()-PAGE_HEADER_HEIGHT,
+                                                'position': 'absolute',
+                                                'width': '100%'
+                                            });
+
+                                            pageControl.removeClass('conga-page-control--hide').addClass('conga-page-control--show');
+                                        } else {
+                                            emailInfo.css({'top': '', 'position': 'relative'});
+
+                                            pageControl.removeClass('conga-page-control--show').addClass('conga-page-control--hide');
+                                        }
+                                    }
+                                }
+
+                                $(window).scroll(function () {
+                                    window.requestAnimationFrame(repositionEmailInfo);
+                                });
+                            }
+
+                            function bindInputLookups() {
+                                var KEYCODE_BACKSPACE = 8;
+                                var KEYCODE_COMMA = 188;
+                                var KEYCODE_ENTER = 13;
+                                var KEYCODE_TAB = 9;
+
+                                var inputId;
+                                var addressInputTimeout;
+
+                                $('input[id*="-input"]').on('keydown', function (e) {
+                                    if (e.keyCode == KEYCODE_TAB) {
+                                        var keyupEvent = $.Event('keyup');
+                                        keyupEvent.keyCode = KEYCODE_ENTER;
+
+                                        $(this).trigger(keyupEvent);
+                                    }
+                                });
+                                $('input[id*="-input"]').on('keyup', function (e) {
+                                    var query = $(this).val();
+
+                                    if (e.keyCode == KEYCODE_COMMA || e.keyCode == KEYCODE_ENTER || query.slice(-1) == ',' // android
+                                    ) {
+                                        var $firstInList = $('ul[id="' + $(this).attr('id') + '-list"] li:first-child a[role="option"]');
+
+                                        if ($firstInList.length) {
+                                            $firstInList.click();
+                                        } else {
+                                            var email = query.replace(/,/g, '').trim();
+
+                                            if (email) {
+                                                $(this).closest('.slds-lookup').removeClass('slds-is-open');
+                                                $(this).closest('.slds-lookup').find('.conga-multi-picklist-pills').append(createPillItem('email', email, email));
+                                                $(this).closest('.slds-lookup').find('input[id*="-address-input"]').val('');
+                                            }
+                                        }
+                                    } else if (isValidKeyCode(e.keyCode) || e.keyCode == KEYCODE_BACKSPACE) {
+                                        if (addressInputTimeout) {
+                                            clearTimeout(addressInputTimeout);
+                                        }
+
+                                        inputId = $(this).attr('id');
+                                        addressInputTimeout = window.setTimeout(function () {
+                                            if (query.length < 2) {
+                                                return;
+                                            }
+
+                                            var params = {
+                                                "input": inputId,
+                                                "query": query
+                                            };
+                                            if (inputId.indexOf("doctype-input") > -1) {
+                                                callRemoteAction("apxt_sendForNegotiation", "getDocTypesByQuery", [JSON.stringify(params)], function (resultsString){
+                                                    var results = JSON.parse(resultsString);
+                                                    if (results && results.success) {
+                                                        var $ul = $('#' + inputId + '-list');
+                                                        var $input = $('#' + results.input);
+
+                                                        if (results.query != $input.val() || !$input.is(':focus')) {
+                                                            return;
+                                                        }
+
+                                                        $ul.html('');
+
+                                                        for (var i = 0; i < results.data.length; i++) {
+                                                            var descName = results.data[i].description;
+//                                                            for (var name in results.data[i]) {
+//                                                                if (name.indexOf("Description__c") > -1) {
+//                                                                    descName = results.data[i][name];
+//                                                                }
+//                                                            }
+                                                            $ul.append(createListItem("", results.data[i].name, descName, results.data[i].templateContentVersionId));
+                                                        }
+
+                                                        if (results.data.length > 0) {
+                                                            $input.closest('.slds-lookup').addClass('slds-is-open');
+                                                        } else {
+                                                            $input.closest('.slds-lookup').removeClass('slds-is-open');
+                                                        }
+                                                    }
+                                                }, {"escape": false});
+                                            }
+                                            else {
+                                                callRemoteAction("apxt_sendForNegotiation", "getEmailsByQuery", [JSON.stringify(params)], function (resultsString){
+                                                    var results = JSON.parse(resultsString);
+                                                    if (results && results.success) {
+                                                        var $ul = $('#' + inputId + '-list');
+                                                        var $input = $('#' + results.input);
+
+                                                        if (results.query != $input.val() || !$input.is(':focus')) {
+                                                            return;
+                                                        }
+
+                                                        $ul.html('');
+
+                                                        for (var i = 0; i < results.data.length; i++) {
+                                                            var icon = results.data[i].attributes.type.toLowerCase();
+                                                            $ul.append(createListItem(icon, results.data[i].Name, results.data[i].Email, results.data[i].Id));
+                                                        }
+
+                                                        if (results.data.length > 0) {
+                                                            $input.closest('.slds-lookup').addClass('slds-is-open');
+                                                        } else {
+                                                            $input.closest('.slds-lookup').removeClass('slds-is-open');
+                                                        }
+                                                    }
+                                                }, {"escape": false});
+                                            }
+                                        }, 200);
+
+                                        $('#' + inputId).closest('.slds-lookup').removeClass('slds-is-open');
+                                    }
+                                });
+
+                                $('body').on('click', function (e) {
+                                    var $target = $(e.target);
+                                    var $sldsPillRemove = $target.closest('.slds-pill__remove');
+                                    var $sldsLookup = $target.closest('.js-result-item');
+
+                                    if ($sldsPillRemove.length || $sldsLookup.length) {
+                                        return;
+                                    }
+
+                                    var keyupEvent = $.Event('keyup');
+                                    keyupEvent.keyCode = KEYCODE_ENTER;
+
+                                    $('input[id*="-address-input"]').each(function () {
+                                        if ($(this).val() && !$(this).is(':focus')) {
+                                            $(this).trigger(keyupEvent);
+                                        }
+                                    });
+                                });
+                                $('body').on('click', 'ul[id*="-address-input-list"] a[role="option"]', function (e) {
+                                    $(this).closest('.slds-lookup').removeClass('slds-is-open');
+                                    $(this).closest('.slds-lookup').find('.conga-multi-picklist-pills').append(createPillItem($(this).attr('icon'), $(this).attr('name'), $(this).attr('email')));
+                                    $(this).closest('.slds-lookup').find('input[id*="-address-input"]').val('');
+                                    $(this).closest('[id*="-address-input-list"]').html('');
+                                });
+                                $('body').on('click', 'ul[id*="-doctype-input-list"] a[role="option"]', function (e) {
+                                    // Set doctype value
+                                    $(this).closest('.slds-lookup').removeClass('slds-is-open');
+                                    $(this).closest('.slds-lookup').find('.slds-form-element__control').append('<button class="conga-remove slds-button slds-button_icon slds-input__icon slds-input__icon_right" title="{!JSENCODE($Label.apxt_sendForNegotiation_removeTitle)}"><svg aria-hidden="true" class="slds-button__icon"><use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#close"></use></svg><span class="slds-assistive-text">{!JSENCODE($Label.apxt_sendForNegotiation_remove)}</span></button>');
+                                    $(this).closest('.slds-lookup').find('.conga-spyglass').addClass("slds-hide");
+                                    var input = $(this).closest('.slds-lookup').find('input[id*="-doctype-input"]');
+                                    input.val($(this).attr('name'));
+                                    input.attr("value", $(this).attr('name'));
+                                    input.attr("data-id", $(this).attr("data-id"));
+                                    input.attr("readonly", "readonly");
+                                    $(this).closest('[id*="-doctype-input-list"]').html('');
+                                });
+                                $('body').on('click', '.slds-button.conga-remove', function () {
+                                    // Remove doctype lookup value
+                                    $(this).closest('.slds-lookup').find('.conga-spyglass').removeClass("slds-hide");
+                                    var input = $(this).closest('.slds-lookup').find('input[id*="-doctype-input"]');
+                                    input.val('');
+                                    input.removeAttr("value");
+                                    input.removeAttr("readonly");
+                                    $(this).closest('.slds-lookup').find('button.conga-remove').remove();
+                                });                                
+
+                                $('body').on('click', '.slds-pill .slds-pill__remove', function () {
+                                    var pillId = $(this).closest('.conga-multi-picklist-pills').attr('id');
+                                    var inputId = pillId.replace('-pills', '');
+                                    var currentValue = $('#' + inputId).val();
+
+                                    $(this).closest('.slds-pill').remove();
+
+                                    $('#' + inputId).focus();
+                                    $('#' + inputId).val('');
+                                    $('#' + inputId).val(currentValue);
+
+                                });
+
+                                function isValidKeyCode(keyCode) {
+                                    var valid = (keyCode > 47 && keyCode < 58) || // number keys
+                                    // keycode == 32 || keycode == 13   || // spacebar & return key(s) (if you want to allow carriage returns)
+                                    (keyCode > 64 && keyCode < 91) || // letter keys
+                                    (keyCode > 95 && keyCode < 112) || // numpad keys
+                                    (keyCode > 185 && keyCode < 193) || // ;=,-./` (in order)
+                                    (keyCode > 218 && keyCode < 223) || // [\]' (in order)
+                                    keyCode == 229; // android mobile keypress
+
+                                    return valid;
+                                }
+
+                                function createListItem(icon, name, email, id) {
+                                    // Escape html in results.
+                                    var name = escapeHtml(name);
+                                    var email = escapeHtml(email);
+                                    var id = escapeHtml(id);
+                                    var li = '<li class="js-result-item"><a class="slds-lookup__item-action slds-media slds-media--center" href="javascript:void(0);" role="option" email="' + email + '" icon="' + icon + '" name="' + name + '" data-id="' + id + '">';
+                                    if (icon && icon.length > 0) {
+                                        li += '<svg aria-hidden="true" class="slds-icon slds-icon-standard-' + icon + ' slds-icon--small slds-media__figure"><use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/standard-sprite/svg/symbols.svg')}#' + icon + '"></use></svg>';
+                                    }
+
+                                    return li + '<div class="slds-media__body"><div class="slds-lookup__result-text">' + name + '</div><span class="slds-lookup__result-meta slds-text-body--small">' + email + '</span></div></a></li>';
+                                }
+
+                                function createPillItem(icon, name, email) {
+                                    // Escape html in results.
+                                    var name = escapeHtml(name);
+                                    var email = escapeHtml(email);
+
+                                    var assistText = '';
+                                    switch (icon) {
+                                        case 'contact':
+                                            assistText = '{!JSENCODE($Label.apxt_sendForNegotiation_contact)}';
+                                            break;
+                                        case 'lead':
+                                            assistText = '{!JSENCODE($Label.apxt_sendForNegotiation_lead)}';
+                                            break;
+                                        case 'user':
+                                            assistText = '{!JSENCODE($Label.apxt_sendForNegotiation_user)}';
+                                            break;
+                                    }
+
+                                    return '<span class="slds-pill" email="' + email + '" icon="' + icon + '" name="' + name + '"><span class="slds-icon_container slds-icon-standard-' + icon + ' slds-pill__icon_container"><svg aria-hidden="true" class="slds-icon"><use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/standard-sprite/svg/symbols.svg')}#' + icon + '"></use></svg><span class="slds-assistive-text">' + assistText + '</span></span>' + name + '<button class="slds-button slds-button--icon slds-pill__remove slds-m-left--xx-small" data-aljs-dismiss="pill"><svg aria-hidden="true" class="slds-button__icon"><use xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/utility-sprite/svg/symbols.svg')}#close"></use></svg><span class="slds-assistive-text">{!JSENCODE($Label.apxt_sendForNegotiation_remove)}</span></button></span>';
+                                }
+                            }
+                            function handleMessage(id) {
+                                var template = emailTemplateDict[id];
+                                if (template.htmlBody && !template.htmlBody.match(EMAIL_TEMPLATE_MESSAGE_PLACEHOLDER) && template.body && !template.body.match(EMAIL_TEMPLATE_MESSAGE_PLACEHOLDER)) {
+                                    $('#message').prop('disabled', true);
+                                } else {
+                                    $('#message').prop('disabled', false);
+                                }
+                            }
+                                    
+                            function bindFormEvents() {
+                                $('#template').change(function () {
+                                    var templateId = $('#template').val();
+
+                                    $('#subject').val($('#template option[value="' + templateId + '"]').attr('subject'));
+
+                                    //just some simple caching in case someone picks the same value twice.
+                                    if (emailTemplateDict[templateId]){
+                                        handleMessage(templateId);
+                                    }
+                                    else {
+                                        callRemoteAction("apxt_sendForNegotiation", "getEmailTemplateSerialized", 
+                                            [JSON.stringify({emailTemplateId:templateId, parentId:'{!JSENCODE(parentObj.Id)}'})],
+                                            function (resultsString) {
+                                                var template = JSON.parse(resultsString);
+                                                emailTemplateDict[template.Id] = template
+                                                handleMessage(template.Id);
+                                            },
+                                            {"escape": false});
+                                    }
+                                    
+                                });
+
+                                $('.js-attach').change(function () {
+                                    var disableClass = 'conga-pointer-events--none';
+                                    var id = $(this).attr('id');
+                                    var $item = $('.js-attachment-' + id);
+                                    var opacityClass = 'conga-opacity--50';
+                                    var $select = $item.find('.js-format');
+
+                                    if ($(this).is(':checked')) {
+                                        $item.removeClass(opacityClass);
+                                        $select.removeClass(disableClass);
+                                    } else {
+                                        $item.addClass(opacityClass);
+                                        $select.addClass(disableClass);
+                                    }
+                                });
+                            }
+
+                            function bindButtonEvents() {
+                                $('.js-edit').click(function () {
+                                    var hideClass = 'slds-hide';
+
+                                    $('#success-toast').addClass(hideClass);
+                                    $('#warning-toast').addClass(hideClass);
+                                    $('#error-toast').addClass(hideClass);
+
+                                    $('#preview-section, .preview-section-button').addClass(hideClass);
+                                    $('#edit-section, .edit-section-button').removeClass(hideClass);
+                                });
+
+                                $('.js-preview').click(function () {
+                                    var emailParams = getEmailParams();
+                                    var hideClass = 'slds-hide';
+
+                                    var isValid = validateForm(emailParams);
+                                    if (isValid) {
+                                        mixpanelTrack("Send for Negotiation: Preview");
+                                        populatePreview(emailParams);
+                                        $('#edit-section, .edit-section-button').addClass(hideClass);
+                                        $('#preview-section, .preview-section-button').removeClass(hideClass);
+                                        $('#body-preview-html').css('height', $('#body-preview-html').contents().find('html').outerHeight(true) + 2 + 'px');
+                                        $('#body-preview-text').css('height', $('#body-preview-text').contents().find('html').outerHeight(true) + 2 + 'px');
+                                    } else {
+                                        $('#validation-toast').removeClass('conga-hide');
+                                        $('html, body').animate({
+                                            scrollTop: 0
+                                        }, 500);
+                                    }
+                                });
+
+                                $('.js-send').click(function () {
+                                    var hideClass = 'slds-hide';
+
+                                    var emailParams = getEmailParams(true);
+                                    var isValid = validateForm(emailParams);
+
+                                    $('html, body').animate({
+                                        scrollTop: 0
+                                    }, 500);
+
+                                    if (isValid){
+                                        populatePreview(emailParams);
+
+                                        $('.js-send').prop('disabled', true);
+                                        $('.js-edit').prop('disabled', true);
+                                        $('#edit-section, .edit-section-button').addClass(hideClass);
+                                        $('#preview-section, .preview-section-button').removeClass(hideClass);
+                                        $('#success-toast').addClass(hideClass);
+                                        $('#warning-toast').addClass(hideClass);
+                                        $('#error-toast').addClass(hideClass);
+                                        callRemoteAction("apxt_sendForNegotiation", "sendEmailRequest", [JSON.stringify(emailParams)], function (resultsString) {
+                                            var results = JSON.parse(resultsString);
+debugger;
+                                            if (results && results.success) {
+                                                mixpanelTrack("Send for Negotiation: Send");
+                                                if (window.mixpanel) {
+                                                    // Keep a number of total number emails sent per user
+                                                    window.mixpanel.people.increment("EmailsSent", 1);
+                                                }
+                                                $('#success-toast').removeClass(hideClass);
+                                                window.setTimeout(function () {
+                                                    if ({!isLightningUI
+                                                }){
+                                                    sforce.one.navigateToSObject('{!JSENCODE(parentObj.Id)}');
+                                                } else {
+                                                    window.location.href = '/{!JSENCODE(parentObj.Id)}';
+                                                }
+                                                }, 2000);
+                                            } else {
+                                                try {
+                                                    if (results) {                                                       
+                                                        // using default if not SaveEmailException SendEmailException CompleteEmailException
+                                                        // not currently setting messages to unknown message text (as below)
+                                                        // uncomment to replace the default message with actual
+                                                        //var response = JSON.parse(results.response);
+                                                        //$('#error-toast-supplemental').text(response.message);
+                                                        //$('#warning-toast-supplemental').text(response.message);
+
+                                                        // overwrite default message if detail exists
+                                                        var level = results.level;
+                                                        var message = results.message;
+
+                                                        if (level == null) { // no set level and message - show error with static text
+                                                            $('#error-toast').removeClass(hideClass);
+                                                        }
+                                                        else {
+                                                            if (level == 'warning') {
+                                                                $('#warning-toast-supplemental').text(message);
+                                                                $('#warning-toast').removeClass(hideClass);
+                                                            } else { // if not warning use error
+                                                                $('#error-toast-supplemental').text(message);
+                                                                $('#error-toast').removeClass(hideClass);
+                                                            }                 
+                                                        }
+                                                    } else { // no results - show error with static text
+                                                        $('#error-toast').removeClass(hideClass);
+                                                    }
+                                                } finally {
+                                                    $('.js-send').prop('disabled', false);
+                                                    $('.js-edit').prop('disabled', false);
+                                                }
+                                            }
+                                        }, { "escape": false });
+
+                                    } else {
+                                        $('#validation-toast').removeClass('conga-hide');
+                                        
+                                    }
+
+                                });
+
+                                function getEmailParams() {
+                                    getEmailParams(false);
+                                }
+                                function getEmailParams(send) {
+                                    var emailParams = {
+                                        attachments: [],
+                                        bccAddresses: [],
+                                        ccAddresses: [],
+                                        message: '',
+                                        relatedToId: '{!JSENCODE(parentObj.Id)}',
+                                        relatedObjectAPIName: '{!JSENCODE(parentAPIName)}',
+                                        subject: '',
+                                        template: {},
+                                        toAddresses: []
+                                    };
+
+                                    emailParams['message'] = $('#message').val();
+                                    emailParams['subject'] = $('#subject').val();
+                                    emailParams['template'].Id = $('#template').val();
+
+                                    $('[id*="-address-input-pills"] .slds-pill').each(function () {
+                                        var bucket = $(this).closest('[id*="-address-input-pills"]').attr('id').replace('-address-input-pills', '') + 'Addresses';
+                                        var email = {
+                                            'email': $(this).attr('email'),
+                                            'name': $(this).attr('name')
+                                        }
+
+                                        if (!send) {
+                                            email.icon = $(this).attr('icon');
+                                        }
+
+                                        emailParams[bucket].push(email);
+                                    });
+
+                                    $('.js-attach').each(function () {
+                                        var id = $(this).attr('id');
+                                        var $item = $(this).closest('.js-attachment-' + id);
+
+                                        if ($(this).is(':checked')) {
+                                            var docTypeInput = $item.find("input[id*=doctype-input]");
+                                            var templateContentVersionId = docTypeInput.attr("data-id");
+                                            emailParams.attachments.push({'contentVersionId': $(this).attr('id'), 'templateContentVersionId': templateContentVersionId});
+                                        }
+                                    });
+
+                                    if (!{!$Setup.Conga_General_Settings__c.Email_Require_Subject__c} && !emailParams['subject']){
+                                        var defaultSubject = '{!JSENCODE($Label.apxt_sendForNegotiation_defaultSubject)}'.replace('{0}', '{!JSENCODE($Organization.Name)}');
+                                        emailParams['subject'] = defaultSubject;
+                                    }
+
+                                    if (emailTemplateDict[emailParams['template'].Id]) {
+                                        if (emailTemplateDict[emailParams['template'].Id].HtmlValue) {
+                                            var message = $('#message').val().replace(/\n/g, '<br/>');
+
+                                            emailParams['template'].htmlBody = emailTemplateDict[emailParams['template'].Id].HtmlValue.replace(EMAIL_TEMPLATE_MESSAGE_PLACEHOLDER, message).replace(/<script>.*?<\/script>/g, '');
+                                        }
+
+                                        if (emailTemplateDict[emailParams['template'].Id].Body) {
+                                            var message = $('#message').val();
+
+                                            emailParams['template'].body = emailTemplateDict[emailParams['template'].Id].Body.replace(EMAIL_TEMPLATE_MESSAGE_PLACEHOLDER, message);
+
+                                            if (!send) {
+                                                $('.js-escape-html').text(emailParams['template'].body.replace(/\n/g, '[!conga_br]'));
+                                                emailParams['template'].body = $('.js-escape-html').html().replace(/\[!conga_br\]/g, '<br/>');
+                                            }
+                                        }
+                                    }
+
+                                    if (!emailParams['template'].htmlBody && !emailParams['template'].body){
+                                        var defaultBody = '{!JSENCODE($Label.apxt_sendForNegotiation_defaultBody)}';
+                                        defaultBody = defaultBody.replace('{0}', '{!JSENCODE($User.firstName)} {!JSENCODE($User.lastName)}');
+                                        defaultBody = defaultBody.replace('{1}', '{!JSENCODE($User.email)}');
+                                        defaultBody = defaultBody.replace('{2}', '{TrackingAddress}');
+                                        defaultBody = defaultBody.replace('{3}', $("#message").val());
+
+                                        emailParams['template'].body = defaultBody;
+                                    }
+
+                                    return emailParams;
+                                }
+
+                                function populatePreview(emailParams){
+                                    var hideClass = 'slds-hide';
+
+                                    if ($('#cc-address-pill-preview').text().length == 0) {
+                                        $('#cc-address-pill-preview').closest('.js-pill-preview-container').addClass(hideClass);
+                                    } else {
+                                        $('#cc-address-pill-preview').closest('.js-pill-preview-container').removeClass(hideClass);
+                                    }
+
+                                    if ($('#bcc-address-pill-preview').text().length == 0) {
+                                        $('#bcc-address-pill-preview').closest('.js-pill-preview-container').addClass(hideClass);
+                                    } else {
+                                        $('#bcc-address-pill-preview').closest('.js-pill-preview-container').removeClass(hideClass);
+                                    }
+
+                                    var $htmlPreview = $('#body-preview-html');
+                                    var $htmlPreviewContainer = $('.js-body-preview-html');
+                                    var $textPreview = $('#body-preview-text');
+                                    var $textPreviewContainer = $('.js-body-preview-text');
+
+                                    if (emailParams['template'].htmlBody) {
+                                        $htmlPreviewContainer.removeClass(hideClass);
+                                        $htmlPreview.contents().find('html').html(emailParams['template'].htmlBody);
+                                    } else {
+                                        $htmlPreviewContainer.addClass(hideClass);
+                                    }
+                                    if (emailParams['template'].body) {
+                                        $textPreviewContainer.removeClass(hideClass);
+                                        $textPreview.contents().find('body').html(emailParams['template'].body);
+                                    } else {
+                                        $textPreviewContainer.addClass(hideClass);
+                                    }
+                                    if (!emailParams['template'].htmlBody && !emailParams['template'].body) {
+                                        $('#no-body-preview').removeClass(hideClass);
+                                    } else {
+                                        $('#no-body-preview').addClass(hideClass);
+                                    }
+
+                                    $('#subject-preview').html(emailParams['subject']);
+
+                                    $('[class*="js-attachment-preview"]').addClass(hideClass);
+                                    $('[class*="js-format-preview-"]').addClass(hideClass);
+
+                                    if (emailParams.attachments.length) {
+                                        $('.js-attachment-preview').removeClass(hideClass);
+
+                                        for (var i = 0; i < emailParams.attachments.length; i++) {
+                                            var attachment = emailParams.attachments[i];
+                                            var $container = $('.js-attachment-preview-' + attachment.contentVersionId);
+                                            var $format = $container.find('.js-format-preview-' + attachment.format);
+
+                                            $container.removeClass(hideClass);
+                                            $format.removeClass(hideClass);
+                                        }
+                                    }
+
+                                }
+
+                                function validateForm(emailParams){
+                                    var isValid = true;
+
+                                    $('.slds-has-error').removeClass('slds-has-error');
+                                    $('#validation-toast').addClass('conga-hide');
+                                    $('#validation-toast .js-error').addClass('conga-hide');
+
+                                    if (emailParams['toAddresses'].length == 0) {
+                                        isValid = false;
+                                        $('#to-address-input').closest('.slds-form-element').addClass('slds-has-error');
+                                        $('#validation-toast .js-required-field-error').removeClass('conga-hide');
+                                    }
+
+                                    if (!emailParams['subject']) {
+                                        isValid = false;
+                                        $('#subject').closest('.slds-form-element').addClass('slds-has-error');
+                                        $('#validation-toast .js-required-field-error').removeClass('conga-hide');
+                                    }
+
+                                    if ({!$Setup.Conga_General_Settings__c.Email_Require_Template__c} && !emailParams['template'].Id){
+                                        isValid = false;
+                                        $('#template').closest('.slds-form-element').addClass('slds-has-error');
+                                        $('#validation-toast .js-required-field-error').removeClass('conga-hide');
+                                    }
+                                    else if (!emailParams['template'].htmlBody && !emailParams['template'].body) {
+                                        isValid = false;
+                                        $('#template').closest('.slds-form-element').addClass('slds-has-error');
+                                        $('#validation-toast .js-required-field-error').removeClass('conga-hide');
+                                    }
+
+                                    if (!emailParams.attachments.length) {
+                                        isValid = false;
+                                        $('#validation-toast .js-attachment-error').removeClass('conga-hide');
+                                    }
+
+                                    $('[id*="-address-pill-preview"]').html('');
+
+                                    for (var i = 0; i < emailParams['toAddresses'].length; i++) {
+                                        var toEmail = emailParams['toAddresses'][i];
+
+                                        if (validateEmail(toEmail.email)) {
+                                            $('#to-address-pill-preview').append(createPillItemPreview(toEmail.icon, toEmail.name, toEmail.email));
+                                        } else {
+                                            isValid = false;
+                                            $('#to-address-input-pills .slds-pill[email="' + toEmail.email + '"]').addClass('slds-has-error');
+                                            $('#validation-toast .js-email-address-error').removeClass('conga-hide');
+                                        }
+                                    }
+
+                                    for (var i = 0; i < emailParams['ccAddresses'].length; i++) {
+                                        var toEmail = emailParams['ccAddresses'][i];
+
+                                        if (validateEmail(toEmail.email)) {
+                                            $('#cc-address-pill-preview').append(createPillItemPreview(toEmail.icon, toEmail.name, toEmail.email));
+                                        } else {
+                                            isValid = false;
+                                            $('#cc-address-input-pills .slds-pill[email="' + toEmail.email + '"]').addClass('slds-has-error');
+                                            $('#validation-toast .js-email-address-error').removeClass('conga-hide');
+                                        }
+                                    }
+
+                                    for (var i = 0; i < emailParams['bccAddresses'].length; i++) {
+                                        var toEmail = emailParams['bccAddresses'][i];
+
+                                        if (validateEmail(toEmail.email)) {
+                                            $('#bcc-address-pill-preview').append(createPillItemPreview(toEmail.icon, toEmail.name, toEmail.email));
+                                        } else {
+                                            isValid = false;
+                                            $('#bcc-address-input-pills .slds-pill[email="' + toEmail.email + '"]').addClass('slds-has-error');
+                                            $('#validation-toast .js-email-address-error').removeClass('conga-hide');
+                                        }
+                                    }
+
+                                    return isValid;
+                                }
+
+                                function validateEmail(email) {
+                                    return email.match(/^[^@ ]+@[^. ]+\.\S+$/i) != null;
+                                }
+
+                                function createPillItemPreview(icon, name, email) {
+                                    var assistText = '';
+                                    switch (icon) {
+                                        case 'Contact':
+                                            assistText = '{!JSENCODE($Label.apxt_sendForNegotiation_contact)}';
+                                            break;
+                                        case 'Lead':
+                                            assistText = '{!JSENCODE($Label.apxt_sendForNegotiation_lead)}';
+                                            break;
+                                        case 'User':
+                                            assistText = '{!JSENCODE($Label.apxt_sendForNegotiation_user)}';
+                                            break;
+                                    }
+
+                                    return '<span class="slds-pill slds-p-right--xx-small"><span class="slds-icon_container slds-icon-standard-' + icon + ' slds-pill__icon_container"><svg aria-hidden="true" class="slds-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Resource.apxt_lightningCss, '/icons/standard-sprite/svg/symbols.svg')}#' + icon + '"></use></svg><span class="slds-assistive-text">' + assistText + '</span></span>' + (name ? escapeHtml(name) : escapeHtml(email)) + '</span>';
+                                }
+                            }
+                        });
+
+                        function escapeHtml(txt){
+                            return txt && txt.replace(/&/g, '&amp;')
+                                .replace(/</g, '&lt;')
+                                .replace(/>/g, '&gt;')
+                                .replace(/"/g, '&quot;')
+                                .replace(/'/g, '&#39;')
+                                .replace(/\//g, '&#x2F;')
+                                .replace(/`/g, '&#x60;')
+                                .replace(/=/g, '&#x3D;');
+                        }
+
+                    </script>
+                </apex:outputPanel>
+
+                <!-- /Page Body Preview -->
+                <div class="slds-hide js-escape-html"></div>
+            </div>
+        </body>
+    </html>
+</apex:page>

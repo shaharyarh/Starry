@@ -1,0 +1,100 @@
+.THIS {
+  perspective: 1000;
+  position: absolute;
+  top:0px;
+  left:0px;
+  overflow: visible;
+  z-index: 1999;
+  pointer-events: none;
+}
+
+.THIS input[type="search"] {
+  color: #000;
+}
+
+.THIS .square-corners {
+  border-radius: 0;
+}
+
+.THIS input[type="search"] {
+  color: #000;
+}
+
+.THIS .square-corners {
+  border-radius: 0;
+}
+
+.THIS input[type="search"] {
+  color: #000;
+}
+
+.THIS .slds-popover__footer {
+  /* Do not want slds default popover footer border */
+  border-top: none;
+  /* Needed to override the padding in the footer as the class styles do not have enough specificity */
+  padding: .5rem 1rem!important;
+}
+
+.THIS .slds-popover_walkthrough-alt {
+  border-color: #54698D;
+  background-color: #E0E5EE;
+}
+
+.THIS .slds-popover_walkthrough-alt .slds-popover__header {
+  background-color: #54698D;
+  border: none;
+}
+
+.THIS .slds-popover_walkthrough-alt .slds-popover__header a {
+  color: currentColor;
+}
+
+.THIS .slds-popover_walkthrough-alt.slds-nubbin_bottom:before, .THIS .slds-popover_walkthrough-alt.slds-nubbin_bottom-left:before, .THIS .slds-popover_walkthrough-alt.slds-nubbin_bottom-right:before {
+  /* Nubbin color when bottom */
+  background-color:#E0E5EE;
+}
+.THIS .slds-popover_walkthrough-alt.slds-nubbin_top:before, .THIS .slds-popover_walkthrough-alt.slds-nubbin_top-right:before, .THIS .slds-popover_walkthrough-alt.slds-nubbin_top-left:before {
+  /* Nubbin color when top */
+  background-color:#54698D;
+}
+
+.THIS .slds-popover {
+  max-width: 800px;
+  min-width: 600px;
+  width: auto;
+  pointer-events: auto;
+}
+
+@supports (transform-style: preserve-3d) {
+  /* Show 3d flip animation in browsers that support it (IE11 does not) */
+  .THIS .flipper {
+    transform-style: preserve-3d;
+    transition: all 0.3s;
+  }
+  .THIS .flip {
+    transform: rotateY(180deg);
+  }
+  .THIS .front {
+    transform: rotateY(0deg);
+  }
+  .THIS .back {
+    transform: rotateY(180deg);
+  }
+  .THIS .flip .front, .THIS .flip .back, .THIS .back {
+    display: block !important;
+    opacity: 1 !important;
+  }
+}
+
+.THIS .front.visible, .THIS .flip .back.visible {
+  transition: opacity 300ms;
+  opacity: 1;
+  display: block;
+}
+.THIS .front, .THIS .back, .THIS .flip .front {
+  backface-visibility: hidden;
+  position: absolute;
+  opacity:0;
+  display:none;
+  transition: opacity 300ms;
+}

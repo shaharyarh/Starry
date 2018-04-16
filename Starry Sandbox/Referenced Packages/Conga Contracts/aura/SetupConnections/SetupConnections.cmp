@@ -1,0 +1,294 @@
+<aura:component controller="APXT_Redlining.SetupConnectionsController" extends="APXT_Redlining:Base">
+
+    <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+    <aura:registerEvent name="selectTreeItem" type="APXT_Redlining:BaseEvent"/>
+    <aura:registerEvent name="populatedExternalConnections" type="APXT_Redlining:BaseEvent"/>
+    <aura:attribute access="private" name="oauthUrl" type="String" />
+    <aura:attribute access="private" name="isFilesEnabled" type="Boolean" default="false" />
+    <aura:attribute access="private" name="isConnected" type="Boolean" />
+    <aura:attribute access="private" name="showNewConnection" type="Boolean" default="false" />
+    <aura:attribute access="private" name="showPendingAuthCode" type="Boolean" default="false" />
+    <aura:attribute access="private" name="connectionName" type="String" />
+    <aura:attribute access="private" name="connectionSystem" type="String" default="Novatus" />
+    <aura:attribute access="private" name="authCode" type="String" />
+    <aura:attribute access="private" name="authCodeRedeemed" type="Boolean" default="false" />
+    <aura:attribute access="private" name="approvalUser" type="String" />
+    <aura:attribute access="private" name="approvalSystem" type="String" />
+    <aura:attribute access="private" name="connectionList" type="Array" />
+    <aura:attribute access="private" name="modalTitle" type="String" />
+    <aura:attribute access="private" name="modalBody" type="String" />
+    <aura:attribute access="private" name="confirmDeleteConnectionId" type="String" />
+    
+    <div>
+        <div aura:id="header" class="slds-page-header slds-col slds-grow-none" role="banner">
+            <!-- Page header and icon -->
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <div class="slds-media slds-media_center slds-no-space slds-grow">
+                        <div class="slds-media__figure">
+                            <lightning:icon iconName="utility:settings" />
+                        </div>
+                        <div class="slds-media__body">
+                            <ol class="slds-breadcrumb slds-list_horizontal">
+                                <li class="slds-breadcrumb__item slds-truncate">
+                                    Settings
+                                </li>
+                            </ol>
+                            <h1 class="slds-page-header__title slds-m-right_small slds-truncate slds-align-middle">{!$Label.apxt_redlining.apxt_setup_connections}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-p-around_medium">
+            <h1 class="slds-text-heading_medium">{!$Label.apxt_redlining.apxt_setup_connectPlatformHeader}</h1>
+            <p class="slds-m-vertical_small">{!$Label.apxt_redlining.apxt_setup_connectPlatformBody}</p>
+            <aura:if isTrue="{!v.isConnected != undefined}">
+                    <aura:if isTrue="{!v.isConnected}">
+                    <!-- If connected, display remove button and show reconnect label -->
+                    <a href="{!v.oauthUrl}" target="_blank" onclick="{!c.pollForPlatformConnection}" class="slds-button slds-button_neutral">{!$Label.apxt_redlining.apxt_herokuConnect_reconnect}</a>
+                    <button class="slds-button slds-button_destructive" onclick="{!c.disconnect}">{!$Label.apxt_redlining.apxt_lookupField_removeTitle}</button>
+                    <aura:set attribute="else">
+                        <!-- If not connected just show connect button -->
+                        <a href="{!v.oauthUrl}" target="_blank" onclick="{!c.pollForPlatformConnection}" class="slds-button slds-button_brand">{!$Label.apxt_redlining.apxt_herokuConnect_connect}</a>
+                    </aura:set>
+                </aura:if>
+            </aura:if>
+        </div>
+        <div class="slds-p-around_medium">
+            <h1 class="slds-text-heading_medium">{!$Label.apxt_redlining.apxt_setup_connectExternalHeader}</h1>
+            <p class="slds-m-vertical_small">{!$Label.apxt_redlining.apxt_setup_connectExternalBody}</p>
+            <aura:if isTrue="{!v.connectionList != undefined}">
+                <aura:if isTrue="{!v.isFilesEnabled}">
+                    <aura:set attribute="else">
+                        <!-- Files not enabled don't allow to create external connections -->
+                        <div class="slds-notify_container slds-is-relative">
+                            <div class="slds-notify slds-notify_toast slds-theme_info" role="alert">
+                                <span class="slds-assistive-text">info</span>
+                                <span class="slds-icon_container slds-icon-utility-info slds-m-right_small slds-no-flex slds-align-top">
+                                    <lightning:icon iconName="utility:info" size="small" variant="inverse" />
+                                </span>
+                                <div class="slds-notify__content">
+                                    <h2 class="slds-text-heading_small">{!$Label.apxt_redlining.apxt_setup_enableFilesToast}<a class="slds-p-left_x-small" href="javascript:void(0);" onclick="{!c.navigateEnableFiles}">{!$Label.apxt_redlining.apxt_setup_enableFilesToastLink}</a></h2>
+                                </div>
+                            </div>
+                        </div>
+                    </aura:set>
+
+                    <aura:if isTrue="{!v.showNewConnection}">
+                        <!-- Show new connection modal -->
+                        <div class="slds-grid">
+                            <article class="slds-box slds-col slds-size_1-of-2 slds-form slds-form_compound">
+                                <h1 class="slds-text-heading_medium">{!$Label.apxt_redlining.apxt_setup_newConnectionBtn}</h1>
+                                <p class="slds-m-vertical_small">{!$Label.apxt_redlining.apxt_setup_newConnectionBody}</p>
+                                <div class="slds-form-element__group slds-form-element__row">
+                                    <div aura:id="connNameFormElement" class="slds-form-element slds-size_1-of-2">
+                                        <label class="slds-form-element__label" for="input-unique-id">
+                                            <abbr class="slds-required" title="required">*</abbr>
+                                            {!$Label.apxt_redlining.apxt_setup_FriendlyNameLabel}
+                                        </label>
+                                        <div class="slds-form-element__control">
+                                            <ui:inputText class="slds-input" placeholder="{!$Label.apxt_redlining.apxt_setup_FriendlyNameLabel}" value="{!v.connectionName}" />
+                                        </div>
+                                    </div>
+                                    <div class="slds-form-element slds-size_1-of-2">
+                                        <label class="slds-form-element__label" for="input-unique-id">{!$Label.apxt_redlining.apxt_setup_systemLabel}</label>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-select_container">
+                                                <select class="slds-select" value="{!v.connectionSystem}">
+                                                    <option value="{!$Label.apxt_redlining.apxt_setup_systemNovatus}">{!$Label.apxt_redlining.apxt_setup_systemNovatus}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid">
+                                    <button class="slds-button slds-button_brand slds-col_bump-left" onclick="{!c.generateCode}">{!$Label.apxt_redlining.apxt_setup_generateCodeBtn}</button>
+                                </div>
+                            </article>
+                        </div>
+                        <aura:set attribute="else">
+                            <aura:if isTrue="{!v.authCode == null}">
+                                <!-- Not showing new connection modal, show buttons to click -->
+                                <button class="slds-button slds-button_brand" onclick="{!c.newConnection}">{!$Label.apxt_redlining.apxt_setup_newConnectionBtn}</button>
+                                <!-- No I Have a Code button for now -->
+                                <!-- <button class="slds-button slds-button_neutral">{!$Label.c.apxt_setup_newHaveCodeBtn}</button> -->
+                            </aura:if>
+                        </aura:set>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.showPendingAuthCode}">
+                        <!-- Show approve connection modal -->
+                        <div class="slds-grid">
+                            <article class="slds-box slds-col slds-size_1-of-2 slds-form slds-form_compound">
+                                <h1 class="slds-text-heading_medium">{!$Label.apxt_redlining.apxt_setup_newConnectionBtn}</h1>
+                                <p class="slds-m-vertical_small">{!$Label.apxt_redlining.apxt_setup_connectExternalBodyPending}</p>
+                                <div class="slds-form-element__group slds-form-element__row">
+                                    <div aura:id="connNameFormElement" class="slds-form-element slds-size_1-of-2">
+                                        <label class="slds-form-element__label" for="input-unique-id">
+                                            <abbr class="slds-required" title="required">*</abbr>
+                                            {!$Label.apxt_redlining.apxt_setup_FriendlyNameLabel}
+                                        </label>
+                                        <div class="slds-form-element__control">
+                                            <input type="text" disabled="disabled" class="slds-input" value="{!v.connectionName}" />
+                                        </div>
+                                    </div>
+                                    <div class="slds-form-element slds-size_1-of-2">
+                                        <label class="slds-form-element__label" for="input-unique-id">{!$Label.apxt_redlining.apxt_setup_systemLabel}</label>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-select_container">
+                                                <select class="slds-select" value="{!v.connectionSystem}" disabled="disabled">
+                                                    <option value="{!$Label.apxt_redlining.apxt_setup_systemNovatus}">{!$Label.apxt_redlining.apxt_setup_systemNovatus}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <aura:if isTrue="{!v.authCodeRedeemed}">
+                                    <div class="slds-box slds-theme_shade slds-m-vertical_small slds-p-around_large slds-align_absolute-center">
+                                        <!-- Authorization code redeemed by Novatus admin etc -->
+                                        <span class="slds-text-heading_small slds-text-align_center">{!format($Label.apxt_redlining.apxt_setup_authApprovalMessage, v.approvalUser, v.approvalSystem)}</span>
+                                    </div>
+                                    <div class="slds-grid">
+                                        <button class="slds-button slds-button_neutral slds-col_bump-left" onclick="{!c.cancelConnection}">{!$Label.apxt_redlining.apxt_viewRedLines_cancel}</button>
+                                        <button class="slds-button slds-button_brand slds-col_bump-left" onclick="{!c.addConnection}">{!$Label.apxt_redlining.apxt_herokuConnect_connect}</button>
+                                    </div>
+
+                                    <aura:set attribute="else">
+                                        <!-- Auth code has not yet been redeemed -->
+                                        <div class="slds-box slds-theme_shade slds-m-vertical_small slds-p-around_large slds-align_absolute-center">
+                                            <!-- TODO set Novatus oauth URL here -->
+                                            <div class="slds-text-heading_medium">{!v.authCode}</div>
+                                        </div>
+                                        
+                                        <div class="slds-align_absolute-center">
+                                            <a href="#" onclick="{!c.cancelConnection}">Cancel</a>
+                                        </div>
+                                    </aura:set>
+                                </aura:if>
+                                
+                            </article>
+                        </div>
+                    </aura:if>
+
+
+
+                </aura:if>
+            </aura:if>
+        </div>
+
+        <div class="slds-p-around_medium">
+            <!-- Table of existing connections -->
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_fixed-layout" role="grid">
+                <thead>
+                    <tr class="slds-text-title_caps">
+                    <th scope="col">
+                        <div class="slds-truncate" title="{!$Label.apxt_redlining.apxt_setup_FriendlyNameLabel}">{!$Label.apxt_redlining.apxt_setup_FriendlyNameLabel}</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="{!$Label.apxt_redlining.apxt_setup_statusLabel}">{!$Label.apxt_redlining.apxt_setup_statusLabel}</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="{!$Label.apxt_redlining.apxt_setup_systemLabel}">{!$Label.apxt_redlining.apxt_setup_systemLabel}</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="{!$Label.apxt_redlining.apxt_setup_addedByLabel}">{!$Label.apxt_redlining.apxt_setup_addedByLabel}</div>
+                    </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:if isTrue="{!v.connectionList != undefined}">
+                        <aura:if isTrue="{!v.connectionList.length gt 0}">
+                            <!-- Iterate external connections list -->
+                            <aura:iteration items="{!v.connectionList}" var="item">
+                                <tr class="slds-hint-parent">
+                                    <th scope="row">
+                                        <!-- Row menu button -->
+                                        <!-- data-id attribute present in multiple elements below to provide context to event handlers -->
+                                        <div aura:id="rowMenu" data-id="{!item.id}" class="slds-dropdown-trigger slds-dropdown-trigger_click" >
+                                            <button data-id="{!item.id}" class="slds-button slds-button_icon slds-button_icon-border-filled slds-button_icon-x-small slds-m-right_x-small" tabindex="-1" title="Show More" onclick="{!c.toggleConnectionMenu}" onblur="{!c.connectionMenuBlur}">
+                                                <lightning:icon iconName="utility:down" size="x-small" />
+                                                <span class="slds-assistive-text">Show More</span>
+                                            </button>
+                                            <div class="slds-dropdown slds-dropdown_left">
+                                                <ul class="slds-dropdown__list" role="menu">
+                                                    <li class="slds-dropdown__item" role="presentation">
+                                                        <a data-id="{!item.id}" href="javascript:void(0);" role="menuitem" tabindex="0" onclick="{!c.confirmDeleteConnection}">
+                                                            <span class="slds-truncate" title="{!$Label.apxt_redlining.apxt_setup_delete}">{!$Label.apxt_redlining.apxt_setup_delete}</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        {!item.name}
+                                    </th>
+                                    <td>{!item.status}</td>
+                                    <td>{!item.system}</td>
+                                    <td>{!item.addedBy}</td>
+                                </tr>
+                            </aura:iteration>
+                            <aura:set attribute="else">
+                                <!-- Zero external connections -->
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="slds-align_absolute-center slds-text-color_weak conga-spinner-container">
+                                            {!$Label.apxt_redlining.apxt_setup_noConnections}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </aura:set>
+                        </aura:if>
+                        <aura:set attribute="else">
+                            <!-- Loading external connections -->
+                            <tr>
+                                <td colspan="4">
+                                    <div class="slds-align_absolute-center conga-spinner-container">
+                                        <lightning:spinner variant="brand" size="small" />
+                                    </div>
+                                </td>
+                            </tr>
+                        </aura:set>
+                    </aura:if>
+                </tbody>
+            </table>
+        </div>
+
+        <div role="dialog" tabindex="-1" class="slds-modal" aura:id="informModal">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <button onclick="{!c.dismissInformationalModal}" class="slds-button slds-button_icon-inverse slds-modal__close">
+                        <APXT_Redlining:apxt_svg ariaHidden="true" class="slds-button__icon slds-button__icon_large" xlinkHref="{!'/resource/' + v.namespaceApi + 'apxt_lightningCss/icons/action-sprite/svg/symbols.svg#close'}"></APXT_Redlining:apxt_svg>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="header43" class="slds-text-heading_medium">{!v.modalTitle}</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <p>{!v.modalBody}</p>
+                </div>
+                <div class="slds-modal__footer">
+                    <button onclick="{!c.dismissInformationalModal}" class="slds-button slds-button_neutral">OK</button>
+                </div>
+            </div>
+        </div>
+        <div role="dialog" tabindex="-1" class="slds-modal" aura:id="confirmDeleteConnectionModal">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <button onclick="{!c.cancelDeleteConnection}" class="slds-button slds-button_icon-inverse slds-modal__close">
+                        <APXT_Redlining:apxt_svg ariaHidden="true" class="slds-button__icon slds-button__icon_large" xlinkHref="{!'/resource/' + v.namespaceApi + 'apxt_lightningCss/icons/action-sprite/svg/symbols.svg#close'}"></APXT_Redlining:apxt_svg>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="header43" class="slds-text-heading_medium">{!$Label.apxt_redlining.apxt_setup_deleteConnectionTitle}</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <p>{!$Label.apxt_redlining.apxt_setup_deleteConnectionConfirm}</p>
+                </div>
+                <div class="slds-modal__footer">
+                    <button onclick="{!c.cancelDeleteConnection}" class="slds-button slds-button_neutral">Cancel</button>
+                    <button onclick="{!c.deleteConnection}" class="slds-button slds-button_neutral">OK</button>
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop" aura:id="backdrop"></div>
+    </div>
+</aura:component>

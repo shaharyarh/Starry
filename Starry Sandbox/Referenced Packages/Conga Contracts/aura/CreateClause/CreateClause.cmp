@@ -1,0 +1,62 @@
+<aura:component extends="APXT_Redlining:Base" controller="APXT_Redlining.ClauseListController">
+  <aura:attribute name="text" type="String" />
+  <aura:attribute name="managedClauseAPIName" type="String" required="true" />
+  <aura:attribute name="parentRecordId" type="Id" description="Record this Managed Clause will be related to" required="true" />
+  <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+  <aura:attribute access="private" name="clauseName" type="String"/>
+  <aura:attribute access="private" name="printOrder" type="Integer"/>
+  <aura:attribute access="private" name="standardTermId" type="Id"/>
+  <aura:attribute access="private" name="isLoading" type="Boolean" />
+  <aura:attribute access="private" name="useQuoteTerms" type="Boolean" />
+  
+  <div>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+      <div class="slds-modal__container">
+        <header class="slds-modal__header">
+          <aura:if isTrue="{!v.isLoading == undefined}">
+            <aura:set attribute="else">
+              <div class="indicator">
+                <aura:if isTrue="{!v.isLoading}">
+                  <lightning:spinner size="small" class="recordIconSpinner" variant="brand" />
+                  <aura:set attribute="else">
+                    <lightning:icon class="successIcon" iconName="utility:success" size="medium" />
+                  </aura:set>
+                </aura:if>
+              </div>
+            </aura:set>
+          </aura:if>
+          <button onclick="{!c.cancel}" class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="{!$Label.apxt_redlining.apxt_viewRedlines_cancelClause}">
+            <lightning:icon class="slds-button__icon slds-button__icon_large" iconName="utility:close" size="small" variant="inverse"/>
+            <span class="slds-assistive-text">{!$Label.apxt_redlining.apxt_viewRedlines_cancelClause}</span>
+          </button>
+          <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+            <aura:if isTrue="{!v.useQuoteTerms}">
+                {!$Label.apxt_redlining.apxt_viewRedlines_newQuoteTerm}
+                <aura:set attribute="else">
+                  {!$Label.apxt_redlining.apxt_viewRedlines_newClause}
+              </aura:set>
+            </aura:if>
+          </h2>
+        </header>
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+          <div class="slds-form--stacked">
+            <aura:if isTrue="{!v.useQuoteTerms}">
+              <label class="slds-form-element__label slds-no-flex"><span>{!$Label.apxt_redlining.apxt_viewRedlines_newClause_standardTermLabel}</span></label>
+              <APXT_Redlining:LookupField sObjectName="{!v.managedClauseAPIName}" recordId="{!v.standardTermId}" />
+              <lightning:input aura:id="printOrder" name="printOrder" label="{!$Label.apxt_redlining.apxt_viewRedlines_newClause_printOrderLabel}" value="{!v.printOrder}" required="true" type="number"/>
+              <aura:set attribute="else">
+                <lightning:input aura:id="clauseName" name="clauseName" label="{!$Label.apxt_redlining.apxt_viewRedlines_newClause_clauseLabel}" value="{!v.clauseName}" required="true"/>
+              </aura:set>
+            </aura:if>
+            <lightning:inputRichText disabledCategories="FORMAT_FONT,REMOVE_FORMATTING" value="{!v.text}" />
+          </div>
+        </div>
+        <footer class="slds-modal__footer">
+          <lightning:button label="{!$Label.apxt_redlining.apxt_viewRedLines_cancel}" onclick="{!c.cancel}" class="slds-m-top--medium" />
+          <lightning:button label="{!$Label.apxt_redlining.apxt_selectClauseBundle_save}" onclick="{!c.save}" variant="brand" class="slds-m-top--medium"/>
+        </footer>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </div>
+</aura:component>

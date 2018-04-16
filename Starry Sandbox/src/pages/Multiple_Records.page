@@ -1,0 +1,29 @@
+<apex:page controller="controller_for_page" sidebar="false">
+<!--
+    Created by: Greg Hacic
+    Last Update: 1 June 2012 by Greg Hacic
+    Questions?: greg@interactiveties.com
+-->
+    <apex:form >
+        <apex:pageBlock mode="maindetail" title="Wrapper Class: Example">
+            <apex:outputPanel >{!IF( OR(prevSize > 0, currentSize > 0), prevSize + 1, 0)} to {!prevSize + currentSize} of {!prevSize + currentSize + nextSize}</apex:outputPanel>
+            <apex:actionStatus >
+                <apex:facet name="start">Loading...</apex:facet>
+                <apex:facet name="stop">
+                    <apex:pageBlockTable value="{!recordsToDisplay}" var="r">
+                        <apex:column value="{!r.numberOfRow}">
+                            <apex:facet name="header">#</apex:facet>
+                        </apex:column>
+                        <apex:column value="{!r.act.Name}"></apex:column>
+                        <apex:column value="{!r.act.Site}"></apex:column>
+                        <apex:column value="{!r.act.AccountNumber}"></apex:column>
+                        <apex:column value="{!r.act.Phone}"></apex:column>
+                        <apex:column value="{!r.act.Type}"></apex:column>
+                        <apex:column value="{!r.act.OwnerId}"></apex:column>
+                    </apex:pageBlockTable>
+                </apex:facet>
+            </apex:actionStatus>
+            <apex:outputText rendered="{!IF(currentSize > 0,false,true)}" value="No Records to Display..."></apex:outputText>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

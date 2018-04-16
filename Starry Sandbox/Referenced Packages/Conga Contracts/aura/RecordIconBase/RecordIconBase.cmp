@@ -1,0 +1,9 @@
+<aura:component access="global" extensible="true" extends="APXT_Redlining:Base" implements="force:hasRecordId,force:hasSObjectName" controller="APXT_Redlining.RecordIconBaseController">
+  <!-- This component implements logic to display an icon for a record and implements caching -->
+  <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+  <aura:attribute name="recordId" type="Id" />
+  <aura:attribute name="sObjectName" type="String" />
+  <aura:attribute name="iconName" type="String" />
+
+  {!v.body}
+</aura:component>

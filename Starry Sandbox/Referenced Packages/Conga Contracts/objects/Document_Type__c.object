@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>ClauseType__c</fullName>
+        <deprecated>false</deprecated>
+        <description>When using True-Up and related features the legal clauses in this document will be stored in Salesforce as this type.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>When using True-Up and related features the legal clauses in this document will be stored in Salesforce as this type.</inlineHelpText>
+        <label>Clause Type</label>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Conga Clause Library</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CPQ Quote Terms</fullName>
+                    <default>true</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Description__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Description</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>TargetObjectName__c</fullName>
+        <defaultValue>&quot;SBQQ__Quote__c&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Object API name documents of this type will be attached to</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Object API name documents of this type will be attached to</inlineHelpText>
+        <label>Target Object Name</label>
+        <length>255</length>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Document Type</label>
+    <nameField>
+        <label>Document Type Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Document Types</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>TargetObjectName__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>ClauseType__c</customTabListAdditionalFields>
+        <searchResultsAdditionalFields>TargetObjectName__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>ClauseType__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <webLinks>
+        <fullName>CaptureButton</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>page</linkType>
+        <masterLabel>Capture</masterLabel>
+        <openType>replace</openType>
+        <page>Capture</page>
+        <protected>false</protected>
+    </webLinks>
+</CustomObject>

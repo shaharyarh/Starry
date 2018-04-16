@@ -1,0 +1,79 @@
+<aura:component controller="APXT_Redlining.SetupConnectionsController" extends="APXT_Redlining:Base">
+
+    <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+    <aura:attribute access="private" name="isFilesEnabled" type="Boolean" default="false" />
+    <aura:attribute access="private" name="hasConnections" type="Boolean" default="false" description="true if org has external connections" />
+    <aura:attribute access="private" name="isDirty" type="Boolean" default="false" description="true if user has changes that need to be saved" />
+    
+    <div>
+        <div aura:id="header" class="slds-page-header slds-col slds-grow-none" role="banner">
+            <!-- Page header and icon -->
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <div class="slds-media slds-media_center slds-no-space slds-grow">
+                        <div class="slds-media__figure">
+                            <lightning:icon iconName="utility:settings" />
+                        </div>
+                        <div class="slds-media__body">
+                            <ol class="slds-breadcrumb slds-list_horizontal">
+                                <li class="slds-breadcrumb__item slds-truncate">
+                                    {!$Label.apxt_redlining.apxt_setup_settingsSubHeader}
+                                </li>
+                            </ol>
+                            <h1 class="slds-page-header__title slds-m-right_small slds-truncate slds-align-middle">{!$Label.apxt_redlining.apxt_setup_platformGeneral}</h1>
+                        </div>
+                        <aura:if isTrue="{!v.isDirty}">
+                            <aura:set attribute="else">
+                                <!-- Buttons are disabled because no changes have been made, easier to do with aura:if -->
+                                <button class="slds-button slds-button_neutral slds-col_bump-left" disabled="true">{!$Label.apxt_redlining.apxt_viewRedLines_cancel}</button>
+                                <button class="slds-button slds-button_brand slds-col_bump-left" disabled="true">{!$Label.apxt_redlining.apxt_viewRedLines_save}</button>
+                            </aura:set>
+                            <!-- Save is needed, light up buttons -->
+                            <button class="slds-button slds-button_neutral slds-col_bump-left" onclick="{!c.cancel}">{!$Label.apxt_redlining.apxt_viewRedLines_cancel}</button>
+                            <button class="slds-button slds-button_brand slds-col_bump-left" onclick="{!c.save}">{!$Label.apxt_redlining.apxt_viewRedLines_save}</button>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-p-around_medium">
+            <h1 class="slds-text-heading_medium">{!$Label.apxt_redlining.apxt_setup_externalFileHeader}</h1>
+            <p class="slds-m-vertical_small">{!$Label.apxt_redlining.apxt_setup_externalFileDescription}</p>
+
+            <aura:if isTrue="{!v.hasConnections}">
+                <!-- Warning that file storage cant be disabled if external connections exist -->
+                <div class="slds-is-relative">
+                    <div class="slds-notify slds-notify_toast slds-theme_info slds-m-left_none" role="alert">
+                        <span class="slds-assistive-text">info</span>
+                        <span class="slds-icon_container slds-icon-utility-info slds-m-right_small slds-no-flex slds-align-top">
+                            <lightning:icon iconName="utility:info" size="small" variant="inverse" />
+                        </span>
+                        <div class="slds-notify__content">
+                            <h2 class="slds-text-heading_x-small">{!$Label.apxt_redlining.apxt_setup_fileStorageDisableWarn}</h2>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+            
+            <!-- Files Storage checkbox -->
+            <div class="slds-form-element">
+                <label class="slds-checkbox_toggle slds-grid">
+                    <aura:if isTrue="{!v.hasConnections}">
+                        <aura:set attribute="else">
+                            <input aura:id="filesCheckbox" type="checkbox" aria-describedby="toggle-desc" value="on" onchange="{!c.filesEnabledChange}"/>
+                        </aura:set>
+                        <!-- Don't allow changing when external connections -->
+                        <input aura:id="filesCheckbox" disabled="true" checked="checked" type="checkbox" aria-describedby="toggle-desc" value="on" />
+                    </aura:if>
+                    <span id="toggle-desc" class="slds-checkbox_faux_container" aria-live="assertive">
+                        <span class="slds-checkbox_faux"></span>
+                        <span class="slds-checkbox_on">Enabled</span>
+                        <span class="slds-checkbox_off">Disabled</span>
+                    </span>
+                    <span class="slds-form-element__label slds-m-bottom_none slds-p-left_x-small">{!$Label.apxt_redlining.apxt_setup_filesToggleLabel}</span>
+                </label>
+            </div>
+        </div>
+
+    </div>
+</aura:component>

@@ -1,0 +1,29 @@
+<aura:component >
+
+  <aura:handler event="APXT_Redlining:PromptEvent" action="{!c.showPrompt}" />
+  <aura:attribute name="title" type="String" default="Error"/>
+  <aura:attribute name="message" type="String"/>
+  <aura:attribute name="visible" type="Boolean" default="false" />
+  <aura:attribute name="warning" type="Boolean"/>
+  <aura:attribute name="showOnEvent" type="Boolean" default="false"/>
+
+  <aura:if isTrue="{!v.visible}">
+  <div class="slds-notify_container">
+    <div class="{! v.warning ? 'slds-notify slds-notify--toast slds-theme--warning' : 'slds-notify slds-notify--toast slds-theme--error'}" role="alert">
+      <span class="slds-assistive-text">Error</span>
+      <button class="slds-button slds-notify__close slds-button--icon-inverse" title="{!$Label.apxt_redlining.apxt_prompt_closeDiaglogTitle}" onclick="{!c.close}">
+        <lightning:icon iconName="utility:close" size="small"></lightning:icon>
+        <span class="slds-assistive-text">{!$Label.apxt_redlining.apxt_prompt_closeDiaglogTitle}</span>
+      </button>
+      <div class="slds-notify__content slds-grid">
+        <lightning:icon class="slds-m-right--small slds-col slds-no-flex" iconName="utility:warning" size="small"></lightning:icon>
+        <div class="slds-col slds-align-middle">
+          <h2 class="slds-text-heading--small">{!v.title}</h2>
+          <p class="slds-truncate">{!v.message}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</aura:if>
+
+</aura:component>

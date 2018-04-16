@@ -1,0 +1,514 @@
+<apex:page standardController="APXT_Redlining__Clause_Bundle__c" extensions="APXT_Redlining.apxt_selectClauseOrder" showHeader="false" sidebar="false" applyHtmlTag="false" >
+<html xmlns:xlink="http://www.w3.org/1999/xlink">
+    <head>
+        <meta name="robots" content="noindex, nofollow"/>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>{!$Label.apxt_selectClauseOrder_title} {!childTypeLabel}</title>
+        <apex:slds />
+        <link rel="stylesheet" type="text/css" href="{!URLFOR($Resource.apxt_mainCss, './main.css')}"/>
+        <script src="{!URLFOR($Resource.apxt_jQuery)}"/>
+        <script src="{!URLFOR($Resource.apxt_jQueryUi, './jquery-ui.js')}"></script>
+        <script src="{!URLFOR($Resource.apxt_svg4everybody)}"></script>
+        <style type="text/css">
+            .clauseList {
+                min-height: 89px;
+            }
+            #col-clauseList, #col-clauseJctList {
+                min-height: 110px;
+            }
+        </style>
+    </head>
+
+    <body >
+        <div class="slds-scope">
+            <!-- Page Header -->
+            <div class="slds-page-header" role="banner">
+                <div class="slds-grid">
+                    <div class="slds-col slds-has-flexi-truncate">
+                        <div class="slds-media slds-media--center slds-no-space slds-grow">
+                            <div class="slds-media__figure">
+                                <svg aria-hidden="true" class="slds-icon slds-icon-standard-contract">
+                                    <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg')}#contract"></use>
+                                </svg>
+                            </div>
+                            <div class="slds-media__body">
+                                <nav role="navigation" aria-label="Breadcrumbs">
+                                    <ol class="slds-breadcrumb slds-list--horizontal">
+                                        <li class="slds-breadcrumb__item slds-text-heading--label">
+                                            <a href="/{!parentTypePrefix}/o">{!parentTypeLabel}</a>
+                                        </li>
+                                        <li class="slds-breadcrumb__item slds-text-heading--label">
+                                            <a href="/{!parentObj.Id}">{!parentObjName}</a>
+                                        </li>
+                                    </ol>
+                                </nav>
+                                <h1 class="slds-page-header__title slds-m-right--small slds-truncate slds-align-middle" title="{!$Label.apxt_selectClauseOrder_title} {!childTypeLabel}">{!$Label.apxt_selectClauseOrder_title} {!childTypeLabel}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-form-element slds-no-flex slds-grid slds-align-bottom slds-m-right--medium">
+                      <label class="slds-checkbox--toggle slds-grid">
+                        <span class="slds-form-element__label slds-m-bottom--none">{!$Label.apxt_selectClauseOrder_promptSearchToggle}</span>
+                        <apex:outputpanel layout="none" rendered="{!clauseSearchDefault}">
+                            <input id="toggle-clauseSearch" type="checkbox" checked="checked" aria-describedby="toggle-clauseSearchDesc" />
+                        </apex:outputpanel>
+                        <apex:outputPanel layout="none" rendered="{!!clauseSearchDefault}">
+                            <input id="toggle-clauseSearch" type="checkbox" aria-describedby="toggle-clauseSearchDesc" />
+                        </apex:outputPanel>
+                        <span id="toggle-clauseSearchDesc" class="slds-checkbox--faux_container" aria-live="assertive">
+                          <span class="slds-checkbox--faux"></span>
+                        </span>
+                      </label>
+                    </div>
+                    <div class="slds-col slds-no-flex slds-grid slds-align-bottom">
+                        <a id="cancelBtn" href="/{!parentObj.Id}" class="slds-button slds-button--neutral">{!$Label.apxt_selectClauseOrder_cancel}</a>
+                        <a id="saveBtn" href="javascript:void(0);" class="slds-button slds-button--brand slds-m-left--x-small">{!$Label.apxt_selectClauseOrder_save}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-container slds-container--large slds-container--center slds-hide" id="notifCont">
+                <div class="slds-col slds-col--padded slds-size--1-of-1 slds-m-around--small">
+                    <div class="slds-notify slds-notify--toast slds-theme--error slds-m-around--none conga-notification" id="notifMsg" role="alert">
+                        <span class="slds-assistive-text">{!$Label.apxt_selectClauseOrder_notificationTitle}</span>
+                        <div class="slds-grid">
+                            <svg aria-hidden="true" id="notifIcoSuc" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg')}#success"></use>
+                            </svg>
+                            <svg aria-hidden="true" id="notifIcoErr" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg')}#error"></use>
+                            </svg>
+                            <svg aria-hidden="true" id="notifIcoInf" class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg')}#info"></use>
+                            </svg>
+                            <div class="slds-col slds-align-middle">
+                                <h2 class="slds-text-heading--small" id="notifLabel"></h2>
+                                <p class="slds-text-body--small slds-hide" style="color:inherit" id="notifDetail"></p>
+                                <div class="slds-hide" id="notifObjId"></div>
+                                <div class="slds-hide" id="notifDebug"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="pgSpinner" class="slds-spinner_container slds-hide">
+                <div role="status" class="slds-spinner slds-spinner--medium">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+            <div role="dialog" tabindex="-1" aria-labelledby="pgModal" class="slds-hide slds-modal slds-fade-in-open">
+              <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                  <button id="modalClose" class="slds-button slds-modal__close slds-button--icon-inverse" title="Close">
+                    <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true">
+                      <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg')}#close"></use>
+                    </svg>
+                    <span class="slds-assistive-text">{!$Label.apxt_selectClauseOrder_close}</span>
+                  </button>
+                  <h2 id="pgModal" class="slds-text-heading--medium">{!$Label.apxt_selectClauseOrder_promptModal}</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+                  <p id="modalDirtyMsg">{!$Label.apxt_selectClauseOrder_warningDirty}</p>
+                  <p id="modalOutdatedMsg">{!$Label.apxt_selectClauseOrder_warningOutdated}</p>
+                </div>
+                <div class="slds-modal__footer">
+                  <button id="modalCancel" class="slds-button slds-button--neutral">{!$Label.apxt_selectClauseOrder_cancel}</button>
+                  <button id="modalOk" class="slds-button slds-button--brand">{!$Label.apxt_selectClauseOrder_confirm}</button>
+                </div>
+              </div>
+            </div>
+            <div class="slds-hide slds-backdrop slds-backdrop--open"></div>
+
+            <div class="slds-container slds-container--large slds-container--center slds-p-around--large">
+                <div class="slds-text-heading--medium slds-text-align--center"><a href="/{!parentObj.Id}">{!parentObjName}</a></div>
+                <div id="form-clauseSearch" class="slds-form--compound slds-m-around--xx-large {!IF(!clauseSearchDefault,'slds-hide','')}">
+                    <div class="slds-form-element__group">
+                        <div class="slds-form-element__row">
+                            <div class="slds-form-element__control slds-size--1-of-2">
+                                <div class="slds-select_container">
+                                    <select id="input_clauseType" class="slds-select" />
+                                </div>
+                            </div>
+                            <div class="slds-form-element slds-size--1-of-2 slds-m-left--medium">
+                                <div class="slds-input-has-icon slds-input-has-icon--left">
+                                    <svg class="slds-input__icon" aria-hidden="true">
+                                        <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg')}#search"></use>
+                                    </svg>
+                                    <input type="text" id="input_searchText" class="slds-input slds-lookup__search-input" placeholder="{!$Label.apxt_selectClauseOrder_promptTextPlaceholder}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-text-align--left slds-m-vertical--medium slds-p-horizontal--small">{!pagePrompt}</div>
+                <div class="slds-grid">
+                    <div id="col-clauseList" class="slds-col slds-size--1-of-2 slds-p-horizontal--small {!IF(!clauseSearchDefault,'slds-hide','')}">
+                        <div class="slds-text-heading--small slds-m-bottom--x-small">{!$Label.apxt_selectClauseOrder_labelAvailable}</div>
+                        <div class="slds-box slds-box--small slds-scrollable--y">
+                            <ul id="clauseList" class="clauseList" />
+                            <ul id="deleteList" />
+                        </div>
+                    </div>
+                    <div id="col-clauseJctList" class="slds-col slds-p-horizontal--small slds-size--1-of-2">
+                        <div class="slds-text-heading--small slds-m-bottom--x-small">{!$Label.apxt_selectClauseOrder_labelSelected}</div>
+                        <div class="slds-box slds-box--small slds-scrollable--y">
+                            <ul id="clauseJctList" class="clauseList" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var callRemoteAction = function(controllerName, methodName, params, callback, options) {
+                var args = params;
+                // Prepend namespace and apex controller name to method name
+                var ns = "{!JSENCODE(NAMESPACE)}";
+                if (ns && ns.length > 0) ns += ".";
+                methodName = ns + controllerName + "." + methodName;
+                // Method name is first argument
+                params.unshift(methodName);
+                // Callback comes after arguments
+                params.push(callback);
+                // If options are specified they are the last argument
+                if (options) params.push(options);
+                Visualforce.remoting.Manager.invokeAction.apply(Visualforce.remoting.Manager, params);
+            };
+
+            $(document).ready(function() {
+                // Bind events for inputs, lists, buttons and resize.
+                $('body').on('click', '#saveBtn', saveChanges );
+                $('#input_clauseType, #input_searchText').change( clauseSearch );
+                $('#toggle-clauseSearch').change( function (){
+                    toggleClauseSearch(this, true);
+                });
+                $('#clauseList').sortable({
+                    connectWith: '#clauseJctList',
+                    cancel: '.sortable-disabled'
+                }).disableSelection();
+                $('#clauseJctList').sortable({
+                    connectWith: '#clauseList',
+                    cancel: '.noJctRecords',
+                    receive: function (event, ui){ handleJnctRecieve(ui.item[0]); },
+                    remove: function (event, ui){ handleJnctRemove(ui.item[0]); }
+                }).disableSelection();
+                $(window).resize(resizeClauseLists);
+
+                // Load initial data/layout into page.
+                getClauseJcts();
+                if ({!clauseSearchDefault}){
+                    getClauseTypes();
+                    clauseSearch();
+                    resizeClauseLists();
+                }
+            } );
+
+            function handleJnctRecieve(item){
+                var clauseId = $(item).attr('data-clauseId');
+                // fix width resizing of dropped clone.
+                $('#clauseJctList li[data-clauseId="'+clauseId+'"]').removeAttr("style").resizable({containment: '#clauseJctList'});
+                // disable selection of original.
+                $('#clauseList li[data-clauseId="'+clauseId+'"]').draggable( 'option', 'disabled', true );
+                $('#clauseList li[data-clauseId="'+clauseId+'"] .slds-box').addClass('slds-disabled-text').children().css('opacity','0.25');
+                $('#clauseList li[data-clauseId="'+clauseId+'"] .slds-icon_container').removeClass('slds-icon-action-approval').addClass('slds-icon-action-check');
+                // remove 'no-records Placeholder if it still exists.
+                $('.noJctRecords').remove();
+            }
+            function handleJnctRemove(item){
+                // get flags.
+                var dirty = $(item).attr('data-jnctDirty'); 
+                var outdated = $(item).attr('data-jnctOutdated'); 
+                // prompt comfirm if dirty or out of date.
+                if (dirty || outdated){
+                    // setup modal to complete interaction.
+                    $('#modalClose, #modalCancel').click( function(){ 
+                        $('#clauseJctList').sortable('cancel');
+                        toggleModal(false, null);
+                    });
+                    $('#modalOk').click( function(){
+                        JnctDelete(item);
+                        toggleModal(false, null);
+                    });
+                    toggleModal(true, (dirty)? 'dirty' : (outdated)? 'outdated': '');
+                }
+                // else just delete the item.
+                else {
+                    JnctDelete(item);
+                }
+            }
+            function JnctDelete(item){
+                // get flags.
+                var clauseId = $(item).attr('data-clauseId');
+                var jctId = $(item).attr('data-jnctId');
+                // remove from dom and create a hidden copy if existing.
+                item.remove();
+                if (jctId){
+                    $('#deleteList').append('<li data-jnctId="'+jctId+'"></li>');
+                }
+                // enable matching clause.
+                $('#clauseList li[data-clauseId="'+clauseId+'"]').draggable( 'option', 'disabled', false );
+                $('#clauseList li[data-clauseId="'+clauseId+'"] .slds-box').removeClass('slds-disabled-text').children().css('opacity','1.0');
+                $('#clauseList li[data-clauseId="'+clauseId+'"] .slds-icon_container').removeClass('slds-icon-action-check').addClass('slds-icon-action-approval');
+                // if no clauses remain, add placeholder.
+                if ($('#clauseJctList li').length==0){
+                    $('#clauseJctList').append('<li class="noJctRecords slds-item slds-p-around--small"><div class="slds-box slds-theme--shade">{!JSENCODE($Label.apxt_selectClauseOrder_noClausesExisting)}</div></li>');
+                }
+            }
+
+            function saveChanges(){
+                var hideClass = 'slds-hide';
+                // reconfigure page to "waiting".
+                $('html, body').animate({ scrollTop: 0 }, 500);
+                $('.js-save').prop('disabled', true);
+                $('.js-selected').prop('disabled', true);
+                $('#pgSpinner').removeClass(hideClass);
+
+                var updateParams = {
+                    parentId: '{!JSENCODE(parentObj.Id)}',
+                    creates: [],
+                    updates: [],
+                    deletes: []
+                };
+                // parse dom lists for changes.
+                var cJctList = $('#clauseJctList li').toArray();
+                for (var i=0; i < cJctList.length; i++){
+                    if ($(cJctList[i]).attr('data-jnctId')){
+                        updateParams.updates.push( {id:$(cJctList[i]).attr('data-jnctId'), order:i+1 } );
+                    } else if ($(cJctList[i]).attr('data-clauseId')) {
+                        updateParams.creates.push( {id:$(cJctList[i]).attr('data-clauseId'), order:i+1 } );
+                    }
+                }
+                $('#deleteList li').each( function(){
+                    updateParams.deletes.push($(this).attr('data-jnctId'));
+                });
+                
+                callRemoteAction("apxt_selectClauseOrder", "updateClauseJcts", [JSON.stringify(updateParams)], function (updateResStr) {
+                    $('#pgSpinner').addClass(hideClass);
+                    if (updateResStr){
+                        var updateResults = JSON.parse(updateResStr);
+                        displayNotification( (updateResults.success) ? 'success' : 'error',
+                                updateResults.label,
+                                updateResults.detail,
+                                updateResults.id,
+                                updateResults.debug );
+                        if (updateResults.success) {
+                            // If was successful redirect after time.
+                            window.setTimeout(function () { 
+                                if({!isLightningUI}){
+                                    sforce.one.navigateToSObject('{!JSENCODE(parentObj.Id)}');
+                                } else {
+                                    window.location.href = '/{!JSENCODE(parentObj.Id)}';
+                                }}, 2000);
+                        }
+                    } else {
+                        displayNotification('error', '{!JSENCODE($Label.apxt_selectClauseOrder_error)}', null, null, 'update result is blank');
+                    }
+                }, {'escape': false});
+            }
+
+            function getClauseJcts(){
+                callRemoteAction("apxt_selectClauseOrder", "queryClauseJcts", ['{!JSENCODE(parentObj.Id)}'], function (jctResStr) {
+                    // Populate clause junction items into list.
+                    $('#clauseJctList').empty();
+                    var junctResults = JSON.parse(jctResStr);
+                    if (junctResults.data.length > 0){
+                        for (var i = 0; i < junctResults.data.length; i++) {
+                            $('#clauseJctList').append(
+                                createClauseItem(
+                                    junctResults.data[i].sObjectType,
+                                    junctResults.data[i].clauseId,
+                                    junctResults.data[i].clauseName,
+                                    junctResults.data[i].id,
+                                    junctResults.data[i].dirty,
+                                    junctResults.data[i].outdated,
+                                    junctResults.data[i].text
+                                )
+                            );
+                        }
+                    } else {
+                        $('#clauseJctList').append('<li class="noJctRecords slds-item slds-p-around--small"><div class="slds-box slds-theme--shade">{!JSENCODE($Label.apxt_selectClauseOrder_noClausesExisting)}</div></li>');
+                    }
+                    
+                }, {'escape': false});
+            }
+
+            function getClauseTypes(){
+                var $clauseTypes = $('#input_clauseType');
+                $clauseTypes.empty().append('<option value="">'+escapeHtml('{!JSENCODE($Label.apxt_selectClauseOrder_promptTypePlaceholder)}')+'</option>');
+                $clauseTypes.append('<option value="">'+escapeHtml('{!JSENCODE($Label.apxt_selectClauseOrder_allTypes)}')+'</option>'); //TODO - remove or use Lbl.
+                callRemoteAction("apxt_selectClauseOrder", "getClauseTypes", [], function(typeResults) {
+                    for (var i=0; i<typeResults.length; i++){
+                        $clauseTypes.append('<option value="'+typeResults[i].Id+'">'+typeResults[i].Name+'</option>');
+                    }
+                }, {'escape': false});
+            }
+
+            function clauseSearch(){
+                var searchParams = {
+                    searchText: $('#input_searchText').val(),
+                    types: [$('#input_clauseType').val()]
+                };
+                callRemoteAction("apxt_selectClauseOrder", "searchClauses", [JSON.stringify(searchParams)], function (searchResStr) {
+                    // Populate clause items into list.
+                    $('#clauseList').empty();
+                    var searchResults = JSON.parse(searchResStr);
+                    if (searchResults.data.length > 0){
+                        for (var i = 0; i < searchResults.data.length; i++) {
+                            var text = searchResults.data[i]["Text"];
+                            $('#clauseList').append(
+                                createClauseItem(
+                                    searchResults.data[i].Type,
+                                    searchResults.data[i].Id,
+                                    searchResults.data[i].Name,
+                                    null, null, null, 
+                                    text
+                                )
+                            );
+                        }
+                        // Make each clause draggable, but not sortable.
+                        $('#clauseList li').draggable({
+                            connectToSortable: '#clauseJctList',
+                            helper: 'clone',
+                            revert: 'invalid',
+                            start: function(event, ui){
+                                $(ui.helper).css('width', $(event.target).width()+'px');
+                            }
+                        }).addClass('sortable-disabled');
+                        // Disable clause already select in junction list
+                        $('#clauseJctList li').each( function() {
+                            var clauseId = $(this).attr('data-clauseId');
+                            $('#clauseList li[data-clauseId="'+clauseId+'"]').draggable( 'option', 'disabled', true );
+                            $('#clauseList li[data-clauseId="'+clauseId+'"] .slds-box').addClass('slds-disabled-text').children().css('opacity','0.25');
+                            $('#clauseList li[data-clauseId="'+clauseId+'"] .slds-icon_container').removeClass('slds-icon-action-approval').addClass('slds-icon-action-check');
+                        });
+                    } else {
+                        $('#clauseList').append('<li class="sortable-disabled slds-item slds-p-around--small"><div class="slds-box slds-theme--shade">{!JSENCODE($Label.apxt_selectClauseOrder_noClausesSearch)}</div></li>');
+                    }
+                }, {'escape': false});
+            }
+
+            function createClauseItem(sObjType, clauseId, clauseName, jctId, dirty, outdated, text){
+                var rtn = '<li class="slds-item slds-p-around--small" ';
+                if (sObjType) rtn += 'data-type="'+sObjType+'" ';
+                if (clauseId) rtn += 'data-clauseId="'+clauseId+'" ';
+                if (jctId) rtn += 'data-jnctId="'+jctId+'" ';
+                if (dirty) rtn += 'data-jnctDirty="'+dirty+'" ';
+                if (outdated) rtn += 'data-jnctOutdated="'+outdated+'" ';
+                rtn += '><div class="slds-box slds-grid slds-theme--shade">';
+                rtn += '<div class="slds-shrink slds-m-right--x-small">'+createSvgImg(dirty, outdated)+'</div>';
+                rtn += '<div class="slds-truncate_container--75"><p><a href="/'+clauseId+'">'+clauseName+'</a></p>';
+                rtn += '<p class="slds-truncate" title="'+text+'">'+text+'</p>';
+                rtn += '</div></div></li>';
+                return rtn;
+            }
+            function createSvgImg(dirty, outdated){
+                var svgImg;
+                var svgColor;
+                if (dirty){
+                    svgImg = '{!URLFOR($Asset.SLDS, "assets/icons/utility-sprite/svg/symbols.svg")}#warning';
+                    svgColor = 'slds-icon-action-new-case'; //#f2cf5b
+                } else if (outdated) {
+                    svgImg = '{!URLFOR($Asset.SLDS, "assets/icons/action-sprite/svg/symbols.svg")}#defer';
+                    svgColor = 'slds-icon-action-clone'; //#6ca1e9
+                } else {
+                    svgImg = '{!URLFOR($Asset.SLDS, "assets/icons/action-sprite/svg/symbols.svg")}#approval';
+                    svgColor = 'slds-icon-action-approval'; //#00c6b7
+                }
+                return '<span class="slds-icon_container slds-icon_container--circle '+svgColor+'">'
+                    +'<svg class="slds-icon slds-icon--xx-small" aria-hidden="true">'
+                    +'<use xlink:href="'+svgImg+'"></use>'
+                    +'</svg></span>';
+            }
+
+            function displayNotification(type, label, detail, id, debug){
+                var hideClass = 'slds-hide';
+                $('#notifLabel').text(escapeHtml(label));
+                if(label)
+                    $('#notifLabel').removeClass(hideClass);
+                else
+                    $('#notifLabel').addClass(hideClass);
+                $('#notifDetail').text(escapeHtml(detail));
+                if(detail)
+                    $('#notifDetail').removeClass(hideClass);
+                else
+                    $('#notifDetail').addClass(hideClass);
+                $('#notifObjId').text(escapeHtml(id));
+                $('#notifDebug').text(escapeHtml(debug));
+                $('#notifMsg').removeClass('slds-theme--default slds-theme--success slds-theme--error');
+                $('#notifMsg .slds-icon').addClass(hideClass);
+                $('#notifCont').removeClass(hideClass);
+                if (type==='success'){
+                    $('#notifMsg').addClass('slds-theme--success');
+                    $('#notifIcoSuc').removeClass(hideClass);
+                }
+                else if (type==='error'){
+                    $('#notifMsg').addClass('slds-theme--error');
+                    $('#notifIcoErr').removeClass(hideClass);
+                }
+                else {
+                    $('#notifIcoInf').removeClass(hideClass);
+                }
+                $('#notifMsg').removeClass(hideClass)
+            }
+
+            function toggleModal(show, type){
+                var hideClass = 'slds-hide';
+                if(show){
+                    // Show the right text and then show modal.
+                    if (type=='dirty'){
+                        $('#modalDirtyMsg').removeClass(hideClass);
+                        $('#modalOutdatedMsg').addClass(hideClass);
+                    } else if (type=='outdated'){
+                        $('#modalOutdatedMsg').removeClass(hideClass);
+                        $('#modalDirtyMsg').addClass(hideClass);
+                    }
+                    $('.slds-modal, .slds-backdrop').removeClass(hideClass);
+                }
+                else {
+                    // Unbind & hide the modal.
+                    $('#modalOk, #modalClose, #modalCancel').prop('onclick',null);
+                    $('.slds-modal, .slds-backdrop').addClass(hideClass);
+                }
+            }
+            function toggleClauseSearch(toggle, animate){
+                var hideClass = 'slds-hide';
+                if($(toggle).prop('checked')){
+                    getClauseTypes();
+                    clauseSearch();
+                    $('#form-clauseSearch').removeClass(hideClass);
+                    $('#col-clauseList').removeClass(hideClass);
+                    resizeClauseLists();
+                } else {
+                    $('#form-clauseSearch').addClass(hideClass);
+                    $('#col-clauseList').addClass(hideClass);
+                }
+            }
+
+            function resizeClauseLists(){
+                var wHeight = parseInt($(window).height(),10)-50;
+                $('#col-clauseList, #col-clauseJctList').each(function(){
+                    $(this).height(wHeight-parseInt($(this).position().top,10));
+                });
+            }
+
+            function escapeHtml(txt){
+                if (txt){
+                    return txt.replace(/&/g, '&amp;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;')
+                        .replace(/"/g, '&quot;')
+                        .replace(/'/g, '&#39;')
+                        .replace(/\//g, '&#x2F;')
+                        .replace(/`/g, '&#x60;')
+                        .replace(/=/g, '&#x3D;');
+                } else {
+                    return '';
+                }
+            }
+
+        </script>
+    </body>
+    </html>
+</apex:page>

@@ -1,0 +1,77 @@
+<aura:component extends="APXT_Redlining:Base">
+  <aura:handler event="APXT_Redlining:BaseEvent" name="treeItemSelect" action="{!c.select}" />
+  <aura:handler event="APXT_Redlining:BaseEvent" name="treeItemRemove" action="{!c.remove}" />
+  <aura:registerEvent name="select" type="APXT_Redlining:BaseEvent"/>
+  <aura:registerEvent name="treeListComplete" type="APXT_Redlining:BaseEvent"/>
+  <aura:attribute name="items" type="Array"/>
+  <aura:attribute access="private" name="unfilteredItems" type="Array"/>
+  <aura:attribute name="selectedItem" type="Aura.Component" />
+  <aura:attribute name="doAllowSearch" type="Boolean" default="false" description="shows search bar at top" />
+  <aura:attribute name="doAllowRemove" type="Boolean" default="false" description="for capture we allow removing items" />
+  <aura:attribute name="doOnlyShowClauses" type="Boolean" default="false" description="for negotiate we only want to show clauses" />
+  <aura:attribute name="doLoadImmediately" type="Boolean" default="true" description="for sub components we may want to do our own data loading" />
+  <aura:attribute name="isLoading" type="Boolean" default="{!v.doLoadImmediately}" />
+  <aura:attribute name="searchPlaceholder" type="String" description="placholder text that appears in search input" />
+  <aura:attribute name="emptyMessage" type="String" default="{!$Label.apxt_redlining.apxt_emptyTree}" description="message that appears when TreeList is empty" />
+  
+  <aura:method name="selectItem" action="{!c.selectItem}">
+    <aura:attribute name="id" type="String"/>
+  </aura:method>
+
+  <aura:method name="searchItems" action="{!c.searchItemsMethod}">
+    <aura:attribute name="searchText" type="String"/>
+  </aura:method>
+
+  <div class="slds-tree_container" role="application">
+    <aura:if isTrue="{!v.doAllowSearch}">
+      <div class="slds-form-element slds-p-around_x-small">
+        <label class="slds-form-element__label slds-assistive-text" for="input-id-01">{!v.searchPlaceholder}</label>
+        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+          <lightning:icon class="slds-input__icon slds-input__icon_right slds-icon-text-default" iconName="utility:search" size="x-small" />
+          <input type="search" id="input-id-01" onkeyup="{!c.searchItems}" placeholder="{!v.searchPlaceholder}" class="slds-input" />
+        </div>
+      </div>
+    </aura:if>
+    <ul class="slds-tree" role="tree" aria-labelledby="treeheading" aria-activedescendant="tree0-node1">
+      <aura:if isTrue="{!v.isLoading}">
+        <!-- Loading state -->
+        <li role="treeitem" aria-level="0" aria-expanded="true">
+          <div class="slds-tree__item">
+            <button class="slds-button slds-button_icon slds-m-right_x-small" title="{!$Label.apxt_redlining.apxt_treeList_toggleTitle}">
+              <lightning:icon iconName="utility:chevrondown" size="x-small" />
+              <span class="slds-assistive-text">{!$Label.apxt_redlining.apxt_treeList_toggleTitle}</span>
+            </button><a id="tree0-node1__label" href="javascript:void(0);" tabindex="-1" role="presentation" class="slds-truncate">{!$Label.apxt_redlining.apxt_treeList_loading}</a>
+          </div>
+          <ul role="group" aria-labelledby="tree0-node1__label">
+            <li role="treeitem" aria-level="1" aria-expanded="true">
+              <div class="slds-tree__item">
+                <button class="slds-is-disabled slds-button slds-button_icon slds-m-right_x-small" title="{!$Label.apxt_redlining.apxt_treeList_toggleTitle}">
+                  <lightning:icon iconName="utility:chevrondown" size="x-small" />
+                  <span class="slds-assistive-text">{!$Label.apxt_redlining.apxt_treeList_toggleTitle}</span>
+                </button><a id="tree0-node1__label" href="javascript:void(0);" tabindex="-1" role="presentation" class="slds-truncate"></a>
+                <span class="slds-is-relative slds-icon slds-icon_small">
+                  <lightning:spinner aura:id="spinner" size="small" variant="brand" alternativeText="{!$Label.apxt_redlining.apxt_treeList_loading}" />
+                </span>
+              </div>
+            </li>
+          </ul>
+        </li>
+        <aura:set attribute="else">
+          <!-- Not loading -->
+          <aura:if isTrue="{!v.items.length gt 0}">
+              <aura:iteration items="{!v.items}" var="item">
+                <APXT_Redlining:TreeItem doAllowRemove="{!v.doAllowRemove}" aura:id="items" unique="{!item.id}" label="{!item.label}" value="{!item.value}" items="{!item.items}" action="{!item.action}" selected="{!item.selected}" alwaysExpanded="{!and(item.alwaysExpanded != undefined, item.alwaysExpanded == true)}" />
+              </aura:iteration>
+              <aura:set attribute="else">
+                <!-- Empty state -->
+                <li class="slds-text-body_regular slds-align_absolute-center slds-p-top_large conga-empty-state">{!v.emptyMessage}</li>
+              </aura:set>
+            </aura:if>
+        </aura:set>
+      </aura:if>
+
+    </ul>
+
+  </div>
+
+</aura:component>

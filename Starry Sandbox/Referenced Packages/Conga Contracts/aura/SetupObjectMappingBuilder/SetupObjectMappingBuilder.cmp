@@ -1,0 +1,166 @@
+<aura:component controller="APXT_Redlining.SetupObjectMappingController" extends="APXT_Redlining:Base">
+
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    <aura:handler name="render" action="{!c.onRender}" value="{!this}" />
+    <aura:handler event="APXT_Redlining:BaseEvent" name="directionChanged" action="{!c.handleDirectionChanged}" />
+    <aura:handler event="APXT_Redlining:BaseEvent" name="primaryChanged" action="{!c.handlePrimaryChanged}" />
+    <aura:handler event="APXT_Redlining:BaseEvent" name="fieldDeleted" action="{!c.handleFieldDeleted}" />
+    <aura:handler event="APXT_Redlining:BaseEvent" name="fieldValueChanged" action="{!c.handleFieldValueChanged}" />
+    <aura:registerEvent name="setSaveState" type="APXT_Redlining:BaseEvent"/>
+
+    <aura:attribute name="connectionId" type="String" />
+    <aura:attribute name="objectMapping" type="APXT_Redlining.PlatformView_ObjectMapping" />
+    <aura:attribute name="salesforceObjects" type="List" />
+    <aura:attribute name="externalObjects" type="List" />
+    <aura:attribute name="availableSalesforceFields" type="List" default="[]" />
+    <aura:attribute name="availableExternalFields" type="List" default="[]" />
+    <aura:attribute access="private" name="selectedGlobalDirection" type="String" />
+    <aura:attribute access="private" name="selectedGlobalPrimary" type="String" />
+    <aura:attribute access="private" name="globalPrimaryDisabled" type="Boolean" default="false" />
+
+    <aura:attribute access="private" name="objectErrorMessage" type="String" />
+    <aura:attribute name="showFieldSpinner" type="Boolean" default="false" />
+    
+    <div class="slds-p-around_medium">
+        <h1 class="slds-text-heading_medium">{!$Label.apxt_redlining.apxt_setup_objectMappingChooseObjectTitle}</h1>
+        <p class="slds-m-vertical_small">{!$Label.apxt_redlining.apxt_setup_objectMappingChooseObjectDescription}</p>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col">
+                <lightning:combobox aura:id="selectSalesforceObjectName" name="salesforceObjectName" label="Salesforce"
+                    placeholder="{!$Label.apxt_redlining.apxt_setup_objectMappingChooseObject}"
+                    value="{!v.objectMapping.SalesforceObjectName}"
+                    onchange="{!c.handleSalesforceObjectChanged}"
+                    options="{#v.salesforceObjects}"
+                    disabled="{!and(v.objectErrorMessage == undefined, and(v.objectMapping.FieldMappings != undefined, v.objectMapping.FieldMappings.length gt 0))}"
+                    required="true" />
+            </div>
+            <div class="slds-col">
+                <lightning:combobox aura:id="selectExternalObjectName" name="externalObjectName" label="Novatus"
+                    placeholder="{!$Label.apxt_redlining.apxt_setup_objectMappingChooseObject}"
+                    value="{!v.objectMapping.ExternalObjectName}"
+                    onchange="{!c.handleExternalObjectChanged}"
+                    options="{#v.externalObjects}"
+                    disabled="{!and(v.objectErrorMessage == undefined, and(v.objectMapping.FieldMappings != undefined, v.objectMapping.FieldMappings.length gt 0))}"
+                    required="true" />
+            </div>
+            <div class="slds-col"></div>
+            <div class="slds-col"></div>
+        </div>
+
+        <aura:if isTrue="{!and(v.objectErrorMessage != undefined, v.objectErrorMessage != '')}">
+            <div class="slds-form-element slds-has-error">
+                <div class="slds-form-element__help" id="error-message-unique-id">{!v.objectErrorMessage}</div>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.showFieldSpinner}">
+            <lightning:spinner variant="brand" size="large" alternativeText="Loading fields"/>
+        </aura:if>
+
+        <aura:if isTrue="{!and(v.objectMapping.SalesforceObjectName != undefined, v.objectMapping.ExternalObjectName != undefined)}">
+        <aura:if isTrue="{!and(and(v.availableSalesforceFields != undefined, v.availableSalesforceFields.length gt 0),and(v.availableExternalFields != undefined, v.availableExternalFields.length gt 0))}">
+            <hr />
+    
+            <div class="slds-text-heading_medium slds-text-title_caps">{!$Label.apxt_redlining.apxt_setup_objectMappingSelectFieldsAndDirectionTitle}</div>
+            <p class="slds-m-vertical_small">{!$Label.apxt_redlining.apxt_setup_objectMappingSelectFieldsAndDirectionDescription}</p>
+
+            <div class="slds-grid">
+                <div class="slds-col slds-size_3-of-12 slds-align-middle"></div>
+                <div class="slds-col slds-size_2-of-12 slds-align-middle text-center">
+                    <label>{!$Label.apxt_redlining.apxt_setup_objectMappingGlobalDirectionTitle}</label>
+                    <div>
+                        <APXT_Redlining:SetupObjectMappingDirection aura:id="globalDirection" selectedDirection="{!v.selectedGlobalDirection}" />
+                    </div>
+                </div>
+                <div class="slds-col slds-size_3-of-12 slds-align-middle"></div>
+                <div class="slds-col slds-size_3-of-12 slds-align-middle text-center">
+                    <div class="text-left inline-block">
+                        <label>Global Primary</label>
+                        <div>
+                            <APXT_Redlining:SetupObjectMappingPrimaryChooser aura:id="globalPrimary" selectedPrimary="{!v.selectedGlobalPrimary}" required="false" disabled="{!v.globalPrimaryDisabled}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aura:if isTrue="{!and(v.objectMapping.FieldMappings != undefined, v.objectMapping.FieldMappings.length gt 0)}">
+                <aura:iteration items="{!v.objectMapping.FieldMappings}" var="field" indexVar="fieldIndex">
+                    <APXT_Redlining:SetupObjectMappingField aura:id="fieldMapping" 
+                        connectionId="{!v.connectionId}" 
+                        salesforceObjectName="{!v.objectMapping.SalesforceObjectName}"
+                        field="{!field}" 
+                        fieldIndex="{!fieldIndex}"
+                        availableSalesforceFields="{!v.availableSalesforceFields}" 
+                        availableExternalFields="{!v.availableExternalFields}" />
+                </aura:iteration>
+            </aura:if>
+    
+            <button class="slds-button slds-button_brand m-t-10" onclick="{!c.addFieldMapping}">{!$Label.apxt_redlining.apxt_setup_objectMappingAddFieldButton}</button>
+
+            <hr />
+
+            <p>
+                <div class="slds-text-heading_medium slds-text-title_caps">{!$Label.apxt_redlining.apxt_setup_objectMappingExclusionsTitle}</div>
+                <p class="slds-m-vertical_small">{!$Label.apxt_redlining.apxt_setup_objectMappingExclusionsDescription}</p>
+
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-6 slds-align-middle">
+                        <lightning:input type="checkbox" label="{!$Label.apxt_redlining.apxt_setup_objectMappingSalesforceToExternalCheckboxLabel}" checked="{!v.objectMapping.SalesforceOptoutFieldIsEnabled}" />
+                    </div>
+                    <div class="slds-col slds-size_1-of-6 slds-align-middle">
+                        <aura:if isTrue="{!and(v.availableSalesforceFields != undefined, v.availableSalesforceFields.length gt 0)}">
+                            <lightning:combobox aura:id="selectExclusionSalesforceField" name="exclusionSalesforceField"
+                                class="w-100"
+                                placeholder="{!$Label.apxt_redlining.apxt_setup_objectMappingChooseField}"
+                                value="{!v.objectMapping.SalesforceOptoutField}"
+                                options="{#v.availableSalesforceFields}"
+                                variant="label-hidden"
+                                disabled="{!!v.objectMapping.SalesforceOptoutFieldIsEnabled}"
+                                required="{!v.objectMapping.SalesforceOptoutFieldIsEnabled}" />
+                        </aura:if>
+                    </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-6 slds-align-middle">
+                        <lightning:input type="checkbox" label="{!$Label.apxt_redlining.apxt_setup_objectMappingExternalToSalesforceCheckboxLabel}" checked="{!v.objectMapping.ExternalOptoutFieldIsEnabled}" onchange="{!c.handleExternalOptoutChanged}" />
+                    </div>
+                    <div class="slds-col slds-size_1-of-6 slds-align-middle">
+                        <lightning:input type="text" aura:id="inputExclusionExternalField" name="exclusionExternalField" 
+                            class="w-100 m-t-minus-1em"
+                            variant="label-hidden"
+                            disabled="true" 
+                            value="{!v.objectMapping.ExternalOptoutFieldIsEnabled ? 'Conga Platform Exclude' : ''}" />
+                    </div>
+                </div>
+            </p>
+
+            <p class="m-t-2em">
+                <div class="slds-text-heading_medium slds-text-title_caps">{!$Label.apxt_redlining.apxt_setup_objectMappingBypassApprovalTitle}</div>
+                <p class="slds-m-vertical_small">{!$Label.apxt_redlining.apxt_setup_objectMappingBypassApprovalDescription}</p>
+    
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-6 slds-align-middle">
+                        <lightning:input type="checkbox" label="{!$Label.apxt_redlining.apxt_setup_objectMappingSalesforceToExternalCheckboxLabel}" checked="{!v.objectMapping.SalesforceApprovalFieldIsEnabled}" />
+                    </div>
+                    <div class="slds-col slds-size_1-of-6 slds-align-middle">
+                        <aura:if isTrue="{!and(v.availableSalesforceFields != undefined, v.availableSalesforceFields.length gt 0)}">
+                            <lightning:combobox aura:id="selectBypassApprovalSalesforceField" name="bypassApprovalSalesforceField"
+                                class="w-100"
+                                placeholder="{!$Label.apxt_redlining.apxt_setup_objectMappingChooseField}"
+                                value="{!v.objectMapping.SalesforceFieldForRequiringExternalApproval}"
+                                options="{#v.availableSalesforceFields}"
+                                variant="label-hidden"
+                                disabled="{!!v.objectMapping.SalesforceApprovalFieldIsEnabled}"
+                                required="{!v.objectMapping.SalesforceApprovalFieldIsEnabled}" />
+                        </aura:if>
+                    </div>
+                </div>
+            </p>            
+
+        </aura:if>
+        </aura:if>
+
+        <div class="m-b-page"></div>
+    </div>
+</aura:component>

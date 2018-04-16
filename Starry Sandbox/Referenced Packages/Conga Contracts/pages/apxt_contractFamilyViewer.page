@@ -1,0 +1,250 @@
+<apex:page standardController="Contract" extensions="APXT_Redlining.apxt_contractFamilyViewerController">
+    <!--- Include lightning stylesheets --->
+    <apex:stylesheet value="{!URLFOR($Resource.APXT_Redlining__apxt_lightningCss, './styles/salesforce-lightning-design-system-vf.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.APXT_Redlining__apxt_lightningCss, './styles/salesforce-lightning-contract-family.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.APXT_Redlining__apxt_mainCss, './main.css')}"/>
+    
+    <style>
+        #treeContainer > table > tbody > tr > th {
+            border-right:1px solid #d8dde6;
+        }
+        .centered {
+            text-align: center;
+        }
+        body {
+            background-color:#f4f6f9;
+        }
+        tr.current > th {
+        	color: #c0392b;
+        }
+        span.current {
+        	color: #c0392b;
+        }
+    </style>
+    <apex:includeScript value="{!URLFOR($Resource.APXT_Redlining__apxt_svg4everybody)}"/>
+    
+    <!--- Show error message if applicable --->
+    <apex:pageMessages ></apex:pageMessages>
+  
+    <!--- Show contract tree --->
+    <apex:variable var="minHeight" value=""/>
+    <apex:variable var="minHeight" value="min-height:600px;" rendered="{! isLightningUI }"/>
+    
+
+    <div id="parentContainer" class="slds-grid" style="background:#f4f6f9;padding:1rem;{! minHeight }">
+        <div class="slds-panel slds-grow slds-grid--vertical slds-nowrap">
+            <div class="slds-form--stacked slds-scrollable--y">
+            
+                <!--- Only show header if not in lightning mode --->
+                <apex:outputPanel layout="none" rendered="{! isClassicUI }">
+                    <div class="slds-panel__section slds-has-divider--bottom" role="application">
+                        <div class="slds-media__figure">
+                              <h4 class="slds slds-text-title--caps" id="treeheading">{!$Label.apxt_redlining__apxt_contractfamilyviewer_heading}</h4>
+                        </div>
+                    </div>
+                </apex:outputPanel>
+                
+                <!--- Containers to hold contract family trees --->
+                <div id="treeContainer" style="position:absolute;top:9999px;right:9999px;">
+                </div>
+                <div id="tableContainer" style="position:absolute;top:9999px;right:9999px;">
+                    <table style="opacity:0;"><thead></thead><tbody><tr style="width:100%;"><td> </td></tr></tbody></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // store container objects to optimize future calls.
+        var tableContainer = document.getElementById('tableContainer');
+        var treeContainer = document.getElementById('treeContainer');
+        
+        // set width to outside window boundaries for
+        // Dallas Cowboy AT&T Stadium - sized, large monitors.
+        tableContainer.style.right = window.innerWidth * 100;
+        treeContainer.style.right = window.innerWidth * 100;
+        
+        // build object to store contract data.
+        function contract(name, id, parent, status, startdate, enddate){
+            this.name = name;
+            this.id = id;
+            this.parent = parent;
+            
+            // make sure valid status given
+            if(typeof status == undefined) status = '';
+            this.status = status;
+            
+            // make sure valid date given
+            if(typeof startdate == undefined){
+                startdate = '';
+            }else{
+                var date = new Date(startdate);
+                this.startdate = date.toLocaleString();
+            }
+            
+            // make sure valid date given
+            if(typeof enddate == undefined){
+                enddate = '';
+            }else{
+                var date = new Date(enddate);
+                this.enddate = date.toLocaleString();
+            }
+        }
+        
+        // array to hold all contracts and relations.
+        var Contracts = [];
+        
+        // variable to assign root contract.
+        var RootContract;
+        
+        // variable to assign current contract.
+        var CurrentContract;
+        
+        // function to navigate sObject safely in both classic and lightning.
+        function navigateToSObject(obj){
+            if (typeof sforce != "undefined" && sforce && sforce.one) return sforce.one.navigateToSObject(obj);
+            else window.parent.location = '/' + obj;
+        }
+        
+        // function to navigate url safely in both classic and lightning.
+        function navigateToUrl(url){
+            if (typeof sforce == "undefined" && sforce && sforce.one) return sforce.one.navigateToURL(url);
+            else window.parent.location = '/' + url;
+        }
+        
+        
+        // load contracts that share root, if any...
+        (function(){
+            <apex:repeat value="{!RootNeighbors}" var="cnt">
+                <apex:variable var="NeighborName" rendered="{!cnt.Name == ''}" value="{! cnt.ContractNumber }"/>
+                <apex:variable var="NeighborName" rendered="{!cnt.Name != ''}" value="{! cnt.Name }"/>
+                // load contract into array
+                Contracts.push(new contract('{!JSENCODE(NeighborName)}', '{!JSENCODE(cnt.Id)}', '{!JSENCODE(cnt.Contract_Family_Parent__c)}', '{!JSENCODE(cnt.Status)}', '{! cnt.startdate }', '{! cnt.enddate }'));
+            </apex:repeat>
+    
+            // parse this contract's root to be shown
+            <apex:variable var="ContractName" rendered="{!thisContract.Name == ''}" value="{! thisContract.ContractNumber }"/>
+            <apex:variable var="ContractName" rendered="{!thisContract.Name != ''}" value="{! thisContract.Name }"/>
+           
+            <apex:outputPanel rendered="{!thisContract.APXT_Redlining__Contract_Family_Parent__c == ''}" layout="none">
+                // this contract is the root contract
+                RootContract = new contract('{!JSENCODE(ContractName)}', '{!JSENCODE(thisContract.Id)}', '', '{!JSENCODE(thisContract.Status)}', '{! thisContract.startdate }', '{! thisContract.enddate }');
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!JSENCODE(thisContract.APXT_Redlining__Contract_Family_Parent__c) != ''}" layout="none">
+                // this contract is not the root contract, establish the root from this contract.
+                for(var i = 0; i < Contracts.length; i++){
+                    if(Contracts[i].id == '{!JSENCODE(thisContract.Contract_Family_Root__c)}'){
+                        RootContract = Contracts[i];
+                        break;
+                    }
+                }
+                // load the current contract
+                Contracts.push(new contract('{!JSENCODE(ContractName)}', '{!JSENCODE(thisContract.Id)}', '{!JSENCODE(thisContract.Contract_Family_Parent__c)}', '{!JSENCODE(thisContract.Status)}', '{! thisContract.startdate }', '{! thisContract.enddate }'));
+            </apex:outputPanel>
+            
+            CurrentContract = new contract('{!JSENCODE(ContractName)}', '{!JSENCODE(thisContract.Id)}', '{!JSENCODE(thisContract.Contract_Family_Parent__c)}', '{!JSENCODE(thisContract.Status)}', '{! thisContract.startdate }', '{! thisContract.enddate }');
+        })();
+        
+        // function to build contract viewer.
+        function buildTreeView(parentId, name, root, level){
+            // build this contract's header
+            var lineOut = ((root) ? '<table style="opacity:0;"><thead></thead><tbody><tr style="width:100%;"><td> </td></tr></tbody></table>' : '') + '<li id="tree0-node0" role="treeitem" aria-level="'+level+'"><div class="slds-tree__item"' + ((root) ? ' style="padding-left: initial;"' : '') + '><button class="slds-button slds-button--icon slds-m-right--x-small"><svg class="slds-button__icon" style="height: 25px !important; width: 25px !important;"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{! URLFOR($Resource.apxt_lightningCss) }' + ((root) ? '/icons/standard-sprite/svg/symbols.svg#related_list' : '/icons/standard-sprite/svg/symbols.svg#document') + '"></use></svg><span class="slds-assistive-text">Toggle</span></button><span tabindex="-1" role="presentation" class="slds-truncate'+((parentId == CurrentContract.id) ? ' current' : '')+'" style="cursor:pointer;" onClick="navigateToSObject(' + "'" + parentId + "'" + ');">' + name + '</span></div>';
+            
+            // assign array to hold all child branches and load children
+            var ChildrenContracts = [];
+            for(var i = 0; i < Contracts.length; i++){
+                if(Contracts[i].parent == parentId){
+                    ChildrenContracts.push(Contracts[i]);
+                }
+            }
+            
+            // does this contract have any children? If so then build branches
+            if(ChildrenContracts.length > 0){
+                lineOut += '<ul class="slds-is-expanded" role="group">';
+                for(var x = 0; x < ChildrenContracts.length; x++){
+                    lineOut += buildTreeView(ChildrenContracts[x].id, ChildrenContracts[x].name, false, level+1);        
+                }
+                lineOut += '</ul>';
+            }
+            
+            // if first iteration set treecontainer class on parent
+            document.getElementById('treeContainer').className = 'slds-panel__section slds-tree_container';
+            
+            // return this branch w/ children
+            return lineOut + '</li>';
+        }
+        
+        // build table view.
+        function buildTableView(parentId, name, status, startdate, enddate, root, level){
+            var lineOut = '';
+            
+            // if root build out the table header
+            if(root){
+                lineOut = '<table class="slds-table slds-table--bordered slds-table--cell-buffer" style="width:100%;"><thead><tr class="slds-text-title--caps"><th scope="col"><div class="slds-truncate" title="Contract Name">Contract Name</div></th><th scope="col" class="centered"><div class="slds-truncate" title="Status">Status</div></th><th scope="col" class="centered"><div class="slds-truncate" title="Start Date">Start Date</div></th><th scope="col" class="centered"><div class="slds-truncate" title="End Date">End Date</div></th></tr></thead><tbody>';
+            }
+            
+            if(parentId == CurrentContract.id){
+            	lineOut += '<tr class="current" style="cursor:pointer;" onClick="navigateToSObject(' + "'" + parentId + "'" + ');"><th scope="row" data-label="Opportunity Name"><div class="slds-truncate" title="'+name+'" style="padding-left:'+(level*15)+'px;"><button class="slds-button slds-button--icon slds-m-right--x-small"><svg class="slds-button__icon" style="height: 25px !important; width: 25px !important;"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{! URLFOR($Resource.apxt_lightningCss) }' + ((root) ? '/icons/standard-sprite/svg/symbols.svg#related_list' : '/icons/standard-sprite/svg/symbols.svg#document') + '"></use></svg><span class="slds-assistive-text">Toggle</span></button>'+name+'</div></th><th class="centered">'+status+'</th><th class="centered">'+startdate+'</th><th class="centered">'+enddate+'</th></tr>';
+            }else{
+           		lineOut += '<tr style="cursor:pointer;" onClick="navigateToSObject(' + "'" + parentId + "'" + ');"><th scope="row" data-label="Opportunity Name"><div class="slds-truncate" title="'+name+'" style="padding-left:'+(level*15)+'px;"><button class="slds-button slds-button--icon slds-m-right--x-small"><svg class="slds-button__icon" style="height: 25px !important; width: 25px !important;"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{! URLFOR($Resource.apxt_lightningCss) }' + ((root) ? '/icons/standard-sprite/svg/symbols.svg#related_list' : '/icons/standard-sprite/svg/symbols.svg#document') + '"></use></svg><span class="slds-assistive-text">Toggle</span></button>'+name+'</div></th><th class="centered">'+status+'</th><th class="centered">'+startdate+'</th><th class="centered">'+enddate+'</th></tr>';
+            }
+            
+            // assign array sto hold all child branches and load children
+            var ChildrenContracts = [];
+            for(var i = 0; i < Contracts.length; i++){
+                if(Contracts[i].parent == parentId){
+                    ChildrenContracts.push(Contracts[i]);
+                }
+            }
+            
+            // does this contract have any children? If so then build branches
+            if(ChildrenContracts.length > 0){
+                for(var x = 0; x < ChildrenContracts.length; x++){
+                    lineOut += buildTableView(ChildrenContracts[x].id, ChildrenContracts[x].name, ChildrenContracts[x].status, ChildrenContracts[x].startdate, ChildrenContracts[x].enddate, false, level+1);        
+                }
+            }
+            
+            
+            // if root build out the table closing tags
+            if(root){
+                lineOut += '</tbody></table>';
+                
+                // if first iteration remove treecontainer class on parent (if already set prior to resize)
+                document.getElementById('treeContainer').className = '';
+            }
+            
+            return lineOut;
+        }
+        
+        // determine which view to show, table or tree view based
+        // on size of screen and whether any of the table would be covered.
+        function showSizedView(){            
+            if(tableContainer.children[0].children[1].children[0].offsetWidth <= document.getElementById('parentContainer').offsetWidth){
+                // show table view
+                tableContainer.style.position='initial';
+                treeContainer.style.position='absolute';
+            }else{
+                // show tree view
+                treeContainer.style.position='initial';
+                tableContainer.style.position='absolute';
+            }
+        }
+        
+        // bind contract viewer to DOM load.
+        document.addEventListener('DOMContentLoaded', function() {
+            // check width of tree container to see if we can load
+            // table responsively to show additional data.
+            document.getElementById('tableContainer').innerHTML = buildTableView(RootContract.id, RootContract.name, RootContract.status, RootContract.startdate, RootContract.enddate, true, 0);
+            document.getElementById('treeContainer').innerHTML = '<ul id="contractTree" class="slds slds-tree" role="tree" aria-labelledby="treeheading">' + buildTreeView(RootContract.id, RootContract.name, true, 0) + '</ul>';
+        
+            return showSizedView();
+        }, false);
+        
+
+        // bind window resize function to dynamically switch between tree and table view.
+        window.addEventListener("resize", function () {
+            return showSizedView();
+        });
+    </script>
+
+</apex:page>

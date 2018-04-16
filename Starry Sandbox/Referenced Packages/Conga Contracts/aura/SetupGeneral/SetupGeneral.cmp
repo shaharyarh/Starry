@@ -1,0 +1,10 @@
+<aura:component extends="APXT_Redlining:Base">
+    <aura:attribute name="scrollToElementOnLoad" type="String"/>
+    <aura:attribute name="isIframeLoaded" type="Boolean"/>
+    <aura:method name="sendScrollToMessage" action="{!c.sendScrollToMessage}">
+    <aura:attribute name="elementId" type="String"/>
+  </aura:method>
+  <div class="slds-grow slds-grid slds-grid_vertical">
+    <iframe aura:id="iframe" class="slds-grow" src="/apex/apxt_herokuConnect?isdtp=vw" onload="{!c.iframeLoad}" />
+  </div>
+</aura:component>

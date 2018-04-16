@@ -1,0 +1,6 @@
+<aura:event type="APPLICATION" description="Event template">
+    <aura:attribute name="targetRecordId" type="Id"/>
+    <aura:attribute name="newRecordId" type="Id"/>
+    <aura:attribute name="page" type="Integer"/>
+    <aura:attribute name="occurrence" type="Integer"/>
+</aura:event>

@@ -1,0 +1,16 @@
+<aura:component extensible="true" controller="APXT_Redlining.BaseController">
+  <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+  <aura:registerEvent name="appEvent" type="APXT_Redlining:PromptEvent"/>
+  <aura:attribute name="userInfo" type="Object" description="Stores info about current user" />
+  <aura:set attribute="auraPreInitBlock">
+    <!-- Init cache service for caching server side data. -->
+    <auraStorage:init name="actions"
+      persistent="true"
+      clearStorageOnInit="false"
+      maxSize="1024" />
+  </aura:set>
+  <!-- exposing the component helper methods so we can unit test them -->
+  <aura:method name="getHelper" action="{!c.getHelper}"></aura:method>
+
+  {!v.body}
+</aura:component>

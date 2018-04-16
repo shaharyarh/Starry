@@ -1,0 +1,32 @@
+<aura:component extends="APXT_Redlining:Base" controller="APXT_Redlining.TrueUpController">
+  <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+  <aura:handler event="APXT_Redlining:DocumentReplaceEvent" action="{!c.replaceClause}" />
+  <aura:handler event="APXT_Redlining:CaptureEvent" action="{!c.capture}" />
+  <aura:registerEvent name="select" type="APXT_Redlining:BaseEvent"/>
+  <aura:registerEvent name="treeListComplete" type="APXT_Redlining:BaseEvent"/>
+
+  <aura:attribute name="items" type="Array"/>
+  <aura:attribute name="recordId" type="Id" />
+  <aura:attribute name="documentId" type="Id" />
+  <aura:attribute name="sObjectName" type="String" />
+  <aura:attribute name="sObjectLabel" type="String" />
+  <aura:attribute name="selectedItem" type="Aura.Component" />
+  <aura:attribute name="doAllowRemove" type="Boolean" default="false" description="for capture we allow removing items" />
+  <aura:attribute name="doOnlyShowClauses" type="Boolean" default="false" description="for negotiate we only want to show clauses" />
+  <aura:attribute name="doLoadImmediately" type="Boolean" default="true" description="for sub components we may want to do our own data loading" />
+  <aura:attribute name="useQuoteTerms" type="Boolean" description="bound to parent component attribute to indicate which clause object is being used in bookend data" />
+  <aura:attribute name="isLoading" type="Boolean" default="{!v.doLoadImmediately}" />
+  <aura:handler name="change" value="{!v.documentId}" action="{!c.updateList}" />
+  <aura:attribute name="emptyMessage" type="String" default="{!$Label.apxt_redlining.apxt_trueUp_emptyTree}" description="message that appears when TreeList is empty" />
+  <aura:attribute access="private" name="clausesLabel" type="String" default="{!$Label.apxt_redlining.apxt_treeList_clausesLabel}" />
+
+  <aura:attribute access="private" name="quoteTermsLabel" type="String" default="{!$Label.apxt_redlining.apxt_treeList_quoteTermsLabel}" />
+  <aura:attribute access="private" name="unknownChangesLabel" type="String" default="{!$Label.apxt_redlining.apxt_treeList_unknownChangesLabel}" />
+
+  <aura:method name="updateSelected" action="{!c.updateSelected}">
+    <aura:attribute name="skip" type="Boolean"/>
+    <aura:attribute name="isCompleted" type="Boolean"/>
+  </aura:method>
+  
+  <APXT_Redlining:TreeList aura:id="treeList" items="{!v.items}" emptyMessage="{!v.emptyMessage}" selectedItem="{!v.selectedItem}" doLoadImmediately="{!v.doLoadImmediately}" doAllowRemove="{!v.doAllowRemove}" />
+</aura:component>

@@ -1,0 +1,43 @@
+<apex:page standardController="Account" extensions="ContactRelatedListController" sidebar="true" showHeader="false" >     
+
+    <apex:form >                 
+
+        <apex:pageblock id="ContactList"> 
+        <b>Buildings</b>
+            <div style="margin-left: 30%;"><apex:commandLink value="New Building" action="{!newContact}" target="_parent" styleClass="btn" style="text-decoration:none;padding:4px;"/></div> 
+
+            <br/> 
+
+            <apex:pageBlockTable value="{!contacts}" var="cont" rendered="{!NOT(ISNULL(contacts))}">                 
+
+                <apex:column HeaderValue="Action" width="60"> 
+
+                    <apex:commandLink value="Edit" style="color:#015ba7;" action="{!editContact}" target="_parent" ><apex:param value="{!cont.id}" name="contactId"/> 
+
+                    </apex:commandLink> 
+
+                    &nbsp;|&nbsp; 
+
+                    <apex:commandLink value="Del" onclick="return confirm('Are you sure?')" style="color:#015ba7;" action="{!deleteContact}" target="_parent"><apex:param value="{!cont.id}" name="contactId"/> 
+
+                    </apex:commandLink> 
+
+                </apex:column> 
+
+                <apex:column headerValue="Contact Name"><apex:outputLink value="/{!cont.id}" target="_blank">{!cont.Name}</apex:outputLink> </apex:column>               
+
+               <!-- <apex:column value="{!cont.Address__c}"></apex:column> -->
+
+                <!-- <apex:column value="{!cont.Building_Group__c}"/>     -->
+                
+                <apex:column value="{!cont.Type__c}"/>     
+
+            </apex:pageBlockTable>            
+
+            <apex:outputLabel value="No records to display" rendered="{!(ISNULL(contacts))}" styleClass="noRowsHeader"></apex:outputLabel> 
+
+        </apex:pageblock> 
+
+    </apex:form>  
+
+</apex:page>

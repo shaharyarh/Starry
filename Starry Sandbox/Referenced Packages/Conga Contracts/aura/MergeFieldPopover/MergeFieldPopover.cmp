@@ -1,0 +1,19 @@
+<aura:component access="global" controller="APXT_Redlining.TrueUpController" extends="APXT_Redlining:Base">
+
+  <aura:attribute name="popoverX" type="Integer" />
+  <aura:attribute name="popoverY" type="Integer" />
+  <aura:attribute name="isVisible" type="boolean" />
+
+  <aura:registerEvent name="insertEvent" type="APXT_Redlining:BaseEvent"/>
+  
+  <APXT_Redlining:Popover aura:id="popover" isVisible="{!v.isVisible}" popoverX="{!v.popoverX}" popoverY="{!v.popoverY}">
+    <aura:set attribute="header">{!$Label.apxt_redlining.apxt_mergeFieldPopover_title}</aura:set>
+    <aura:set attribute="body">
+      <APXT_Redlining:FieldList aura:id="fieldList" sObjectName="User" />
+    </aura:set>
+    <aura:set attribute="footer">
+      <button class="slds-button slds-button_neutral slds-col_bump-left" onclick="{!c.cancel}">{!$Label.apxt_redlining.apxt_clausePlaybook_cancel}</button>
+      <button class="slds-button slds-button_brand slds-col_bump-left" onclick="{!c.insert}">{!$Label.apxt_redlining.apxt_mergeFieldPopover_insert}</button>
+    </aura:set>
+  </APXT_Redlining:Popover>
+</aura:component>

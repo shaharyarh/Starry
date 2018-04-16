@@ -1,0 +1,39 @@
+<aura:component controller="APXT_Redlining.ClauseListController" extends="APXT_Redlining:Base">
+  <aura:attribute name="recordId" type="Id" description="Parent record that clauses are related to" />
+  <aura:attribute name="selectedId" type="Id" />
+  <aura:attribute name="useQuoteTerms" type="Boolean" default="false" />
+  <aura:attribute name="searchResults" type="Array" />
+  <aura:attribute name="selectedText" type="String" />
+  <aura:attribute name="truncatedText" type="String" />
+  <aura:attribute name="searchText" type="String"/>
+  <aura:attribute name="value" type="Object" />
+  <aura:handler name="init" action="{!c.init}" value="{!this}"/>
+
+  <p class="slds-p-left_xxx-small slds-p-top_xx-small slds-text-heading_small">
+      {!v.useQuoteTerms ? $Label.apxt_redlining.apxt_treeList_quoteTermsLabel : $Label.apxt_redlining.apxt_selectClauseBundle_clause_plural}
+  </p>
+  <div class="slds-form-element slds-lookup slds-p-top_small" data-select="single">
+    <div class="slds-form-element__control">
+      <div class="slds-input-has-icon slds-input-has-icon_left">
+        <lightning:icon class="slds-input__icon" iconName="utility:search" size="x-small"></lightning:icon>
+        <input type="search" disabled="{!v.disabled}" class="slds-lookup__search-input slds-input" placeholder="{!v.useQuoteTerms ? $Label.apxt_redlining.apxt_viewRedlines_searchQuoteTerms : $Label.apxt_redlining.apxt_selectClauseOrder_promptSearchToggle}" role="combobox" aria-activedescendant="" aria-expanded="false" aria-autocomplete="list" value="{!v.searchText}" onkeyup="{!c.search}" />
+      </div>
+    </div>
+    <div class="slds-scrollable slds-grid slds-wrap">
+      <aura:iteration items="{!v.searchResults}" var="item">
+        <div class="slds-size_1-of-1 slds-p-top_small" role="presentation" onclick="{!c.select}" data-id="{!item.Id}">
+          <span class="{!(item.Id == v.selectedId ? 'conga-is-selected ' : '') + 'slds-pill slds-media slds-media_center slds-media_small slds-text-body_small'}" role="option" title="{!item.Name}">
+            <span class="slds-p-around_xx-small">
+              <span class="slds-lookup__result-text slds-p-bottom_xx-small slds-text-heading_small bold-text">
+                <aura:unescapedHtml value="{!item.Name}" />
+              </span>
+              <span class="slds-lookup__result-meta slds-text-body_regular">
+                <aura:unescapedHtml value="{!item.Text}" />
+              </span>
+            </span>
+          </span>
+        </div>
+      </aura:iteration>
+    </div>
+  </div>
+</aura:component>
